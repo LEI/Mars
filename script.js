@@ -60,8 +60,9 @@ function soften(array) {
 	return tmp;
 }
 
+var renderCount=0;
 function render(array) {
-	var table = '<table>';
+	var table = '<div id="download'+renderCount+'"><table>';
 	for (x=0; x<size; x++) {
 		table += '<tr>';
 		for (y=0; y<size; y++) {
@@ -69,23 +70,25 @@ function render(array) {
 		}
 		table +='</tr>';
 	}
-	table +='</table>';
+	table +='</table></div>';
 
 	document.write(table);
+	save(array);
+	renderCount++;
 }
 
 function save(array) {
 	var json = JSON.stringify(array, undefined, '\t');
-	console.log(array);
+	//console.log(array);
 	//console.log(json);
 	var blob = new Blob([json], {type: "application/json"});
 	var url  = URL.createObjectURL(blob);
 	var a = document.createElement('a');
-	a.download = "data.json";
+	a.download = "data"+renderCount+".json";
 	a.href = url;
-	a.textContent = "Download data.json";
+	a.textContent = "data"+renderCount	+".json";
 
-	document.getElementById('content').appendChild(a);
+	document.getElementById('download'+renderCount).appendChild(a);
 }
 
 init();
@@ -96,5 +99,3 @@ render(map2);
 
 var map3 = soften(map2);
 render(map3);
-
-save(map3);
