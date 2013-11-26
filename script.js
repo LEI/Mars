@@ -66,7 +66,7 @@ function render(array) {
 	for (x=0; x<size; x++) {
 		table += '<tr>';
 		for (y=0; y<size; y++) {
-			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(25,50%,' + array[x][y].z + '%)"></td>';
+			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(25,60%,' + array[x][y].z + '%)"></td>';
 		}
 		table +='</tr>';
 	}
