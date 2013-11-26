@@ -61,15 +61,17 @@ function soften(array) {
 }
 
 function render(array) {
-	document.write('<table>');
+	var table = '<table>';
 	for (x=0; x<size; x++) {
-		document.write('<tr>');
+		table += '<tr>';
 		for (y=0; y<size; y++) {
-			document.write('<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(200,50%,' + array[x][y].z + '%)"></td>');
+			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(200,50%,' + array[x][y].z + '%)"></td>';
 		}
-		document.write('</tr>');
+		table +='</tr>';
 	}
-	document.write('</table>');
+	table +='</table>';
+
+	document.write(table);
 }
 
 function save(array) {
