@@ -74,7 +74,7 @@ $(function() {
 
 		for (x=0; x<size; x++) {
 			for (y=0; y<size; y++) {
-				context.fillStyle = 'hsl(15,50%,' + array[x][y].z + '%)';
+				context.fillStyle = 'hsl(25,50%,' + array[x][y].z + '%)';
 				context.fillRect(	x * point,
 									y * point,
 									point,
