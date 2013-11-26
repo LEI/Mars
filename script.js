@@ -1,7 +1,7 @@
 var x, y,
 	z = 100,
 	size = 50,
-	unit = 5;
+	square = 5;
 
 function init() {
 	map = {},
@@ -65,7 +65,7 @@ function render(array) {
 	for (x=0; x<size; x++) {
 		document.write('<tr>');
 		for (y=0; y<size; y++) {
-			document.write('<td style="width : ' + unit + 'px; height: ' + unit + 'px; background-color: hsl(200,50%,' + array[x][y].z + '%)"></td>');
+			document.write('<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(200,50%,' + array[x][y].z + '%)"></td>');
 		}
 		document.write('</tr>');
 	}
@@ -73,7 +73,7 @@ function render(array) {
 }
 
 function save(array) {
-	var json = JSON.stringify(array, undefined, 2);
+	var json = JSON.stringify(array, undefined, '\t');
 	console.log(array);
 	//console.log(json);
 	var blob = new Blob([json], {type: "application/json"});
