@@ -20,9 +20,9 @@ function soften(array) {
 	for (x=0; x<size; x++) {
 		for (y=0; y<size; y++) {
 
-			// points = {	'aa' : tab[x-1][y-1], 'ab' : tab[x][y-1], 'ac' : tab[x+1][y-1],
-			// 			'ba' : tab[x-1][y], 'bb' : tab[x][y], 'bc' : tab[x+1][y],
-			// 			'ca' : tab[x-1][y+1], 'cb' : tab[x][y+1], 'cc' : tab[x+1][y+1] };
+			// points = { 'aa' : tab[x-1][y-1], 'ab' : tab[x][y-1], 'ac' : tab[x+1][y-1],
+			//		'ba' : tab[x-1][y], 'bb' : tab[x][y], 'bc' : tab[x+1][y],
+			// 		'ca' : tab[x-1][y+1], 'cb' : tab[x][y+1], 'cc' : tab[x+1][y+1] };
 
 			var avg = [];
 			avg.push(array[x][y].z);
