@@ -1,6 +1,7 @@
 var x, y,
 	z = 100,
-	size = 50;
+	size = 50,
+	unit = 5;
 
 function init() {
 	map = {},
@@ -64,7 +65,7 @@ function render(array) {
 	for (x=0; x<size; x++) {
 		document.write('<tr>');
 		for (y=0; y<size; y++) {
-			document.write('<td style="background-color: hsl(200,50%,'+array[x][y].z+'%)"></td>');
+			document.write('<td style="width : ' + unit + 'px; height: ' + unit + 'px; background-color: hsl(200,50%,' + array[x][y].z + '%)"></td>');
 		}
 		document.write('</tr>');
 	}
