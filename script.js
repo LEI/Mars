@@ -1,7 +1,7 @@
 var x, y,
 	z = 100,
-	size = 50,
-	square = 5;
+	size = 200,
+	square = 1;
 
 function init() {
 	map = {},
@@ -66,7 +66,7 @@ function render(array) {
 	for (x=0; x<size; x++) {
 		table += '<tr>';
 		for (y=0; y<size; y++) {
-			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(50,50%,' + array[x][y].z + '%)"></td>';
+			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(25,50%,' + array[x][y].z + '%)"></td>';
 		}
 		table +='</tr>';
 	}
@@ -86,16 +86,19 @@ function save(array) {
 	var a = document.createElement('a');
 	a.download = "data"+renderCount+".json";
 	a.href = url;
-	a.textContent = "data"+renderCount	+".json";
+	a.textContent = "data"+renderCount+".json";
 
 	document.getElementById('download'+renderCount).appendChild(a);
 }
 
 init();
-render(map);
+//render(map);
 
 var map2 = soften(map);
-render(map2);
+//render(map2);
 
 var map3 = soften(map2);
 render(map3);
+
+var map4 = soften(map3);
+render(map4);
