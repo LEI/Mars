@@ -1,6 +1,5 @@
-var x, y,
-	z = 100,
-	size = 200,
+var x, y, z = 100,
+	size = 100,
 	square = 1;
 
 function init() {
@@ -62,7 +61,7 @@ function soften(array) {
 
 var renderCount=0;
 function render(array) {
-	var table = '<div id="download'+renderCount+'"><table>';
+	var table = '<div id="map'+renderCount+'"><table>';
 	for (x=0; x<size; x++) {
 		table += '<tr>';
 		for (y=0; y<size; y++) {
@@ -81,21 +80,21 @@ function save(array) {
 	var json = JSON.stringify(array, undefined, '\t');
 	//console.log(array);
 	//console.log(json);
-	var blob = new Blob([json], {type: "application/json"});
+	var blob = new Blob([json], {type: 'application/json'});
 	var url  = URL.createObjectURL(blob);
 	var a = document.createElement('a');
-	a.download = "data"+renderCount+".json";
+	a.download = 'data'+renderCount+'.json';
 	a.href = url;
-	a.textContent = "data"+renderCount+".json";
+	a.textContent = 'data'+renderCount+'.json';
 
-	document.getElementById('download'+renderCount).appendChild(a);
+	document.getElementById('map'+renderCount).appendChild(a);
 }
 
 init();
 //render(map);
 
 var map2 = soften(map);
-//render(map2);
+render(map2);
 
 var map3 = soften(map2);
 render(map3);
