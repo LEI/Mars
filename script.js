@@ -1,9 +1,10 @@
 $(function() {
 
 	var x, y, z = 100,
-		size = 500,
+		size = 300,
 		point = 1,
 		renderCount = 0,
+		smooth = 3,
 		canvas,
 		context;
 
@@ -35,20 +36,34 @@ $(function() {
 
 				if (x!=0) {
 					if (y!=0) {
+						//avg.push(array[x][y-1].z);
 						avg.push(array[x-1][y-1].z);
 					}
 					if (y!=(size-1)) {
+						//avg.push(array[x][y+1].z);
 						avg.push(array[x-1][y+1].z);
 					}
 					avg.push(array[x-1][y].z);
-				} else if (x!=(size-1)) {
+				}
+
+				if (x!=(size-1)) {
 					if (y!=0) {
+						//avg.push(array[x][y-1].z);
 						avg.push(array[x+1][y-1].z);
 					}
 					if (y!=(size-1)) {
+						//avg.push(array[x][y+1].z);
 						avg.push(array[x+1][y+1].z);
 					}
 					avg.push(array[x+1][y].z);
+				}
+
+				if (y!=0) {
+					avg.push(array[x][y-1].z);
+				}
+
+				if (y!=(size-1)) {
+					avg.push(array[x][y+1].z);
 				}
 
 				var total = 0;
@@ -102,15 +117,11 @@ $(function() {
 	}
 
 	initMap();
-	//render(map);
+	render(map);
 
-	var map2 = soften(map);
-	//render(map2);
-
-	var map3 = soften(map2);
-	render(map3);
-
-	var map4 = soften(map3);
-	render(map4);
+	while (smooth-- > 0) {
+		map = soften(map);
+		render(map);
+	}
 
 });
