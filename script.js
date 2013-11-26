@@ -1,13 +1,13 @@
 $(function() {
 
 	var x, y, z = 100,
-		size = 300,
+		size = 500,
 		point = 1,
 		renderCount = 0,
 		canvas,
 		context;
 
-	function init() {
+	function initMap() {
 		map = {},
 		tmp = {};
 		for (x=0; x<size; x++) {
@@ -67,15 +67,14 @@ $(function() {
 
 	function render(array) {
 
+		// Création du canvas
 		$('div').append('<canvas width="'+size+'" height="'+size+'" id="map'+renderCount+'"></canvas>');
-
-
 		canvas = $('#map'+renderCount);
 		context = canvas.get(0).getContext('2d');
 
 		for (x=0; x<size; x++) {
 			for (y=0; y<size; y++) {
-				context.fillStyle = 'hsl(10,50%,' + array[x][y].z + '%)';
+				context.fillStyle = 'hsl(15,50%,' + array[x][y].z + '%)';
 				context.fillRect(	x * point,
 									y * point,
 									point,
@@ -102,7 +101,7 @@ $(function() {
 		$('#map'+renderCount).wrap(a);
 	}
 
-	init();
+	initMap();
 	//render(map);
 
 	var map2 = soften(map);
