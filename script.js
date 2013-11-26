@@ -65,7 +65,7 @@ function render(array) {
 	for (x=0; x<size; x++) {
 		table += '<tr>';
 		for (y=0; y<size; y++) {
-			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(25,60%,' + array[x][y].z + '%)"></td>';
+			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(10,50%,' + array[x][y].z + '%)"></td>';
 		}
 		table +='</tr>';
 	}
@@ -83,15 +83,15 @@ function save(array) {
 	var blob = new Blob([json], {type: 'application/json'});
 	var url  = URL.createObjectURL(blob);
 	var a = document.createElement('a');
-	a.download = 'data'+renderCount+'.json';
+	a.download = 'map'+renderCount+'.json';
 	a.href = url;
-	a.textContent = 'data'+renderCount+'.json';
+	a.textContent = 'map'+renderCount+'.json';
 
 	document.getElementById('map'+renderCount).appendChild(a);
 }
 
 init();
-//render(map);
+render(map);
 
 var map2 = soften(map);
 render(map2);
