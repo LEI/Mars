@@ -65,7 +65,7 @@ function render(array) {
 	for (x=0; x<size; x++) {
 		table += '<tr>';
 		for (y=0; y<size; y++) {
-			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(200,50%,' + array[x][y].z + '%)"></td>';
+			table += '<td style="width : ' + square + 'px; height: ' + square + 'px; background-color: hsl(50,50%,' + array[x][y].z + '%)"></td>';
 		}
 		table +='</tr>';
 	}
@@ -90,6 +90,11 @@ function save(array) {
 
 init();
 render(map);
-var newMap = soften(map);
-render(newMap);
-save(newMap);
+
+var map2 = soften(map);
+render(map2);
+
+var map3 = soften(map2);
+render(map3);
+
+save(map3);
