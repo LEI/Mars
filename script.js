@@ -1,10 +1,10 @@
 $(function() {
 
 	var x, y, z = 100,
-		size = 300,
+		size = 250,
 		point = 1,
-		renderCount = 0,
 		smooth = 3,
+		renderCount = 0,
 		canvas,
 		context;
 
@@ -121,7 +121,8 @@ $(function() {
 
 	while (smooth-- > 0) {
 		map = soften(map);
-		render(map);
+		//if (smooth == 0)
+			render(map);
 	}
 
 });
