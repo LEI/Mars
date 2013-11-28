@@ -3,7 +3,7 @@ $(function() {
 	var x, y, z = 100,
 		size = 250,
 		point = 1,
-		smooth = 3,
+		smooth =5,
 		renderCount = 0,
 		canvas,
 		context;
