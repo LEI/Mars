@@ -1,15 +1,22 @@
 $(function() {
 
 	var x, y, z = 100,
-		size = 100,
-		point = 1,
-		smooth = 4,
+		size = 300,
+		point = 10,
+		smooth = 5,
 		renderCount = 0,
-		ground,
 		map,
 		tmp,
 		canvas,
-		context;
+		context,
+		groundType = {
+			'1' : 'Roche',
+			'2' : 'Sable',
+			'3' : 'Minerai',
+			'4' : 'Fer',
+			'5' : 'Glace',
+			'6' : 'Autre'
+		};
 
 	function initMap() {
 		map = [];
@@ -18,36 +25,30 @@ $(function() {
 			map[x] = [];
 			tmp[x] = [];
 			for (y=0; y<size; y++) {
-				// Traitement du type de terrain
-				//ground = initGroundType();
-				map[x][y] = { 'z' : Math.floor((Math.random() * z)) + 1, 'type' : '' };
-				tmp[x][y] = { 'z' : 0, 'type' : '' };
+				// Traitement des coordonnées
+				map[x][y] = { 'z' : Math.floor((Math.random() * z)) + 1, 'type' : initGroundType() };
+				tmp[x][y] = {};
 			}
 		}
 	}
 
 	function initGroundType() {
-		var groundType = {
-							'1' : 'Roche',
-							'2' : 'Sable'
-							'3' : 'Minerai',
-							'4' : 'Fer',
-							'5' : 'Glace',
-							'6' : 'Autre'
-						};
-		var select = Math.random() * groundType.length;
+		// Traitement du type de terrain
 
+		var rand = Math.floor(Math.random() * Object.keys(groundType).length) + 1;
+
+		return rand;
 	}
 
 	function soften(array) {
 		for (x=0; x<size; x++) {
 			for (y=0; y<size; y++) {
+				var avg = [];
 
 				// points = { 'aa' : tab[x-1][y-1], 'ab' : tab[x][y-1], 'ac' : tab[x+1][y-1],
 				//		'ba' : tab[x-1][y], 'bb' : tab[x][y], 'bc' : tab[x+1][y],
 				// 		'ca' : tab[x-1][y+1], 'cb' : tab[x][y+1], 'cc' : tab[x+1][y+1] };
 
-				var avg = [];
 				avg.push(array[x][y].z);
 
 				if (x!=0) {
@@ -89,6 +90,7 @@ $(function() {
 				}
 
 				tmp[x][y].z =  Math.floor(total/length);
+				tmp[x][y].type = array[x][y].type;
 
 			}
 		}
@@ -105,7 +107,7 @@ $(function() {
 
 		for (x=0; x<size; x++) {
 			for (y=0; y<size; y++) {
-				context.fillStyle = 'hsl(25,50%,' + array[x][y].z + '%)';
+				context.fillStyle = 'hsl(10,50%,' + array[x][y].z + '%)';
 				context.fillRect(	x * point,
 									y * point,
 									point,
