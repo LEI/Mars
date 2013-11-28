@@ -1,8 +1,11 @@
 Mars
 ====
 
-initMap() : gérer le type de terrain (probabilités)
+`initMap()`
+Gérer le type de terrain (probabilités)
 
-soften() : algo
+`soften()`
+Algo
 
-render() : utiliser canvas 3D, three.js
+`render()`
+Utiliser canvas 3D, three.js
