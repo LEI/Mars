@@ -1,9 +1,9 @@
 $(function() {
 
 	var x, y, z = 100,
-		size = 250,
+		size = 300,
 		point = 1,
-		smooth =5,
+		smooth = 4,
 		renderCount = 0,
 		canvas,
 		context;
@@ -68,7 +68,7 @@ $(function() {
 
 				var total = 0;
 				var length = avg.length;
-				for (var i=0; i<avg.length; i++) {
+				for (var i=0; i<length; i++) {
 					total += avg[i];
 				}
 
@@ -117,11 +117,11 @@ $(function() {
 	}
 
 	initMap();
-	render(map);
+	//render(map);
 
 	while (smooth-- > 0) {
 		map = soften(map);
-		//if (smooth == 0)
+		if (smooth == 0)
 			render(map);
 	}
 
