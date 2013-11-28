@@ -6,15 +6,17 @@ $(function() {
 		smooth = 4,
 		renderCount = 0,
 		ground,
+		map,
+		tmp,
 		canvas,
 		context;
 
 	function initMap() {
-		map = {},
-		tmp = {};
+		map = [];
+		tmp = [];
 		for (x=0; x<size; x++) {
-			map[x] = {};
-			tmp[x] = {};
+			map[x] = [];
+			tmp[x] = [];
 			for (y=0; y<size; y++) {
 				// Traitement du type de terrain
 				//ground = initGroundType();
@@ -25,8 +27,14 @@ $(function() {
 	}
 
 	function initGroundType() {
-
-		var groundType = {'1' : 'rock', '2' : 'ice'};
+		var groundType = {
+							'1' : 'Roche',
+							'2' : 'Sable'
+							'3' : 'Minerai',
+							'4' : 'Fer',
+							'5' : 'Glace',
+							'6' : 'Autre'
+						};
 		var select = Math.random() * groundType.length;
 
 	}
@@ -114,7 +122,7 @@ $(function() {
 	function createLink(array) {
 		var json = JSON.stringify(array, undefined, '\t');
 		//console.log(array);
-		//console.log(json);
+		console.log(json);
 		var blob = new Blob([json], {type: 'application/json'});
 		var url  = URL.createObjectURL(blob);
 		var a = document.createElement('a');
