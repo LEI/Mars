@@ -1,7 +1,7 @@
 $(function() {
 
 	var x, y, z = 100,
-		size = 1000,
+		size = 100,
 		point = 3,
 		smooth = 3,
 		renderCount = 0,
@@ -27,7 +27,7 @@ $(function() {
 			tmp[x] = [];
 			for (y=0; y<size; y++) {
 				// Traitement des coordonnées
-				map[x][y] = { 'z' : rand(0,z), 'type' : getGroundType() };
+				map[x][y] = { 'z' : rand(0,z), 'type' : getGroundType(x,y) };
 				tmp[x][y] = {};
 			}
 		}
@@ -54,9 +54,11 @@ $(function() {
 		}
 	};
 
-	var getGroundType = function() {
+	var getGroundType = function(x,y) {
 
-		// Récupère un élément dans le tableau en fonction des probabilités, à améliorer en fonction des coordonnées
+		// Proba en fonction des coordonnées avec x & y
+
+		// Récupère un élément dans le tableau en fonction des probabilités
 		var random_item = getRandomItem(groundType, groundWeight);
 
 		for (i=0; i<groundType.length; i++) {
@@ -78,7 +80,7 @@ $(function() {
 
 		for (x=0; x<size; x++) {
 			for (y=0; y<size; y++) {
-				context.fillStyle = 'hsl(' + array[x][y].type*30 + ',50%,' + array[x][y].z + '%)';
+				context.fillStyle = 'hsl(' + array[x][y].type*10 + ',50%,' + array[x][y].z + '%)';
 				context.fillRect(	x * point,
 									y * point,
 									point,

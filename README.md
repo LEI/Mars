@@ -1,14 +1,26 @@
 # Mars
 
-Echelle
+ToDo
 ---
 
-1:10
+`getGroundType()`
+Gérer la répartion du terrain
 
-`size`
-`point`
+`soften()`
+Algorithme
 
-Type de terrain
+`render()`
+three.js ?
+
+Carte
+===
+
+Format
+---
+
+La carte est carré (`size`) et composée de cases (`point`) ayant une position à 3 dimensions et une matière.
+
+Type de matière
 ---
 
 * 1 Roche
@@ -21,23 +33,38 @@ Type de terrain
 JSON
 ---
 
-	x {
-		y {
-			{
-				z : 0,
-				type : 0
-			}
-		}
+Les données de la carte sont stockées en JSON (JavaScript Object Notation)
+Les coordonnées X et Y sont déduites de leurs positions dans le tableau.
+
+	{
+		size : {
+			x : 2,
+			y : 2
+		},
+		map : [
+			[
+				{
+					z : 0,
+					type : 1
+				},
+				{
+					z : 0,
+					type : 1
+				}
+			],
+			[
+				{
+					z : 0,
+					type : 1
+				},
+				{
+					z : 0,
+					type : 1
+				}
+			]
+		]
 	}
 
-ToDo
----
+Rover
+===
 
-`getGroundType()`
-Gérer la répartion du terrain
-
-`soften()`
-Algorithme
-
-`render()`
-three.js ?
