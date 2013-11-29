@@ -4,13 +4,19 @@
 
 ### Echelle
 
+1:10
+
 `size`
 `point`
 
 ### Type de terrain
 
-1 : roche
-2 : glace
+* Roche - 1
+* Sable - 2
+* Minerai - 3
+* Fer - 4
+* Glace - 5
+* Autre - 6
 
 ### Synthaxe
 
