@@ -1,4 +1,6 @@
-#Mars
+<h1>Mars</h1>
+
+
 
 ##Carte
 
@@ -13,7 +15,7 @@ La carte est carrée et composée de points possédant des coordonnées à 3 dim
 | Minerai 	| 0.? | 3 |
 | Fer     	| 0.? | 4 |
 | Glace   	| 0.? | 5 |
-| Autre   	| 0.0 | 6 |
+| Autre   	| 0.? | 6 |
 
 ###JSON
 
@@ -51,21 +53,6 @@ Les coordonnées `x` et `y` sont déduites de leur position dans le tableau. La 
 
 ##Rover
 
-`E`
-
-###ToDo
-
-`getGroundType()`
- Gérer la répartion du terrain
-
-`soften()`
- Algorithme
-
-`render()`
- three.js ?
-
-**Rover**
-
 >Générer un Rover qui se déplace sur la carte.
 
 >On commence le jeu avec un "capital énergie", et une position choisie.
@@ -92,3 +79,12 @@ Les coordonnées `x` et `y` sont déduites de leur position dans le tableau. La 
 >Une case "Glace" permet de faire le plein d'énergie.
 
 >But : Tester et gérer le déplacement du Rover, suivant un chemin quelconque (stratégie basique)
+
+
+#ToDo
+
+`getGroundType()` Gérer la répartion du terrain
+
+`soften()` Algorithme
+
+`render()` three.js ?
