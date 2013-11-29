@@ -1,23 +1,23 @@
 Mars
 ===
 
-
-
-## Echelle
+Echelle
+---
 
 1:10
 
 `size`
 `point`
 
-### Type de terrain
+Type de terrain
+---
 
-* Roche - 1
-* Sable - 2
-* Minerai - 3
-* Fer - 4
-* Glace - 5
-* Autre - 6
+* Roche 	1
+* Sable 	2
+* Minerai 	3
+* Fer 		4
+* Glace		5
+* Autre 	6
 
 JSON
 ---
