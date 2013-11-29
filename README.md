@@ -1,4 +1,4 @@
-<h1>Mars</h1>
+#Mars
 
 
 
@@ -9,8 +9,8 @@ La carte est carrée et composée de points possédant des coordonnées à 3 dim
 ###Matières
 
 | Type | Probabilité | Index |
-|:-------------:|:---:|:-:|
-| Roche         | 0.? | 1 |
+|:---------:|:---:|:-:|
+| Roche     | 0.? | 1 |
 | Sable 	| 0.? | 2 |
 | Minerai 	| 0.? | 3 |
 | Fer     	| 0.? | 4 |
@@ -19,9 +19,13 @@ La carte est carrée et composée de points possédant des coordonnées à 3 dim
 
 ###JSON
 
-Les données sont générées en JSON (JavaScript Object Notation). `size` définit la taille de la carte.
+La carte est générée en JSON (JavaScript Object Notation).
 
-Les coordonnées `x` et `y` sont décrites par leur position dans le tableau. La hauteur `z` et le `type` de matière sont définis aléatoirement pour chaque point.
+Les coordonnées `x` et `y` sont décrites par leur position dans le tableau.
+La hauteur `z` et le `type` de matière sont définis aléatoirement pour chaque point.
+L'élément `size` définit la taille de la carte.
+
+###1 case = 5 mètres ?
 
 ```json
 {
@@ -84,10 +88,16 @@ Les coordonnées `x` et `y` sont décrites par leur position dans le tableau. La
 #ToDo
 
 `getGroundType()`
+
  Améliorer la répartition des types de matière
 
 `soften()`
+
  Algorithme
 
 `render()`
+
  three.js ?
+
+
+Pour visualiser le JSON dans le navigateur, ouvrir le lien du canvas dans un nouvel onglet.

@@ -3,41 +3,48 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Mars</title>
+		
 		<style type="text/css">
-		a {
-			font-family: sans-serif;
-			text-decoration: none;
-		}
-		canvas {
-			float: left;
-			margin: 5px;
-		}
+			body {
+				font-family: sans-serif;
+			}
+			a {
+				color: #000;
+				text-decoration: none;
+			}
+			h1, input {
+				text-align: center;
+			}
+			header, canvas {
+				float: left;
+				margin: 5px;
+			}
+			input {
+				display : block;
+				width : 200px;
+				margin: 5px auto;
+			}
 		</style>
-		<script type="text/javascript" src="js/jquery-1.10.2.js"></script>
+		
+		<script src="js/jquery.js"></script>
 		<script src="js/Map.js"></script>
 		<script src="js/client.js"></script>
+		
 	</head>
 	<body>
 
-		<form>
-
-			<input type="text" id="map_size" placeholder="taille de la map" required /> cases
-
-			<br />
-
-			<input type="text" id="map_point" placeholder="taille d'une case" required /> px
-
-			<br />
-
-			<input type="text" id="map_smooth" placeholder="coefficient d'adoucissement" required />
-
-			<br />
-
-			<input type="submit" />
-
-		</form>
+		<header>
+			<h1><a href="http://github.com/LEI/Mars">Mars</a></h1>
+			<form>
+				<input type="text" id="map_size" autofocus />
+				<input type="text" id="map_square" />
+				<input type="text" id="map_smooth" />
+				<input type="submit" />
+			</form>
+		</header>
 
 		<div>
+		<!-- Map -->
 		</div>
 
 	</body>
