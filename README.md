@@ -14,22 +14,22 @@
 
 ### Synthaxe
 
-`x {
-	y {
-		{
-			'z' : 0,
-			'type' : ''
+	x {
+		y {
+			{
+				'z' : 0,
+				'type' : ''
+			}
 		}
 	}
-}`
 
 ## ToDo
 
-`initMap()`
-Gérer le type de terrain (probabilités)
+`getGroundType()`
+Gérer la répartion du terrain
 
 `soften()`
-Algo
+Algorithme
 
 `render()`
-Utiliser canvas 3D, three.js
+three.js ?

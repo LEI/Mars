@@ -9,14 +9,15 @@ $(function() {
 		tmp,
 		canvas,
 		context,
-		groundType = {
-			'1' : 'Roche',
-			'2' : 'Sable',
-			'3' : 'Minerai',
-			'4' : 'Fer',
-			'5' : 'Glace',
-			'6' : 'Autre'
-		};
+		groundType = [
+			'Roche',
+			'Sable',
+			'Minerai',
+			'Fer',
+			'Glace',
+			'Autre'
+		],
+		groundWeight = [0.3, 0.2, 0.2, 0.1, 0.1, 0.1];
 
 	function initMap() {
 		map = [];
@@ -26,18 +27,83 @@ $(function() {
 			tmp[x] = [];
 			for (y=0; y<size; y++) {
 				// Traitement des coordonnées
-				map[x][y] = { 'z' : Math.floor((Math.random() * z)) + 1, 'type' : initGroundType() };
+				map[x][y] = { 'z' : rand(0,z), 'type' : getGroundType() };
 				tmp[x][y] = {};
 			}
 		}
 	}
 
-	function initGroundType() {
-		// Traitement du type de terrain
+	var rand = function(min, max) {
+		return Math.random() * (max - min) + min;
+	};
 
-		var rand = Math.floor(Math.random() * Object.keys(groundType).length) + 1;
+	var getRandomItem = function(list, weight) {
+		var total_weight = weight.reduce(function (prev, cur, i, arr) {
+			return prev + cur;
+		});
+		var random_num = rand(0, total_weight);
+		var weight_sum = 0;
+		//console.log(random_num)
+		for (var i = 0; i < list.length; i++) {
+			weight_sum += weight[i];
+			weight_sum = +weight_sum.toFixed(2);
 
-		return rand;
+			if (random_num <= weight_sum) {
+				return list[i];
+			}
+		}
+	};
+
+	var getGroundType = function() {
+
+		// Récupère un élément dans le tableau en fonction des probabilités, à améliorer en fonction des coordonnées
+		var random_item = getRandomItem(groundType, groundWeight);
+
+		for (i=0; i<groundType.length; i++) {
+			if (random_item == groundType[i]) {
+				// Retour de l'index du terrain
+				return i+1;
+			}
+		}
+
+		//return;
+	};
+
+	function render(array) {
+
+		// Création du canvas
+		$('div').append('<canvas width="'+size+'" height="'+size+'" id="map'+renderCount+'"></canvas>');
+		canvas = $('#map'+renderCount);
+		context = canvas.get(0).getContext('2d');
+
+		for (x=0; x<size; x++) {
+			for (y=0; y<size; y++) {
+				context.fillStyle = 'hsl(10,50%,' + array[x][y].z + '%)';
+				context.fillRect(	x * point,
+									y * point,
+									point,
+									point
+								);
+			}
+		}
+
+		createLink(array);
+		renderCount++;
+	}
+
+	//data url
+	function createLink(array) {
+		var json = JSON.stringify(array, undefined, '\t');
+		//console.log(array);
+		console.log(json);
+		var blob = new Blob([json], {type: 'application/json'});
+		var url  = URL.createObjectURL(blob);
+		var a = document.createElement('a');
+		a.download = 'map'+renderCount+'.json';
+		a.href = url;
+		//a.textContent = 'map'+renderCount+'.json';
+
+		$('#map'+renderCount).wrap(a);
 	}
 
 	function soften(array) {
@@ -90,49 +156,13 @@ $(function() {
 				}
 
 				tmp[x][y].z =  Math.floor(total/length);
+				// Transfert du type de terrain dans le nouveau tableau
 				tmp[x][y].type = array[x][y].type;
 
 			}
 		}
 
 		return tmp;
-	}
-
-	function render(array) {
-
-		// Création du canvas
-		$('div').append('<canvas width="'+size+'" height="'+size+'" id="map'+renderCount+'"></canvas>');
-		canvas = $('#map'+renderCount);
-		context = canvas.get(0).getContext('2d');
-
-		for (x=0; x<size; x++) {
-			for (y=0; y<size; y++) {
-				context.fillStyle = 'hsl(10,50%,' + array[x][y].z + '%)';
-				context.fillRect(	x * point,
-									y * point,
-									point,
-									point
-								);
-			}
-		}
-
-		createLink(array);
-		renderCount++;
-	}
-
-	//data url
-	function createLink(array) {
-		var json = JSON.stringify(array, undefined, '\t');
-		//console.log(array);
-		console.log(json);
-		var blob = new Blob([json], {type: 'application/json'});
-		var url  = URL.createObjectURL(blob);
-		var a = document.createElement('a');
-		a.download = 'map'+renderCount+'.json';
-		a.href = url;
-		//a.textContent = 'map'+renderCount+'.json';
-
-		$('#map'+renderCount).wrap(a);
 	}
 
 	initMap();
