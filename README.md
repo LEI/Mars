@@ -22,13 +22,15 @@ Type de terrain
 JSON
 ---
 
-	x {
-		y {
-			{
-				'z' : 0,
-				'type' : ''
-			}
-		}
+	{
+		x [
+			y [
+				{
+					'z' : int,
+					'type' : string
+				}
+			]
+		]
 	}
 
 ToDo
