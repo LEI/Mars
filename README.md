@@ -21,7 +21,7 @@ La carte est carrée et composée de points possédant des coordonnées à 3 dim
 
 Les données sont générées en JSON (JavaScript Object Notation). `size` définit la taille de la carte.
 
-Les coordonnées `x` et `y` sont déduites de leur position dans le tableau. La hauteur `z` et la matière `type` de chaque point sont définis aléatoirement.
+Les coordonnées `x` et `y` sont décrites par leur position dans le tableau. La hauteur `z` et le `type` de matière sont définis aléatoirement pour chaque point.
 
 ```json
 {
@@ -83,8 +83,11 @@ Les coordonnées `x` et `y` sont déduites de leur position dans le tableau. La 
 
 #ToDo
 
-`getGroundType()` Gérer la répartion du terrain
+`getGroundType()`
+ Améliorer la répartition des types de matière
 
-`soften()` Algorithme
+`soften()`
+ Algorithme
 
-`render()` three.js ?
+`render()`
+ three.js ?
