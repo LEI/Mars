@@ -1,15 +1,16 @@
-# Mars
+Mars
+===
 
-## Spec
-
-### Echelle
+Echelle
+---
 
 1:10
 
 `size`
 `point`
 
-### Type de terrain
+Type de terrain
+---
 
 * Roche - 1
 * Sable - 2
@@ -18,7 +19,8 @@
 * Glace - 5
 * Autre - 6
 
-### Synthaxe
+JSON
+---
 
 	x {
 		y {
@@ -29,7 +31,8 @@
 		}
 	}
 
-## ToDo
+ToDo
+---
 
 `getGroundType()`
 Gérer la répartion du terrain
