@@ -1,9 +1,9 @@
 $(function() {
 
 	var x, y, z = 100,
-		size = 300,
-		point = 10,
-		smooth = 5,
+		size = 1000,
+		point = 3,
+		smooth = 3,
 		renderCount = 0,
 		map,
 		tmp,
@@ -78,7 +78,7 @@ $(function() {
 
 		for (x=0; x<size; x++) {
 			for (y=0; y<size; y++) {
-				context.fillStyle = 'hsl(10,50%,' + array[x][y].z + '%)';
+				context.fillStyle = 'hsl(' + array[x][y].type*30 + ',50%,' + array[x][y].z + '%)';
 				context.fillRect(	x * point,
 									y * point,
 									point,
@@ -95,7 +95,7 @@ $(function() {
 	function createLink(array) {
 		var json = JSON.stringify(array, undefined, '\t');
 		//console.log(array);
-		console.log(json);
+		//console.log(json);
 		var blob = new Blob([json], {type: 'application/json'});
 		var url  = URL.createObjectURL(blob);
 		var a = document.createElement('a');
