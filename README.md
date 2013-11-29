@@ -2,18 +2,15 @@ Mars
 ===
 
 
-# Mars
 
-Echelle
----
+## Echelle
 
 1:10
 
 `size`
 `point`
 
-Type de terrain
----
+### Type de terrain
 
 * Roche - 1
 * Sable - 2
