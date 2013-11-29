@@ -1,5 +1,4 @@
-Mars
-===
+# Mars
 
 Echelle
 ---
@@ -25,8 +24,8 @@ JSON
 	x {
 		y {
 			{
-				'z' : 0,
-				'type' : ''
+				z : 0,
+				type : 0
 			}
 		}
 	}
