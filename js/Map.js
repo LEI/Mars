@@ -1,16 +1,10 @@
 function Map()
 {
-	/*this.x;
-	this.y;*/
-	
-
-	/* Construct
-	------------ */
 	//if( typeof Map.initialized == "undefined" ) {
 
 	Map.prototype.init = function(size, square, softness) {
 
-		this.z = 100;
+		this.z = 50;
 		this.size;
 		this.square;
 
@@ -29,7 +23,7 @@ function Map()
 			'Fer',
 			'Glace',
 			'Autre'];
-			
+
 		this.groundWeight = [0.4, 0.2, 0.2, 0.1, 0.1, 0.0];
 
 		this.size = size;
@@ -38,13 +32,15 @@ function Map()
 
 		this.map = [];
 		this.tmp = [];
+
 		for (x=0; x<this.size; x++) {
 			this.map[x] = [];
 			this.tmp[x] = [];
 			for (y=0; y<this.size; y++) {
-				// Traitement des coordonnées
-				this.map[x][y] = { 'z' : this.rand(0,this.z) };
-				this.tmp[x][y] = { 'type' : this.getGroundType()/*, 'x': x, 'y': y*/ };
+				// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
+				this.map[x][y] = { 'z' : this.rand(-this.z,this.z) };
+				// Récupération d'un type de matière
+				this.tmp[x][y] = {'type' : this.getGroundType()/*, 'x': x, 'y': y*/ };
 			}
 		}
 
@@ -66,8 +62,6 @@ function Map()
 
 	//}
 
-	/* Methods
-	---------- */
 	Map.prototype.soften = function(map) {
 		var size = this.size;
 		for (var x=0; x<size; x++) {
@@ -159,7 +153,7 @@ function Map()
 		this.context = this.canvas.get(0).getContext('2d');
 		for (var x=0; x<this.size; x++) {
 			for (var y=0; y<this.size; y++) {
-				this.context.fillStyle = 'hsl(10,' + ((map[x][y].type*5) + 40) + '%,' + map[x][y].z + '%)';
+				this.context.fillStyle = 'hsl(10,' + ((map[x][y].type*5) + 40) + '%,' + (( (map[x][y].z+50) * 2 )-50) + '%)';
 				this.context.fillRect(	x * this.square,
 									y * this.square,
 									this.square,
