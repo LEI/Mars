@@ -4,7 +4,7 @@
 
 ##Carte
 
-La carte est carrée et composée de points possédant des coordonnées à 3 dimensions ainsi qu'une matière.
+La carte est carrée et composée de points possédant des coordonnées à 3 dimensions ainsi qu'une matière, stockés en JSON (JavaScript Object Notation).
 
 ###Matières
 
@@ -18,8 +18,6 @@ La carte est carrée et composée de points possédant des coordonnées à 3 dim
 | Autre   	| 0.? | 6 |
 
 ###JSON
-
-La carte est générée en JSON (JavaScript Object Notation).
 
 Les coordonnées `x` et `y` sont décrites par leur position dans le tableau.
 La hauteur `z` et le `type` de matière sont définis aléatoirement pour chaque point.
