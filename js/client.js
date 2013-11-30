@@ -6,9 +6,9 @@ $(function() {
 	var smooth = 6;
 
 	// Injection des valeurs par défaut dans le formulaire
-	$('#map_size').attr('placeholder',size).attr('value',size);
-	$('#map_square').attr('placeholder',square).attr('value',square);
-	$('#map_smooth').attr('placeholder',smooth).attr('value',smooth);
+	$('#map_size').attr('value',size);
+	$('#map_square').attr('value',square);
+	$('#map_smooth').attr('value',smooth);
 
 	// Ecoute du formulaire
 	$('form').submit( function(e) {
