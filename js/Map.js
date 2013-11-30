@@ -2,63 +2,69 @@ function Map()
 {
 	/*this.x;
 	this.y;*/
-	this.z = 100;
-	this.size;
-	this.square;
-	this.softness;
-	this.map;
-	this.tmp;
-	this.json;
-	this.canvas;
-	this.context;
-	this.groundType = [
-		'Roche',
-		'Sable',
-		'Minerai',
-		'Fer',
-		'Glace',
-		'Autre'
-	];
-	this.groundWeight = [0.4, 0.2, 0.2, 0.1, 0.1, 0.0];
+	
 
 	/* Construct
 	------------ */
-	if( typeof Map.initialized == "undefined" ) {
+	//if( typeof Map.initialized == "undefined" ) {
 
-		Map.prototype.init = function(size, square, softness) {
-			this.size = size;
-			this.square = square;
-			this.softness = softness;
+	Map.prototype.init = function(size, square, softness) {
 
-			this.map = [];
-			this.tmp = [];
-			for (x=0; x<this.size; x++) {
-				this.map[x] = [];
-				this.tmp[x] = [];
-				for (y=0; y<this.size; y++) {
-					// Traitement des coordonnées
-					this.map[x][y] = { 'z' : this.rand(0,this.z) };
-					this.tmp[x][y] = { 'type' : this.getGroundType()/*, 'x': x, 'y': y*/ };
-				}
+		this.z = 100;
+		this.size;
+		this.square;
+
+		this.map;
+		this.tmp;
+
+		this.softness;
+		this.json;
+		this.canvas;
+		this.context;
+
+		this.groundType = [
+			'Roche',
+			'Sable',
+			'Minerai',
+			'Fer',
+			'Glace',
+			'Autre'];
+			
+		this.groundWeight = [0.4, 0.2, 0.2, 0.1, 0.1, 0.0];
+
+		this.size = size;
+		this.square = square;
+		this.softness = softness;
+
+		this.map = [];
+		this.tmp = [];
+		for (x=0; x<this.size; x++) {
+			this.map[x] = [];
+			this.tmp[x] = [];
+			for (y=0; y<this.size; y++) {
+				// Traitement des coordonnées
+				this.map[x][y] = { 'z' : this.rand(0,this.z) };
+				this.tmp[x][y] = { 'type' : this.getGroundType()/*, 'x': x, 'y': y*/ };
+			}
+		}
+
+		while (this.softness >= 0) {
+
+			// On applique soften() jusqu'à que softness soit à 0 -> render
+			if (this.softness == 0) {
+				this.renderCanvas(this.map);
+				// Three.js
+				renderThree(this.json);
+			} else {
+				this.soften(this.map);
 			}
 
-			while (this.softness >= 0) {
+			this.softness--;
 
-				// On applique soften() jusqu'à que softness soit à 0 -> render
-				if (this.softness == 0) {
-					this.renderCanvas(this.map);
-					// Three.js
-					renderThree(this.json);
-				} else {
-					this.soften(this.map);
-				}
+		}
+	};
 
-				this.softness--;
-
-			}
-		};
-
-	}
+	//}
 
 	/* Methods
 	---------- */
