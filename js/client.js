@@ -17,8 +17,8 @@ $(function() {
 		square = $('#map_square').val();
 		softness = $('#map_smooth').val();
 
-		map = new Map();
-		map.init(size, square, softness);
+		renderedMap = new Map();
+		renderedMap.init(size, square, softness);
 		e.preventDefault();
 
 	});

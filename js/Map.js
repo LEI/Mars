@@ -37,14 +37,14 @@ function Map()
 				this.tmp[x] = [];
 				for (y=0; y<this.size; y++) {
 					// Traitement des coordonnées
-					this.map[x][y] = { 'z' : this.rand(0,this.z), 'type' : this.getGroundType() };
-					this.tmp[x][y] = {};
+					this.map[x][y] = { 'z' : this.rand(0,this.z) };
+					this.tmp[x][y] = { 'type' : this.getGroundType()/*, 'x': x, 'y': y*/ };
 				}
 			}
 
 			while (this.softness >= 0) {
 
-				// Tant que softness n'est pas à 0, on applique soften()
+				// On applique soften() jusqu'à que softness soit à 0 -> render
 				if (this.softness == 0) {
 					this.renderCanvas(this.map);
 					// Three.js
@@ -135,9 +135,11 @@ function Map()
 					total += avg[i];
 				}
 
+				// Mise à jour de la hauteur
 				this.tmp[x][y].z =  Math.floor(total/length);
-				// Transfert du type de terrain dans le nouveau tableau
-				this.tmp[x][y].type = map[x][y].type;
+
+				// Transfert du type de terrain dans le nouveau tableau (déjà enregistré dans tmp lors de init)
+				//this.tmp[x][y].type = map[x][y].type;
 			}
 		}
 

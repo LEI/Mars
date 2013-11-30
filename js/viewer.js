@@ -1,9 +1,9 @@
 var renderThree = function(map) {
 
-	map = JSON.parse(map)
+	map = $.parseJSON(map)
 	//JSONLoader(map);
 
-
+	console.log(map);
 
 
 	// set some camera attributes
@@ -30,9 +30,6 @@ var renderThree = function(map) {
 	scene.add(camera);
 
 
-
-
-console.log(SIZE);
 	geometry = new THREE.PlaneGeometry( SIZE, SIZE );
 	material = new THREE.MeshBasicMaterial( { color: 0xdd0000 } );
 	mesh = new THREE.Mesh( plane, material );
