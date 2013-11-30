@@ -23,7 +23,7 @@ Les coordonnées `x` et `y` sont définies par leur position dans le tableau.
 La hauteur `z` et le `type` de matière sont générés aléatoirement pour chaque case.
 L'élément `size` définit la taille de la carte.
 
-###1 case = 5 mètres ?
+####1 case = 5 mètres ?
 
 ```json
 {
