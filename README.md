@@ -4,7 +4,7 @@
 
 ##Carte
 
-La carte est carrée et composée de points possédant des coordonnées à 3 dimensions ainsi qu'une matière, stockés en JSON (JavaScript Object Notation).
+La carte est carrée, chaque case est positionnée sur trois axes et est composé d'une matière. Ces informations sont enregistrés dans un fichier JSON (JavaScript Object Notation).
 
 ###Matières
 
@@ -19,8 +19,8 @@ La carte est carrée et composée de points possédant des coordonnées à 3 dim
 
 ###JSON
 
-Les coordonnées `x` et `y` sont décrites par leur position dans le tableau.
-La hauteur `z` et le `type` de matière sont définis aléatoirement pour chaque point.
+Les coordonnées `x` et `y` sont définies par leur position dans le tableau.
+La hauteur `z` et le `type` de matière sont générés aléatoirement pour chaque case.
 L'élément `size` définit la taille de la carte.
 
 ###1 case = 5 mètres ?
@@ -97,5 +97,6 @@ L'élément `size` définit la taille de la carte.
 
  three.js ?
 
+***
 
-Pour visualiser le JSON dans le navigateur, ouvrir le lien du canvas dans un nouvel onglet.
+Clic droit pour ouvrir le JSON dans un nouvel onglet ou clic gauche pour enregistrer le fichier.
