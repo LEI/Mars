@@ -5,7 +5,7 @@ function Map()
 	this.z = 100;
 	this.size;
 	this.square;
-	this.smooth;
+	this.softness;
 	this.map;
 	this.tmp;
 	this.canvas;
@@ -24,10 +24,10 @@ function Map()
 	------------ */
 	if( typeof Map.initialized == "undefined" ) {
 
-		Map.prototype.init = function(size, square, smooth) {
+		Map.prototype.init = function(size, square, softness) {
 			this.size = size;
 			this.square = square;
-			this.smooth = smooth;
+			this.softness = softness;
 
 			this.map = [];
 			this.tmp = [];
@@ -41,10 +41,17 @@ function Map()
 				}
 			}
 
-			while (this.smooth-- > 0) {
-				this.soften(this.map);
-				if (this.smooth == 0)
+			while (this.softness >= 0) {
+
+				// Tant que softness n'est pas à 0, on applique soften()
+				if (this.softness == 0) {
 					this.render(this.map);
+				} else {
+					this.soften(this.map);
+				}
+
+				this.softness--;
+
 			}
 		};
 
