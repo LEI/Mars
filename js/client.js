@@ -26,7 +26,5 @@ $(function() {
 	// Render canvas au refresh
 	$('form').submit();
 
-	// Three.js
-	threeRender(map);
 
 });

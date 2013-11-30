@@ -8,6 +8,7 @@ function Map()
 	this.softness;
 	this.map;
 	this.tmp;
+	this.json;
 	this.canvas;
 	this.context;
 	this.groundType = [
@@ -45,7 +46,9 @@ function Map()
 
 				// Tant que softness n'est pas à 0, on applique soften()
 				if (this.softness == 0) {
-					this.render(this.map);
+					this.renderCanvas(this.map);
+					// Three.js
+					renderThree(this.json);
 				} else {
 					this.soften(this.map);
 				}
@@ -141,7 +144,7 @@ function Map()
 		this.map = this.tmp;
 	};
 
-	Map.prototype.render = function(map) {
+	Map.prototype.renderCanvas = function(map) {
 		// Création du canvas
 		$('div').html('<canvas width="'+this.size+'" height="'+this.size+'" id="map"></canvas>');
 		this.canvas = $('#map');
@@ -156,17 +159,18 @@ function Map()
 								);
 			}
 		}
-		this.createLink(map);
+		this.createJson(map);
 	};
 	
 	// data URI?
-	Map.prototype.createLink = function(map) {
+	Map.prototype.createJson = function(map) {
 		// Ajout de la taille de la carte pour exportation
-		var json = { "size": this.size, "map": this.map };
-		json = JSON.stringify(json, undefined, '\t');
+		var data = { "size": this.size, "map": this.map };
+		this.json = JSON.stringify(data, undefined, '\t');
 		//console.log(map);
 		//console.log(json);
-		var blob = new Blob([json], {type: 'application/json'});
+
+		var blob = new Blob([this.json], {type: 'application/json'});
 		var url  = URL.createObjectURL(blob);
 		var a = document.createElement('a');
 		a.download = 'map.json';
