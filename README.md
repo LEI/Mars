@@ -87,15 +87,15 @@ L'élément `size` définit la taille de la carte.
 
 `getGroundType()`
 
- Améliorer la répartition des types de matière
+	Améliorer la répartition des types de matière
 
 `soften()`
 
- Algorithme
+	Algorithme
 
 `viewer.js`
 
- `viewer.js` http://threejs.org/
+	`renderThree()` http://threejs.org/
 
 ***
 
