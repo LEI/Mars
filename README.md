@@ -4,7 +4,7 @@
 
 ##Carte
 
-La carte est carrée, chaque case est positionnée sur trois axes et est composé d'une matière. Ces informations sont enregistrés dans un fichier JSON (JavaScript Object Notation).
+La carte est **carrée**, chaque case est positionnée sur **trois axes** et composée d'une **matière**. Ces informations sont enregistrées dans un fichier **JSON** (JavaScript Object Notation).
 
 ###Matières
 
