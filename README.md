@@ -4,7 +4,7 @@
 
 ##Carte
 
-La carte est **carrée**, chaque case est positionnée sur **trois axes** et composée d'une **matière**. Ces informations sont enregistrées dans un fichier **JSON** (JavaScript Object Notation).
+La carte est **carrée**, chaque case est positionnée sur **3 axes** et composée d'une **matière**. Ces informations sont enregistrées dans un fichier **JSON** (JavaScript Object Notation).
 
 ###Matières
 
@@ -93,9 +93,9 @@ L'élément `size` définit la taille de la carte.
 
  Algorithme
 
-`render()`
+`threeRender()`
 
- three.js ?
+ http://threejs.org/
 
 ***
 

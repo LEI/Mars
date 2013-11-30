@@ -1,4 +1,4 @@
-function Map () 
+function Map()
 {
 	/*this.x;
 	this.y;*/
