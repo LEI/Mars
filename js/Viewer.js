@@ -10,7 +10,7 @@ function Viewer()
 		var json = $.parseJSON(json),
 			map = json.map,
 			size = json.size,
-			square = 1,
+			square = 1, // !
 			canvas,
 			context;
 
