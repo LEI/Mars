@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 	<head>
+
 		<meta charset="utf-8">
 		<title>Mars</title>
 
@@ -19,9 +20,9 @@
 		<header>
 			<h1><a href="http://github.com/LEI/Mars">Mars</a></h1>
 			<form id="settings" method="post">
-				<input type="text" id="map_size" placeholder="size" autofocus />
-				<input type="text" id="map_square" placeholder="zoom" />
-				<input type="text" id="map_smooth" placeholder="softness" />
+				<input type="text" id="map_size" placeholder="Taille" autofocus />
+				<input type="text" id="map_square" placeholder="Résolution" />
+				<input type="text" id="map_smooth" placeholder="Relief" />
 				<input type="submit" value="Render" />
 			</form>
 			<form id="download" action="map.json" method="post">
@@ -29,13 +30,9 @@
 			</form>
 		</header>
 
-		<div>
-		<!-- Map -->
-		</div>
+		<div id="canvas"></div>
 
-		<div id="viewer">
-		<!-- three.js -->
-		</div>
+		<div id="viewer"></div>
 
 	</body>
 </html>

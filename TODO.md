@@ -6,9 +6,7 @@
 
 ###Algorithme
 
-`soften()` à optimiser
-
-Affiner la hauteur
+`soften()` à optimiser, affiner la hauteur
 
 ###Affichage
 

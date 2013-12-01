@@ -1,101 +1,80 @@
 function Map()
 {
-	//if( typeof Map.initialized == "undefined" ) {
+	/*this.json;*/
+	this.groundType = [
+		'Roche',
+		'Sable',
+		'Minerai',
+		'Fer',
+		'Glace',
+		'Autre'];
+
+	this.groundWeight = [
+		0.4,
+		0.2,
+		0.2,
+		0.1,
+		0.1,
+		0.0];
 
 	Map.prototype.init = function(size, square, softness) {
-
 		this.z = 50;
-		this.size;
-		this.square;
-
-		this.map;
-		this.tmp;
-
-		this.softness;
-		this.json;
-		this.dataURI;
-
-		this.canvas;
-		this.context;
-
-		this.groundType = [
-			'Roche',
-			'Sable',
-			'Minerai',
-			'Fer',
-			'Glace',
-			'Autre'];
-
-		this.groundWeight = [
-			0.4,
-			0.2,
-			0.2,
-			0.1,
-			0.1,
-			0.0];
-
 		this.size = size;
 		this.square = square;
 		this.softness = softness;
-
 		this.map = [];
 		this.tmp = [];
-
 		for (x=0; x<this.size; x++) {
 			this.map[x] = [];
 			this.tmp[x] = [];
 			for (y=0; y<this.size; y++) {
 				// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
 				this.map[x][y] = { 'z' : this.rand(-this.z,this.z) };
-				// Récupération d'un type de matière
+				// Récupération d'un type de matière pour le fichier JSON final
 				this.tmp[x][y] = {'type' : this.getGroundType()/*, 'x': x, 'y': y*/ };
 			}
 		}
+		this.render();
+	};
 
+	Map.prototype.render = function() {
 		while (this.softness >= 0) {
 			if (this.softness == 0) {
 
-				// Render
+				this.createJson();
 
-				// Canvas
-				this.renderCanvas(this.map);
-				// Three.js
+				this.renderCanvas();
 				renderThree(this.json);
 
 			} else {
 				// Lissage
 				this.soften(this.map);
 			}
-
 			this.softness--;
-
 		}
 	};
-
-	//}
 
 	Map.prototype.soften = function(map) {
 		var size = this.size;
 		for (var x=0; x<size; x++) {
 			for (var y=0; y<size; y++) {
+
 				var avg = [];
 
-				// Interpréter top comme "front" et bot comme "behind"
 				/*var squareZ = {
-					'left-top': 	if (tmpZ = map[x-1][y-1] != undefined) avg.push(tmpZ.z),
-					'top': 			if (tmpZ = map[x][y-1] != undefined) avg.push(tmpZ),
-					'right-top': 	if (tmpZ = map[x+1][y-1] != undefined) avg.push(tmpZ),
+					'left-top': 	map[x-1][y-1].z,
+					'top': 			map[x][y-1].z,
+					'right-top': 	map[x+1][y-1].z,
 
-					'left': 		if (tmpZ = map[x-1][y] != undefined) avg.push(tmpZ),
-					'here': 		if (tmpZ = map[x][y] != undefined) avg.push(tmpZ),
-					'right': 		if (tmpZ = map[x][y+1] != undefined) avg.push(tmpZ),
+					'left': 		map[x-1][y].z,
+					'here': 		map[x][y].z,
+					'right': 		map[x][y+1].z,
 
-					'left-bot': 	if (tmpZ = map[x-1][y+1] != undefined) avg.push(tmpZ),
-					'bot': 			if (tmpZ = map[x][y+1] != undefined) avg.push(tmpZ),
-					'right-bot': 	if (tmpZ = map[x+1][y+1] != undefined) avg.push(tmpZ),
+					'left-bot': 	map[x-1][y+1].z,
+					'bot': 			map[x][y+1].z,
+					'right-bot': 	map[x+1][y+1].z,
 				};*/
-				/*alert(map[x][y].z);
-				if (map[x-1][y-1] != undefined) avg.push(map[x-1][y-1].z);
+				/*if (map[x-1][y-1] != undefined) avg.push(map[x-1][y-1].z);
 				if (map[x][y-1] != undefined) avg.push(map[x][y-1].z);
 				if (map[x+1][y-1] != undefined) avg.push(map[x+1][y-1].z);
 
@@ -157,53 +136,55 @@ function Map()
 
 		this.map = this.tmp;
 	};
+	
+	// Création du fichier JSON
+	Map.prototype.createJson = function() {
+		// Ajout de la taille de la carte pour exportation
+		var data = { "size": this.size, "map": this.map };
+		this.json = JSON.stringify(data, undefined, '\t');
 
-	Map.prototype.renderCanvas = function(map) {
+		var dataURI = JSON.stringify(data);
+		this.url = "data:application/octet-stream;base64," + Base64.encode(dataURI);
+		//console.log(json);
 
+		// Téléchargement en cliquant sur la map
+		/*var blob = new Blob([this.json], {type: 'application/json'});
+		var blobUrl  = URL.createObjectURL(blob);
+		$a = document.createElement('a');
+		$a.download = 'map.json';
+		$a.href = blobUrl;
+		$('#map').wrap($a);*/
+	};
 
+	Map.prototype.renderCanvas = function() {
 		// Création du canvas
-		$('div').html('<canvas width="'+this.size+'" height="'+this.size+'" id="map"></canvas>');
-		this.canvas = $('#map');
-		this.context = this.canvas.get(0).getContext('2d');
+		var map = this.map,
+			canvas,
+			context;
+		// Taille du canvas en fonction de la taille totale et de la taille de chaque case
+		$('#canvas').html('<canvas width="' + (this.size*this.square) +
+								'" height="' + (this.size*this.square) +
+								'" id="map"></canvas>');
+		canvas = $('#map');
+		context = canvas.get(0).getContext('2d');
 		for (var x=0; x<this.size; x++) {
 			for (var y=0; y<this.size; y++) {
 
-					// Teinte en fonction du type
+				// Teinte en fonction du type
 				var h = (map[x][y].type*3),
-					// Saturation en fonction du type
-					s = ((map[x][y].type*5)+40),
-					// Luminosité en fonction de la hauteur
-					l = (( (map[x][y].z+50) * 2 )-50);
+				// Saturation en fonction du type
+				s = ((map[x][y].type*5)+40),
+				// Luminosité en fonction de la hauteur
+				l = (( (map[x][y].z+50) * 2 )-50);
 
-				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
-				this.context.fillRect(	x * this.square,
+				context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
+				context.fillRect(	x * this.square,
 									y * this.square,
 									this.square,
 									this.square
 								);
 			}
 		}
-		// Export en JSON
-		this.createJson(map);
-	};
-	
-	// data URI?
-	Map.prototype.createJson = function(map) {
-		// Ajout de la taille de la carte pour exportation
-		var data = { "size": this.size, "map": this.map };
-		this.json = JSON.stringify(data, undefined, '\t');
-		this.dataURI = JSON.stringify(data);
-
-		this.url = "data:application/octet-stream;base64," + Base64.encode(this.dataURI);
-		//console.log(json);
-
-		// Téléchargement en cliquant sur la map
-		var blob = new Blob([this.json], {type: 'application/json'});
-		var blobUrl  = URL.createObjectURL(blob);
-		$a = document.createElement('a');
-		$a.download = 'map.json';
-		$a.href = blobUrl;
-		$('#map').wrap($a);
 	};
 
 	Map.prototype.download = function() {
@@ -211,7 +192,7 @@ function Map()
 		//console.log(this.url);
 
 		var url = this.url;
-		// Téléchargement depuis une iframe en cliquant sur Download
+		// Téléchargement depuis une iframe
 		var iframe;
 		iframe = document.getElementById("hiddenDownloader");
 		if (iframe === null) {
@@ -258,5 +239,4 @@ function Map()
 	Map.prototype.rand = function(min, max) {
 		return Math.random() * (max - min) + min;
 	};
-
 }
