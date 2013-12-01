@@ -1,10 +1,11 @@
 $(function() {
 	
 	// Initialisation
-	var size = 100, //Math.floor( $(window).height() / 2 ),
+	var size = 200, //Math.floor( $(window).height() / 2 ),
 		square = 3,
 		softness = 10,
-		mars = new Map();
+		mars = new Map(),
+		viewer = new Viewer();
 
 	// Injection des valeurs par défaut dans le formulaire
 	$('#map_size').attr('value',size);
@@ -18,6 +19,7 @@ $(function() {
 		softness = $('#map_softness').val();
 
 		mars.init(size, square, softness);
+		viewer.render(mars.json);
 
 		e.preventDefault();
 	});
@@ -26,11 +28,8 @@ $(function() {
 	$('#settings').submit();
 
 	// Bouton JSON
-	//$('header').append('<a href="' + renderedMap.url + '" download="map.json">Download JSON</a>');
 	$('#download').submit( function(e) {
-		mars.download();
-		//$(window).open(mars.json, 'map.json');
+		viewer.download(mars.url);
 		e.preventDefault();
 	});
-
 });

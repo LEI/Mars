@@ -10,7 +10,7 @@
 
 ###Affichage
 
-viewer.js `renderThree()`
+Viewer.js `renderThree()`
 
 http://threejs.org/
 

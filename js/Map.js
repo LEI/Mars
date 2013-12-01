@@ -34,17 +34,14 @@ function Map()
 				this.tmp[x][y] = {'type' : this.getGroundType()/*, 'x': x, 'y': y*/ };
 			}
 		}
-		this.render();
+		this.create();
 	};
 
-	Map.prototype.render = function() {
+	Map.prototype.create = function() {
 		while (this.softness >= 0) {
 			if (this.softness == 0) {
 
 				this.createJson();
-
-				this.renderCanvas();
-				renderThree(this.json);
 
 			} else {
 				// Lissage
@@ -52,6 +49,17 @@ function Map()
 			}
 			this.softness--;
 		}
+	};
+	
+	// Création du fichier JSON
+	Map.prototype.createJson = function() {
+		// Ajout de la taille de la carte pour exportation
+		var data = { "size": this.size, "map": this.map };
+		this.json = JSON.stringify(data, undefined, '\t');
+
+		var dataURI = JSON.stringify(data);
+		this.url = "data:application/octet-stream;base64," + Base64.encode(dataURI);
+		//console.log(json);
 	};
 
 	Map.prototype.soften = function(map) {
@@ -136,24 +144,53 @@ function Map()
 
 		this.map = this.tmp;
 	};
-	
-	// Création du fichier JSON
-	Map.prototype.createJson = function() {
-		// Ajout de la taille de la carte pour exportation
-		var data = { "size": this.size, "map": this.map };
-		this.json = JSON.stringify(data, undefined, '\t');
 
-		var dataURI = JSON.stringify(data);
-		this.url = "data:application/octet-stream;base64," + Base64.encode(dataURI);
-		//console.log(json);
+	Map.prototype.getGroundType = function() {
 
-		// Téléchargement en cliquant sur la map
-		/*var blob = new Blob([this.json], {type: 'application/json'});
-		var blobUrl  = URL.createObjectURL(blob);
-		$a = document.createElement('a');
-		$a.download = 'map.json';
-		$a.href = blobUrl;
-		$('#map').wrap($a);*/
+		// Gestion de la répartition du terrain (en fonction des coordonnées ?)
+
+		// Récupère un élément dans le tableau en fonction des probabilités
+		var random_item = this.getRandomItem(this.groundType, this.groundWeight);
+
+		for (var i=0; i<this.groundType.length; i++) {
+			if (random_item == this.groundType[i]) {
+				// Retour de l'index du terrain
+				return i+1;
+			}
+		}
+	};
+
+	Map.prototype.getRandomItem = function(list, weight) {
+		var total_weight = weight.reduce(function (prev, cur, i, arr) {
+			return prev + cur;
+		});
+		var random_num = this.rand(0, total_weight);
+		var weight_sum = 0;
+		//console.log(random_num)
+		for (var i = 0; i < list.length; i++) {
+			weight_sum += weight[i];
+			weight_sum = +weight_sum.toFixed(2);
+
+			if (random_num <= weight_sum) {
+				return list[i];
+			}
+		}
+	};
+
+	Map.prototype.rand = function(min, max) {
+		return Math.random() * (max - min) + min;
+	};
+
+	/*
+	Map.prototype.render = function(json) {
+		if (json) {
+			alert(json);
+		} else {
+			this.createJson();
+		}
+
+		this.renderCanvas();
+		renderThree(this.json);
 	};
 
 	Map.prototype.renderCanvas = function() {
@@ -202,41 +239,5 @@ function Map()
 			document.body.appendChild(iframe);
 		}
 		iframe.src = url;
-	};
-
-	Map.prototype.getGroundType = function() {
-
-		// Gestion de la répartition du terrain (en fonction des coordonnées ?)
-
-		// Récupère un élément dans le tableau en fonction des probabilités
-		var random_item = this.getRandomItem(this.groundType, this.groundWeight);
-
-		for (var i=0; i<this.groundType.length; i++) {
-			if (random_item == this.groundType[i]) {
-				// Retour de l'index du terrain
-				return i+1;
-			}
-		}
-	};
-
-	Map.prototype.getRandomItem = function(list, weight) {
-		var total_weight = weight.reduce(function (prev, cur, i, arr) {
-			return prev + cur;
-		});
-		var random_num = this.rand(0, total_weight);
-		var weight_sum = 0;
-		//console.log(random_num)
-		for (var i = 0; i < list.length; i++) {
-			weight_sum += weight[i];
-			weight_sum = +weight_sum.toFixed(2);
-
-			if (random_num <= weight_sum) {
-				return list[i];
-			}
-		}
-	};
-
-	Map.prototype.rand = function(min, max) {
-		return Math.random() * (max - min) + min;
-	};
+	};*/
 }
