@@ -16,11 +16,7 @@ header {
 	background-color: rgba(255,255,255,1);
 }
 div {
-}
-canvas {
 	float: left;
-	/*margin: 5px;*/
-	background-color: #ddd;
 }
 input {
 	display : block;

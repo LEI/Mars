@@ -2,7 +2,7 @@ $(function() {
 	
 	// Initialisation
 	var size = 200, //Math.floor( $(window).height() / 2 ),
-		square = 5,
+		square = 3,
 		smooth = 10,
 		newMap;
 

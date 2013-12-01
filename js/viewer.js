@@ -107,7 +107,7 @@ var renderThree = function(map) {
 	renderer.setSize(SIZE, SIZE);
 
 	// attach the render-supplied DOM element
-	$('div').append(renderer.domElement);
+	$('#viewer').html(renderer.domElement);
 
 	renderer.render(scene, camera);
 
