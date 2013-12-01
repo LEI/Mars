@@ -3,19 +3,19 @@ $(function() {
 	// Initialisation
 	var size = 100, //Math.floor( $(window).height() / 2 ),
 		square = 3,
-		smooth = 10,
+		softness = 10,
 		mars = new Map();
 
 	// Injection des valeurs par défaut dans le formulaire
 	$('#map_size').attr('value',size);
 	$('#map_square').attr('value',square);
-	$('#map_smooth').attr('value',smooth);
+	$('#map_softness').attr('value',softness);
 
 	// Ecoute du formulaire
 	$('#settings').submit( function(e) {
 		size = $('#map_size').val();
 		square = $('#map_square').val();
-		softness = $('#map_smooth').val();
+		softness = $('#map_softness').val();
 
 		mars.init(size, square, softness);
 
