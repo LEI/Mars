@@ -1,9 +1,10 @@
 $(function() {
 	
 	// Initialisation
-	var size = 200;
-	var square = 3;
-	var smooth = 6;
+	var size = 200, //Math.floor( $(window).height() / 2 ),
+		square = 5,
+		smooth = 10,
+		newMap;
 
 	// Injection des valeurs par défaut dans le formulaire
 	$('#map_size').attr('value',size);
@@ -11,20 +12,26 @@ $(function() {
 	$('#map_smooth').attr('value',smooth);
 
 	// Ecoute du formulaire
-	$('form').submit( function(e) {
+	$('#settings').submit( function(e) {
 
 		size = $('#map_size').val();
 		square = $('#map_square').val();
 		softness = $('#map_smooth').val();
 
-		renderedMap = new Map();
-		renderedMap.init(size, square, softness);
+		newMap = new Map();
+		newMap.init(size, square, softness);
 		e.preventDefault();
 
 	});
 
 	// Render canvas au refresh
-	$('form').submit();
+	$('#settings').submit();
 
+	$('#download').submit( function(e) {
+		newMap.download();
+		//$(window).open(newMap.json, 'map.json');
+		e.preventDefault();
+	});
 
+	//$('header').append('<a href="' + renderedMap.url + '" download="map.json">Download JSON</a>');
 });

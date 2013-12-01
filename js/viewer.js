@@ -3,7 +3,7 @@ var renderThree = function(map) {
 	map = $.parseJSON(map)
 	//JSONLoader(map);
 
-	console.log(map);
+	//console.log(map);
 
 
 	// set some camera attributes

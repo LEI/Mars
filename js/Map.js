@@ -13,6 +13,8 @@ function Map()
 
 		this.softness;
 		this.json;
+		this.dataURI;
+
 		this.canvas;
 		this.context;
 
@@ -24,7 +26,13 @@ function Map()
 			'Glace',
 			'Autre'];
 
-		this.groundWeight = [0.4, 0.2, 0.2, 0.1, 0.1, 0.0];
+		this.groundWeight = [
+			0.4,
+			0.2,
+			0.2,
+			0.1,
+			0.1,
+			0.0];
 
 		this.size = size;
 		this.square = square;
@@ -45,13 +53,17 @@ function Map()
 		}
 
 		while (this.softness >= 0) {
-
-			// On applique soften() jusqu'à que softness soit à 0 -> render
 			if (this.softness == 0) {
+
+				// Render
+
+				// Canvas
 				this.renderCanvas(this.map);
 				// Three.js
 				renderThree(this.json);
+
 			} else {
+				// Lissage
 				this.soften(this.map);
 			}
 
@@ -147,13 +159,23 @@ function Map()
 	};
 
 	Map.prototype.renderCanvas = function(map) {
+
+
 		// Création du canvas
 		$('div').html('<canvas width="'+this.size+'" height="'+this.size+'" id="map"></canvas>');
 		this.canvas = $('#map');
 		this.context = this.canvas.get(0).getContext('2d');
 		for (var x=0; x<this.size; x++) {
 			for (var y=0; y<this.size; y++) {
-				this.context.fillStyle = 'hsl(10,' + ((map[x][y].type*5) + 40) + '%,' + (( (map[x][y].z+50) * 2 )-50) + '%)';
+
+					// Teinte en fonction du type
+				var h = (map[x][y].type*3),
+					// Saturation en fonction du type
+					s = ((map[x][y].type*5)+40),
+					// Luminosité en fonction de la hauteur
+					l = (( (map[x][y].z+50) * 2 )-50);
+
+				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 				this.context.fillRect(	x * this.square,
 									y * this.square,
 									this.square,
@@ -161,6 +183,7 @@ function Map()
 								);
 			}
 		}
+		// Export en JSON
 		this.createJson(map);
 	};
 	
@@ -169,18 +192,36 @@ function Map()
 		// Ajout de la taille de la carte pour exportation
 		var data = { "size": this.size, "map": this.map };
 		this.json = JSON.stringify(data, undefined, '\t');
-		//console.log(map);
+		this.dataURI = JSON.stringify(data);
+
+		this.url = "data:application/octet-stream;base64," + Base64.encode(this.dataURI);
 		//console.log(json);
 
+		// Téléchargement en cliquant sur la map
 		var blob = new Blob([this.json], {type: 'application/json'});
-		var url  = URL.createObjectURL(blob);
-		var a = document.createElement('a');
-		a.download = 'map.json';
-		a.href = url;
-		//a.textContent = 'map.json';
-		$('#map').wrap(a);
+		var blobUrl  = URL.createObjectURL(blob);
+		$a = document.createElement('a');
+		$a.download = 'map.json';
+		$a.href = blobUrl;
+		$('#map').wrap($a);
 	};
 
+	Map.prototype.download = function() {
+
+		//console.log(this.url);
+
+		var url = this.url;
+		// Téléchargement depuis une iframe en cliquant sur Download
+		var iframe;
+		iframe = document.getElementById("hiddenDownloader");
+		if (iframe === null) {
+			iframe = document.createElement('iframe');  
+			iframe.id = "hiddenDownloader";
+			iframe.style.display = "none";
+			document.body.appendChild(iframe);
+		}
+		iframe.src = url;
+	};
 
 	Map.prototype.getGroundType = function() {
 
