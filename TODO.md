@@ -2,15 +2,15 @@
 
 ###Terrain
 
-`getGroundType()` `getRandomItem()` Améliorer la répartition des types de matière 
+`Map.getGroundType()` `Map.getRandomItem()` Améliorer la répartition des types de matière 
 
 ###Algorithme
 
-`soften()` Optimiser, affiner la hauteur
+`Map.create() Map.soften()` Optimiser, affiner la hauteur
 
 ###Affichage
 
-Viewer.js `renderThree()` http://threejs.org/
+`Viewer.renderThree()` http://threejs.org/
 
 ###Rover
 
