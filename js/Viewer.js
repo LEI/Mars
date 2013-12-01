@@ -1,16 +1,16 @@
 function Viewer()
 {
 
-	Viewer.prototype.render = function(json) {
-		this.renderCanvas(json);
+	Viewer.prototype.render = function(json, square) {
+		this.renderCanvas(json, square);
 		this.renderThree(json);
 	};
 
-	Viewer.prototype.renderCanvas = function(json) {
+	Viewer.prototype.renderCanvas = function(json, square) {
 		var json = $.parseJSON(json),
 			map = json.map,
 			size = json.size,
-			square = 1, // !
+			square = square || 10,
 			canvas,
 			context;
 

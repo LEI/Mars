@@ -1,7 +1,7 @@
 $(function() {
 	
 	// Initialisation
-	var size = 200, //Math.floor( $(window).height() / 2 ),
+	var size = 100, //Math.floor( $(window).height() / 2 ),
 		square = 3,
 		softness = 10,
 		mars = new Map(),
@@ -18,8 +18,8 @@ $(function() {
 		square = $('#map_square').val();
 		softness = $('#map_softness').val();
 
-		mars.init(size, square, softness);
-		viewer.render(mars.json);
+		mars.init(size, softness);
+		viewer.render(mars.json, square);
 
 		e.preventDefault();
 	});

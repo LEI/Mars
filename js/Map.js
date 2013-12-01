@@ -17,10 +17,9 @@ function Map()
 		0.1,
 		0.0];
 
-	Map.prototype.init = function(size, square, softness) {
+	Map.prototype.init = function(size, softness) {
 		this.z = 50;
 		this.size = size;
-		this.square = square;
 		this.softness = softness;
 		this.map = [];
 		this.tmp = [];
