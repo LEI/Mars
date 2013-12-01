@@ -10,7 +10,7 @@ function Viewer()
 		var json = $.parseJSON(json),
 			map = json.map,
 			size = json.size,
-			square = square || 10,
+			square = square || 1, // Taille d'une case
 			canvas,
 			context;
 

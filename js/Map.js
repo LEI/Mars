@@ -1,6 +1,5 @@
 function Map()
 {
-	/*this.json;*/
 	this.groundType = [
 		'Roche',
 		'Sable',
