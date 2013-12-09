@@ -53,7 +53,7 @@ function Viewer()
 		var iframe;
 		iframe = document.getElementById("hiddenDownloader");
 		if (iframe === null) {
-			iframe = document.createElement('iframe');  
+			iframe = document.createElement('iframe');
 			iframe.id = "hiddenDownloader";
 			iframe.style.display = "none";
 			document.body.appendChild(iframe);
@@ -115,7 +115,7 @@ function Viewer()
 		}
 
 		var material = new THREE.MeshPhongMaterial({
-		  color: 0xdddddd, 
+		  color: 0xdddddd,
 		  wireframe: true
 		});
 
