@@ -20,6 +20,9 @@ function Viewer()
 								'" id="map"></canvas>');
 		canvas = $('#map');
 		context = canvas.get(0).getContext('2d');
+
+		console.log(json);
+
 		for (var x=0; x<size; x++) {
 			for (var y=0; y<size; y++) {
 

@@ -22,7 +22,7 @@ function Map()
 		this.softness = softness;
 		this.map = [];
 		this.tmp = [];
-		for (x=0; x<this.size; x++) {
+		/*for (x=0; x<this.size; x++) {
 			this.map[x] = [];
 			this.tmp[x] = [];
 			for (y=0; y<this.size; y++) {
@@ -31,11 +31,11 @@ function Map()
 				// Récupération d'un type de matière pour le fichier JSON final
 				this.tmp[x][y] = { 'type' : this.getGroundType() };//, 'x': x, 'y': y };
 			}
-		}
-		/*for (var i=0; i<this.size; i++) {
-			this.map[i] = { 'z' : this.rand(-this.z,this.z) };
-			this.tmp[i] = { 'type' : this.getGroundType() };
 		}*/
+		for (var i=0; i<size*size; i++) {
+			this.map[i] = { 'z' : this.rand(-this.z,this.z), 'type' : this.getGroundType() };
+			//this.tmp[i] = { 'type' : this.getGroundType() };
+		}
 		this.create();
 	};
 
@@ -47,7 +47,7 @@ function Map()
 
 			} else {
 				// Lissage
-				this.soften(this.map);
+				//this.soften(this.map);
 			}
 			this.softness--;
 		}
@@ -56,12 +56,13 @@ function Map()
 	// Création du fichier JSON
 	Map.prototype.createJson = function() {
 		// Ajout de la taille de la carte pour exportation
-		var data = { "size": this.size, "map": this.map };
+		var data = { "size": this.size, "map": 	this.xyArray(this.map,this.size) };
 		this.json = JSON.stringify(data, undefined, '\t');
 		this.url = "data:application/octet-stream;base64," + Base64.encode(this.json);
 	};
 
 	Map.prototype.soften = function(map) {
+		// A modifier pour un tableau à une dimension
 		for (var x=0; x<this.size; x++) {
 			for (var y=0; y<this.size; y++) {
 
