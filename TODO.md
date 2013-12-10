@@ -1,12 +1,14 @@
-#ToDo
+#To do
 
 ###Terrain
 
-`Map.getGroundType()` `Map.getRandomItem()` Améliorer la répartition des types de matière 
+`Map.getGroundType()` `Map.getRandomItem()` Améliorer la répartition des types de matière
 
 ###Algorithme
 
-`Map.create() Map.soften()` Optimiser, affiner la hauteur
+`Map.create()` `Map.soften()` Optimiser, affiner la hauteur
+
+Diamond square http://srchea.com/blog/2012/02/terrain-generation-the-diamond-square-algorithm-and-three-js/
 
 ###Affichage
 

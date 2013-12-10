@@ -1,5 +1,5 @@
 $(function() {
-	
+
 	// Initialisation
 	var size = 100, //Math.floor( $(window).height() / 2 ),
 		square = 3,
@@ -32,4 +32,5 @@ $(function() {
 		viewer.download(mars.url);
 		e.preventDefault();
 	});
+
 });
