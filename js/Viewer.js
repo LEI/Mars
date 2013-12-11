@@ -14,7 +14,7 @@ function Viewer()
 			context;
 
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
-		$('#canvas2d').html('<canvas width="' + (size*square) +
+		$('#canvas').html('<canvas width="' + (size*square) +
 								'" height="' + (size*square) +
 								'" id="map"></canvas>');
 		canvas = $('#map');
@@ -46,6 +46,34 @@ function Viewer()
 		$a.download = 'map.json';
 		$a.href = blobUrl;
 		$('#map').wrap($a);
+	};
+
+	Viewer.prototype.renderRover = function(mars, square) {
+
+		var rover = mars.rover,
+			map = mars.map,
+			size = mars.size,
+			square = square || 1, // Taille d'une case
+			canvas,
+			context;
+
+		canvas = $('#map');
+		context = canvas.get(0).getContext('2d');
+
+		for (var x=0; x<size; x++) {
+			for (var y=0; y<size; y++) {
+				if (rover.x == x && rover.y == y) {
+					console.log(square);
+					var h = 250, s = 100, l = 50;
+					context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
+					context.fillRect(	x * square,
+										y * square,
+										square,
+										square
+									);
+				}
+			}
+		}
 	};
 
 	Viewer.prototype.download = function(url) {

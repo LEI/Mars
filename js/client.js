@@ -1,8 +1,8 @@
 $(function() {
 
 	// Initialisation
-	var size = 100, //Math.floor( $(window).height() / 2 ),
-		square = 3,
+	var size = 50, //Math.floor( $(window).height() / 2 ),
+		square = 10,
 		softness = 10,
 		amplitude = 50,
 		mars = new Map(),
@@ -23,6 +23,9 @@ $(function() {
 
 		mars.init(size, softness, amplitude);
 		viewer.render(mars.json, square);
+
+		mars.addRover();
+		viewer.renderRover(mars, square);
 
 		e.preventDefault();
 	});
