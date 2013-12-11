@@ -47,7 +47,7 @@ function Map()
 
 			} else {
 				// Lissage
-				//this.soften(this.map);
+				this.soften(this.map);
 			}
 			this.softness--;
 		}
@@ -62,34 +62,48 @@ function Map()
 	};
 
 	Map.prototype.soften = function(map) {
+
+		function ifindex(array,index) {
+			if (array[index]) { avg.push(array[index]); }
+		}
+
+		var tmp = [],
+			t = -this.size, // top
+			b = this.size,	// bot
+			l = -1,			// left
+			r = +1;			// right
+
+		for (var i=0; i<map.length; i++) {
+
+			var avg = [];
+			avg.push(map[i]);
+
+			ifindex(map,i+t+l);
+			ifindex(map,i+t);
+			ifindex(map,i+t+r);
+			ifindex(map,i+l);
+			ifindex(map,i+r);
+			ifindex(map,i+b+l);
+			ifindex(map,i+b);
+			ifindex(map,i+b+r);
+
+			var total = 0,
+				length = avg.length;
+
+			for (var j=0; j<avg.length; j++) {
+				total += avg[j];
+			}
+			// Mise à jour de la hauteur
+			tmp[i] = { 'z': Math.floor(total/length), 'type': map[i].type };
+
+		}
+
+		this.map = tmp;
+
+		//map = this.mergeArray(map);
 		// A modifier pour un tableau à une dimension
-		for (var x=0; x<this.size; x++) {
+		/*for (var x=0; x<this.size; x++) {
 			for (var y=0; y<this.size; y++) {
-
-				/*var squareZ = {
-					'left-top': 	map[x-1][y-1].z,
-					'top': 			map[x][y-1].z,
-					'right-top': 	map[x+1][y-1].z,
-
-					'left': 		map[x-1][y].z,
-					'here': 		map[x][y].z,
-					'right': 		map[x][y+1].z,
-
-					'left-bot': 	map[x-1][y+1].z,
-					'bot': 			map[x][y+1].z,
-					'right-bot': 	map[x+1][y+1].z,
-				};*/
-				/*if (map[x-1][y-1] != undefined) avg.push(map[x-1][y-1].z);
-				if (map[x][y-1] != undefined) avg.push(map[x][y-1].z);
-				if (map[x+1][y-1] != undefined) avg.push(map[x+1][y-1].z);
-
-				if (map[x-1][y] != undefined) avg.push(map[x-1][y].z);
-				if (map[x][y] != undefined) avg.push(map[x][y].z);
-				if (map[x][y+1] != undefined) avg.push(map[x][y+1].z);
-
-				if (map[x-1][y+1] != undefined) avg.push(map[x-1][y+1].z);
-				if (map[x][y+1] != undefined) avg.push(map[x][y+1].z);
-				if (map[x+1][y+1] != undefined) avg.push(map[x+1][y+1].z);*/
 
 				var avg = [];
 
@@ -141,7 +155,8 @@ function Map()
 			}
 		}
 
-		this.map = this.tmp;
+		//map = this.xyArray(this.tmp);
+		this.map = this.tmp;*/
 	};
 
 	Map.prototype.getGroundType = function() {
@@ -193,6 +208,7 @@ function Map()
 
 	// Retourne un tableau à deux dimensions
 	Map.prototype.xyArray = function(array, size) {
+		// square length
 		var i = 0, newArray = [];
 		for (var x=0; x<size; x++) {
 			newArray[x] = [];
