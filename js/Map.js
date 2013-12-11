@@ -2,10 +2,12 @@ function Map()
 {
 	Map.prototype.init = function(size, softness, amplitude) {
 		var ground = new Ground();
+		var generator = new DiamondSquare();
 		this.z = amplitude;
 		this.size = size;
 		this.softness = softness;
 		this.map = [];
+		generator.generate();
 		/*for (x=0; x<this.size; x++) {
 			this.map[x] = [];
 			this.tmp[x] = [];
