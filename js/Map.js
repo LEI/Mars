@@ -64,7 +64,7 @@ function Map()
 	Map.prototype.soften = function(map) {
 
 		function ifindex(array,index) {
-			if (array[index]) { avg.push(array[index]); }
+			if (array[index]) { avg.push(array[index].z); }
 		}
 
 		var tmp = [],
@@ -76,7 +76,7 @@ function Map()
 		for (var i=0; i<map.length; i++) {
 
 			var avg = [];
-			avg.push(map[i]);
+			avg.push(map[i].z);
 
 			ifindex(map,i+t+l);
 			ifindex(map,i+t);
@@ -93,70 +93,13 @@ function Map()
 			for (var j=0; j<avg.length; j++) {
 				total += avg[j];
 			}
+
 			// Mise à jour de la hauteur
 			tmp[i] = { 'z': Math.floor(total/length), 'type': map[i].type };
 
 		}
 
 		this.map = tmp;
-
-		//map = this.mergeArray(map);
-		// A modifier pour un tableau à une dimension
-		/*for (var x=0; x<this.size; x++) {
-			for (var y=0; y<this.size; y++) {
-
-				var avg = [];
-
-				avg.push(map[x][y].z);
-
-				if (x!=0) {
-					if (y!=0) {
-						//avg.push(map[x][y-1].z);
-						avg.push(map[x-1][y-1].z);
-					}
-					if (y!=(this.size-1)) {
-						//avg.push(map[x][y+1].z);
-						avg.push(map[x-1][y+1].z);
-					}
-					avg.push(map[x-1][y].z);
-				}
-
-				if (x!=(this.size-1)) {
-					if (y!=0) {
-						//avg.push(map[x][y-1].z);
-						avg.push(map[x+1][y-1].z);
-					}
-					if (y!=(this.size-1)) {
-						//avg.push(map[x][y+1].z);
-						avg.push(map[x+1][y+1].z);
-					}
-					avg.push(map[x+1][y].z);
-				}
-
-				if (y!=0) {
-					avg.push(map[x][y-1].z);
-				}
-
-				if (y!=(this.size-1)) {
-					avg.push(map[x][y+1].z);
-				}
-
-				var total = 0;
-				var length = avg.length;
-				for (var i=0; i<length; i++) {
-					total += avg[i];
-				}
-
-				// Mise à jour de la hauteur
-				this.tmp[x][y].z =  Math.floor(total/length);
-
-				// Transfert du type de terrain dans le nouveau tableau (déjà enregistré dans tmp lors de init)
-				//this.tmp[x][y].type = map[x][y].type;
-			}
-		}
-
-		//map = this.xyArray(this.tmp);
-		this.map = this.tmp;*/
 	};
 
 	Map.prototype.getGroundType = function() {

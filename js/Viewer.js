@@ -21,17 +21,17 @@ function Viewer()
 		canvas = $('#map');
 		context = canvas.get(0).getContext('2d');
 
-		console.log(json);
+		//console.log(json);
 
 		for (var x=0; x<size; x++) {
 			for (var y=0; y<size; y++) {
 
 				// Teinte en fonction du type
-				var h = (map[x][y].type*3),
+				var h = map[x][y].type*3,
 				// Saturation en fonction du type
-				s = ((map[x][y].type*5)+40),
+				s = (map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
-				l = (( (map[x][y].z+50) * 2 )-50);
+				l = map[x][y].z+50;//((map[x][y].z+50) * 2)-50;
 
 				context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 				context.fillRect(	x * square,
