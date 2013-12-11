@@ -63,7 +63,6 @@ function Viewer()
 		for (var x=0; x<size; x++) {
 			for (var y=0; y<size; y++) {
 				if (rover.x == x && rover.y == y) {
-					console.log(square);
 					var h = 250, s = 100, l = 50;
 					context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 					context.fillRect(	x * square,

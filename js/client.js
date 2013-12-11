@@ -39,4 +39,20 @@ $(function() {
 		e.preventDefault();
 	});
 
+	// Ecoute des touches
+	$(document).keydown(function(e) {
+		var key = e.keyCode;
+		// Gestion des flèches
+		switch(key) {
+			case 37: mars.rover.move(-1,0); break;
+			case 38: mars.rover.move(0,-1); break;
+			case 39: mars.rover.move(1,0); break;
+			case 40: mars.rover.move(0,1); break;
+			// Arrêt si aucune correspondance
+			default: return;
+		}
+		viewer.renderRover(mars, square);
+		e.preventDefault();
+	});
+
 });

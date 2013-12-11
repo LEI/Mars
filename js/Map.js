@@ -6,19 +6,9 @@ function Map()
 		this.size = size;
 		this.softness = softness;
 		this.map = [];
-		/*for (x=0; x<this.size; x++) {
-			this.map[x] = [];
-			this.tmp[x] = [];
-			for (y=0; y<this.size; y++) {
-				// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
-				this.map[x][y] = { 'z' : this.rand(-this.z,this.z) };
-				// Récupération d'un type de matière pour le fichier JSON final
-				this.tmp[x][y] = { 'type' : this.getGroundType() };//, 'x': x, 'y': y };
-			}
-		}*/
 		for (var i=0; i<size*size; i++) {
+			// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
 			this.map[i] = { 'z' : this.rand(-this.z,this.z), 'type' : ground.getType() };
-			//this.tmp[i] = { 'type' : this.getGroundType() };
 		}
 		this.create();
 	};
