@@ -23,6 +23,7 @@ $(function() {
 
 		mars.init(size, softness, amplitude);
 		viewer.render(mars.json, square);
+		mars.addRover();
 
 		e.preventDefault();
 	});
