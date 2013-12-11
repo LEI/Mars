@@ -6,22 +6,26 @@
 		<title>Mars</title>
 
 		<link rel="stylesheet" href="style.css">
-		
+
 		<script src="js/jquery.js"></script>
 		<script src="js/three.min.js"></script>
+		<script src="js/Base64.js"></script>
 		<script src="js/Viewer.js"></script>
+		<script src="js/Ground.js"></script>
 		<script src="js/Map.js"></script>
+		<script src="js/Rover.js"></script>
 		<script src="js/client.js"></script>
-		
+
 	</head>
 	<body>
 
 		<header>
 			<h1><a href="http://github.com/LEI/Mars" target="_blank">Mars on GitHub</a></h1>
 			<form id="settings" method="post">
-				<label>Map size <input type="text" id="map_size" placeholder="Taille" autofocus /></label>
+				<input type="text" id="map_size" placeholder="Taille" autofocus />
 				<input type="text" id="map_square" placeholder="Résolution" />
 				<input type="text" id="map_softness" placeholder="Relief" />
+				<input type="text" id="map_amplitude" placeholder="Hauteur" />
 				<input type="submit" value="Render" />
 			</form>
 			<form id="download" action="map.json" method="post">

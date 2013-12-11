@@ -19,7 +19,7 @@ $(function() {
 		size = $('#map_size').val();
 		square = $('#map_square').val();
 		softness = $('#map_softness').val();
-		softness = $('#map_amplitude').val();
+		amplitude = $('#map_amplitude').val();
 
 		mars.init(size, softness, amplitude);
 		viewer.render(mars.json, square);

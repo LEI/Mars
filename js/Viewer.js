@@ -1,6 +1,5 @@
 function Viewer()
 {
-
 	Viewer.prototype.render = function(json, square) {
 		this.renderCanvas(json, square);
 		//this.renderThree(json);
@@ -61,6 +60,7 @@ function Viewer()
 		}
 		iframe.src = url;
 	};
+
 
 	Viewer.prototype.renderThree = function(json) {
 
@@ -148,5 +148,4 @@ function Viewer()
 
 		renderer.render(scene, camera);
 	};
-
 }
