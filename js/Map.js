@@ -87,16 +87,13 @@ function Map()
 			ifindex(map,i+b);
 			ifindex(map,i+b+r);
 
-			var total = 0,
-				length = avg.length;
-
+			var total = 0;
 			for (var j=0; j<avg.length; j++) {
 				total += avg[j];
 			}
 
 			// Mise à jour de la hauteur
-			tmp[i] = { 'z': Math.floor(total/length), 'type': map[i].type };
-
+			tmp[i] = { 'z': Math.floor(total/avg.length), 'type': map[i].type };
 		}
 
 		this.map = tmp;

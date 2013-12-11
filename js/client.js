@@ -24,7 +24,7 @@ $(function() {
 		e.preventDefault();
 	});
 
-	// Render canvas au refresh
+	// Render au refresh
 	$('#settings').submit();
 
 	// Bouton JSON
