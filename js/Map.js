@@ -114,8 +114,6 @@ function Map()
 	};
 
 	Map.prototype.addRover = function() {
-		var rover = new Rover();
-		rover.show();
-
+		this.rover = new Rover(5,5);
 	};
 }

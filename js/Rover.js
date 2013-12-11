@@ -1,8 +1,8 @@
 function Rover(x, y)
 {
-	this.energie = 10;
 	this.x = x;
 	this.y = y;
+	this.E = 10;
 
 	Rover.prototype.init = function() {
 
@@ -13,6 +13,6 @@ function Rover(x, y)
 	};
 
 	Rover.prototype.show = function() {
-		
+
 	};
 }
