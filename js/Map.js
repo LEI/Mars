@@ -112,4 +112,10 @@ function Map()
 	Map.prototype.rand = function(min, max) {
 		return Math.random() * (max - min) + min;
 	};
+
+	Map.prototype.addRover = function() {
+		var rover = new Rover();
+		rover.show();
+
+	};
 }
