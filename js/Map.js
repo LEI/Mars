@@ -16,12 +16,11 @@ function Map()
 		0.1,
 		0.0];
 
-	Map.prototype.init = function(size, softness) {
-		this.z = 50;
+	Map.prototype.init = function(size, softness, amplitude) {
+		this.z = amplitude;
 		this.size = size;
 		this.softness = softness;
 		this.map = [];
-		this.tmp = [];
 		/*for (x=0; x<this.size; x++) {
 			this.map[x] = [];
 			this.tmp[x] = [];

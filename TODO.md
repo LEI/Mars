@@ -12,7 +12,7 @@ Diamond square http://srchea.com/blog/2012/02/terrain-generation-the-diamond-squ
 
 ###Affichage
 
-`Viewer.renderThree()` http://threejs.org/
+`Viewer.renderThree()` http://threejs.org/ (optionnel)
 
 ###Rover
 
