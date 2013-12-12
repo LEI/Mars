@@ -2,13 +2,10 @@ function Map()
 {
 	Map.prototype.init = function(size, softness, amplitude) {
 		var ground = new Ground();
-		var generator = new DiamondSquare();
 		this.z = amplitude;
 		this.size = size;
 		this.softness = softness;
 		this.map = [];
-
-		generator.generate();
 
 		for (var i=0; i<size*size; i++) {
 			// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)

@@ -12,7 +12,6 @@
 		<script src="js/Base64.js"></script>
 		<script src="js/Viewer.js"></script>
 		<script src="js/Ground.js"></script>
-		<script src="js/DiamondSquare.js"></script>
 		<script src="js/Map.js"></script>
 		<script src="js/Rover.js"></script>
 		<script src="js/Map.js"></script>
@@ -25,7 +24,8 @@
 			<h1><a href="http://github.com/LEI/Mars" target="_blank">Mars</a></h1>
 			<form id="settings" method="post">
 				<input type="text" id="map_size" placeholder="Taille" autofocus />
-				<input type="text" id="map_square" placeholder="Résolution" />
+				<input type="range" id="map_square" name="square">
+				<output for="square" onforminput="value = square.valueAsNumber;"></output>
 				<input type="text" id="map_softness" placeholder="Relief" />
 				<input type="text" id="map_amplitude" placeholder="Hauteur" />
 				<input type="submit" value="Render" />
