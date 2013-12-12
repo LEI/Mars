@@ -25,7 +25,7 @@ $(function() {
 		mars.init(size, softness, amplitude);
 		viewer.render(mars.json);
 
-		curiosity.init(mars.json, 2, 2, viewer);
+		curiosity.init(mars.json, viewer);
 
 		e.preventDefault();
 	});

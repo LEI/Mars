@@ -47,8 +47,8 @@ function Viewer(square)
 		}
 	}
 
+	// Téléchargement depuis une iframe (bouton JSON)
 	Viewer.prototype.download = function(url) {
-		// Téléchargement depuis une iframe
 		var iframe;
 		iframe = document.getElementById("hiddenDownloader");
 		if (iframe === null) {
