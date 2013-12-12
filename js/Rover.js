@@ -1,18 +1,25 @@
-function Rover(x, y)
+function Rover()
 {
-	this.x = x;
-	this.y = y;
-	this.E = 10;
+	Rover.prototype.init = function(json, x, y, viewer) {
+		this.x = x;
+		this.y = y;
+		this.E = 10;
 
-	Rover.prototype.init = function() {
+		this.json = $.parseJSON(json);
+		this.size = this.json.size;
+		this.map = this.json.map;
+
+		this.viewer = viewer;
+		this.refreshPosition();
 	};
 
 	Rover.prototype.move = function(x, y) {
 		this.x += x;
 		this.y += y;
+		this.refreshPosition();
 	};
 
-	Rover.prototype.show = function() {
-
+	Rover.prototype.refreshPosition = function() {
+		this.viewer.drawCanvas(this.json, this);
 	};
 }

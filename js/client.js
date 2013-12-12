@@ -6,7 +6,8 @@ $(function() {
 		softness = 10,
 		amplitude = 50,
 		mars = new Map(),
-		viewer = new Viewer();
+		curiosity = new Rover(),
+		viewer = new Viewer(square);
 
 	// Injection des valeurs par défaut dans le formulaire
 	$('#map_size').attr('value',size);
@@ -22,10 +23,9 @@ $(function() {
 		amplitude = $('#map_amplitude').val();
 
 		mars.init(size, softness, amplitude);
-		viewer.render(mars.json, square);
+		viewer.render(mars.json);
 
-		mars.addRover();
-		viewer.renderRover(mars, square);
+		curiosity.init(mars.json, 2, 2, viewer);
 
 		e.preventDefault();
 	});
@@ -44,14 +44,13 @@ $(function() {
 		var key = e.keyCode;
 		// Gestion des flèches
 		switch(key) {
-			case 37: mars.rover.move(-1,0); break;
-			case 38: mars.rover.move(0,-1); break;
-			case 39: mars.rover.move(1,0); break;
-			case 40: mars.rover.move(0,1); break;
+			case 37: curiosity.move(-1,0); break;
+			case 38: curiosity.move(0,-1); break;
+			case 39: curiosity.move(1,0); break;
+			case 40: curiosity.move(0,1); break;
 			// Arrêt si aucune correspondance
 			default: return;
 		}
-		viewer.renderRover(mars, square);
 		e.preventDefault();
 	});
 
