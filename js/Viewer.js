@@ -1,12 +1,12 @@
-function Viewer(square)
+function Viewer()
 {
-	this.square = square;
-
-	Viewer.prototype.render = function(json) {
+	Viewer.prototype.render = function(json, square) {
 		var json = $.parseJSON(json),
 			map = json.map,
 			size = json.size,
-			square = this.square || 1; // Taille d'une case
+			square = square || 1; // Taille d'une case
+
+		this.square = square;
 
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
 		$('#canvas').html('<canvas width="' + (size*square) +
