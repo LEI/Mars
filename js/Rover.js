@@ -48,7 +48,9 @@ function Rover()
 			for (var j=0; j<this.size; j++) {
 				if (x == i && y == j) {
 
-					return this.map[x][y];
+					//if (this.map[x][y] != undefined) {
+						return this.map[x][y];
+					//}
 
 				}
 			}
