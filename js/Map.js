@@ -12,7 +12,7 @@ function Map()
 
 		for (var i=0; i<size*size; i++) {
 			// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
-			this.map[i] = { 'z' : this.rand(-this.z,this.z), 'type' : ground.getType() };
+			this.map[i] = { 'z' : this.rand(0,this.z), 'type' : ground.getType() };
 		}
 		this.create();
 	};
@@ -69,9 +69,10 @@ function Map()
 			for (var j=0; j<avg.length; j++) {
 				total += avg[j];
 			}
+			var z = total/avg.length;
 
 			// Mise à jour de la hauteur
-			tmp[i] = { 'z': Math.floor(total/avg.length), 'type': map[i].type };
+			tmp[i] = { 'z': z, 'type': map[i].type };
 		}
 
 		this.map = tmp;

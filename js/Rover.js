@@ -18,21 +18,35 @@ function Rover()
 		this.y = y;
 	}
 
-	Rover.prototype.move = function(x, y) {
-		this.x += x;
-		this.y += y;
-		this.refreshPos();
+	Rover.prototype.move = function(x,y) {
+		var currentZ = this.getSquare().z,
+			nextZ = this.getSquare(x,y).z,
+			p = this.checkSlope(currentZ,nextZ);
+
+		if (p > -0.5 && p < 0.5) {
+			this.x += x;
+			this.y += y;
+			this.refreshPos();
+		} else {
+			console.log(p);
+		}
 	};
 
 	Rover.prototype.refreshPos = function() {
-		console.log(this.getCurrentSquare());
 		this.viewer.drawCanvas(this.json, this);
 	};
 
-	Rover.prototype.getCurrentSquare = function() {
-		for (var x=0; x<this.size; x++) {
-			for (var y=0; y<this.size; y++) {
-				if (this.x == x && this.y == y) {
+	Rover.prototype.getSquare = function(x,y) {
+		if (x != undefined && y != undefined) {
+			x = this.x + x;
+			y = this.y + y;
+		} else {
+			x = this.x;
+			y = this.y;
+		}
+		for (var i=0; i<this.size; i++) {
+			for (var j=0; j<this.size; j++) {
+				if (x == i && y == j) {
 
 					return this.map[x][y];
 
@@ -41,7 +55,12 @@ function Rover()
 		}
 	}
 
-	Rover.prototype.testSquare = function() {
-		// pente?
+	// Retourne la pente pour une distance de 1
+	Rover.prototype.checkSlope = function(a,b) {
+		return b-a;
+	}
+
+	Rover.prototype.goTo = function(x,y) {
+
 	}
 }

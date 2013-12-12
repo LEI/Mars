@@ -29,7 +29,7 @@ function Viewer(square)
 				// Saturation en fonction du type
 				s = (json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
-				l = json.map[x][y].z+50;//((json.map[x][y].z+50) * 2)-50;
+				l = json.map[x][y].z*50;
 
 				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 				if (rover) {

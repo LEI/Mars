@@ -3,8 +3,8 @@ $(function() {
 	// Initialisation
 	var size = 50, //Math.floor( $(window).height() / 2 ),
 		square = 10,
-		softness = 10,
-		amplitude = 50,
+		softness = 3,
+		amplitude = 2,
 		mars = new Map(),
 		curiosity = new Rover(),
 		viewer = new Viewer(square);
