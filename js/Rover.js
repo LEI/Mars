@@ -33,6 +33,7 @@ function Rover(viewer)
 
 		switch (this.checkSlope(x,y)) {
 			case 'success':
+				//this.E -= 1;
 				this.initPos(x,y);
 			break;
 			case 'fail':
