@@ -26,9 +26,9 @@ function Viewer()
 			for (var y=0; y<json.size; y++) {
 
 				// Teinte en fonction du type
-				var h = json.map[x][y].type*3,
+				var h = 10;//json.map[x][y].type*3,
 				// Saturation en fonction du type
-				s = (json.map[x][y].type*5)+40,
+				s = 50;//(json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
 				l = ((json.map[x][y].z+50));
 
@@ -37,14 +37,20 @@ function Viewer()
 				if (debug) {
 					for (var i in debug) {
 						if (debug[i].x == x && debug[i].y == y) {
-							this.context.fillStyle = 'rgba(0,255,0,0.6)';
+							if (debug[i].p == 'success') {
+								this.context.fillStyle = 'rgba(0,255,0,0.75)';
+							} else if (debug[i].p == 'fail') {
+								this.context.fillStyle = 'rgba(255,0,0,0.75)';
+							} else if (debug[i].p == 'impossible') {
+								this.context.fillStyle = 'rgba(0,0,0,0.75)';
+							}
 						}
 					}
 				}
 
 				if (rover) {
 					if (rover.x == x && rover.y == y) {
-						this.context.fillStyle = 'rgba(0,0,255,1)';
+						this.context.fillStyle = 'rgba(255,255,255,1)';
 					}
 				}
 

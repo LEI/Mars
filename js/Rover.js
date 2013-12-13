@@ -24,41 +24,51 @@ function Rover(viewer)
 
 	Rover.prototype.move = function(x,y) {
 
+		x += this.x;
+		y += this.y;
 		// Tableau des cases autour de la position du rover
 		//console.log(this.getNearSquares(1));
 
-		if (this.checkSlope(x,y)) {
-			this.x += x;
-			this.y += y;
-			this.refreshPos();
-		} else {
-			console.log('Z');
+		switch (this.checkSlope(x,y)) {
+			case 'success':
+				this.x = x;
+				this.y = y;
+				this.refreshPos();
+			break;
+			case 'fail':
+				this.initPos(1,1);
+				console.log('Game over');
+			break;
+			case 'impossible':
+				console.log('Too high');
+			break;
+			default:
+				console.log('default');
+			break;
 		}
 	};
 
-	Rover.prototype.checkSlope = function(x,y) {
+	Rover.prototype.checkSlope = function(x,y,bool) {
 		var p, maxSlope = 1.5,
 			currentZ = this.getSquare().z,
-			nextZ = this.getNextSquare(x,y).z;
+			nextZ = this.getSquare(x,y).z;
+
 		if (nextZ) {
 			p = this.getSlope(currentZ,nextZ);
 		} else {
 			// 404 Map not found
-			return false;
+			return '404';
 		}
+
+		if (bool) { return p; }
+
 		// Test de la pente
 		if (p > -maxSlope && p < maxSlope) {
-			//this.x += x;
-			//this.y += y;
-			//this.refreshPos();
-			return true;
-		} else if (p < -maxSlope) {
-			//console.log("GAME OVER (pente : " + p + ")");
-			//this.initPos(1,1);
-			return false;
-		} else if (p > maxSlope) {
-			//console.log("Infranchissable (pente : " + p + ")");
-			return false;
+			return 'success';
+		} else if (p <= -maxSlope) {
+			return 'fail';
+		} else if (p >= maxSlope) {
+			return 'impossible';
 		}
 	};
 
@@ -94,7 +104,7 @@ function Rover(viewer)
 		return this.isOnMap(x,y);
 	};
 
-	Rover.prototype.getNextSquare = function(x,y) {
+	/*Rover.prototype.getNextSquare = function(x,y) {
 		if (x != undefined && y != undefined) {
 			x = this.x + x;
 			y = this.y + y;
@@ -103,13 +113,12 @@ function Rover(viewer)
 			y = this.y;
 		}
 		return this.isOnMap(x,y);
-	};
+	};*/
 
 	Rover.prototype.isOnMap = function(x,y) {
 		if (x >= 0 && x <= this.size && y >= 0 && y <= this.size) {
 			return this.map[x][y];
 		}
-
 		return false;
 	};
 
@@ -117,17 +126,16 @@ function Rover(viewer)
 		var nearSquares = [];
 		for (var i=this.x-distance; i<=this.x+distance; i++) {
 			for (var j=this.y-distance; j<=this.y+distance; j++) {
-				if (this.checkSlope(this.x-i, this.y-j)) {
-					var square = this.getSquare(i,j);
-					if (square) { nearSquares.push( {'x': i, 'y': j, 'ground': square } ); }
-				}
+				var square = this.getSquare(i,j);
+				if (square) { nearSquares.push( {'x': i, 'y': j, 'p': this.checkSlope(i,j), 'pente': this.getSlope(i,j,1), 'z': square.z } ); }
 			}
 		}
 
-		return nearSquares;
+		this.nearSquares = nearSquares;
 	};
 
 	Rover.prototype.refreshPos = function() {
-		this.viewer.drawCanvas(this.json, this, this.getNearSquares(1));
+		this.getNearSquares(1);
+		this.viewer.drawCanvas(this.json, this, this.nearSquares);
 	};
 }
