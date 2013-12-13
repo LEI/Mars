@@ -3,7 +3,7 @@ $(function() {
 	// Initialisation
 	var size = 50, //Math.floor( $(window).height() / 2 ),
 		square = 10,
-		softness = 3,
+		softness = 5,
 		Z = 50, // amplitude
 		mars = new Map(),
 		viewer = new Viewer(),
@@ -24,7 +24,7 @@ $(function() {
 		viewer.render(mars.json, square);
 
 		curiosity.init(mars.json);
-		//curiosity.goTo(10,10);
+		curiosity.goTo(10,10);
 
 		e.preventDefault();
 	});

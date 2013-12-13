@@ -84,7 +84,7 @@ function Rover(viewer)
 	};
 
 	Rover.prototype.isOnMap = function(x,y) {
-		if (x >= 0 && x <= this.size && y >= 0 && y <= this.size) {
+		if (x >= 0 && x < this.size && y >= 0 && y < this.size) {
 			return this.map[x][y];
 		}
 		return false;
@@ -103,28 +103,49 @@ function Rover(viewer)
 		this.nearSquares = nearSquares;
 	};
 
-	Rover.prototype.refreshPos = function() {
-		this.getNearSquares(1);
-		this.viewer.drawCanvas(this.json, this, this.nearSquares);
+	// Déplacement du rover jusqu'à un point précis
+	Rover.prototype.goTo = function(x,y) {
+		var a, b;
+		while (x != this.x || y != this.y) {
+
+			X = x - this.x;
+			Y = y - this.y;
+
+			if (X>0) {
+				a = 1;
+			} else if (X<0) {
+				a = -1;
+			} else {
+				a = 0;
+			}
+
+			if (Y>0) {
+				b = 1;
+			} else if (Y<0) {
+				b = -1;
+			} else {
+				b = 0;
+			}
+
+			// Gestion pente !
+
+			//console.log("dostep("+a+","+b+");");
+			this.doStep(a,b);
+		}
 	};
 
-	Rover.prototype.goTo = function(x,y) {
+	Rover.prototype.log = function () {
+		var currentSquare = this.getSquare();
+		this.viewer.logRover(
+			"x:" + this.x + " ,y: " + this.y + "<br/>"
+			+ "z: " + currentSquare.z + "<br/>"
+			+ "type: " + currentSquare.type
+		);
+	}
 
-		x -= this.x;
-		y -= this.y;
-		this.doStep(x,y);
-
-		// Déplacement du rover
-
-		// brute force
-		while (x!=0) {
-			x > 0 ? x-- : x++;
-			this.doStep(x,0);
-		}
-		while (y!=0) {
-			y > 0 ? y-- : y++;
-			this.doStep(0,y);
-		}
-
+	Rover.prototype.refreshPos = function() {
+		this.log();
+		this.getNearSquares(1);
+		this.viewer.drawCanvas(this.json, this, this.nearSquares);
 	};
 }

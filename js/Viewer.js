@@ -33,14 +33,15 @@ function Viewer()
 				// Luminosité en fonction de la hauteur
 				l = ((json.map[x][y].z+50));
 
-				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
-
-
 				for (i in this.path) {
 					if (this.path[i].x == x && this.path[i].y == y) {
-						this.context.fillStyle = 'rgba(100,0,0,0.1)';
+						if (rover.x != x || rover.y != y) {
+							l *= 0.5;
+						}
 					}
 				}
+
+				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 
 				if (slope) {
 					for (var i in slope) {
@@ -95,5 +96,9 @@ function Viewer()
 		$a.download = 'map.json';
 		$a.href = blobUrl;
 		$('#map').wrap($a);
+	};
+
+	Viewer.prototype.logRover = function(data) {
+		$('#log').html(data);
 	};
 }
