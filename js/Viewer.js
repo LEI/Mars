@@ -16,12 +16,13 @@ function Viewer()
 		this.canvas = $('#map');
 		this.context = this.canvas.get(0).getContext('2d');
 
+		this.path = [];
 		this.drawCanvas(json);
 
 		this.addLink(json);
 	};
 
-	Viewer.prototype.drawCanvas = function(json, rover, debug) {
+	Viewer.prototype.drawCanvas = function(json, rover, slope) {
 		for (var x=0; x<json.size; x++) {
 			for (var y=0; y<json.size; y++) {
 
@@ -34,14 +35,21 @@ function Viewer()
 
 				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 
-				if (debug) {
-					for (var i in debug) {
-						if (debug[i].x == x && debug[i].y == y) {
-							if (debug[i].p == 'success') {
-								this.context.fillStyle = 'rgba(0,255,0,1)';
-							} else if (debug[i].p == 'fail') {
+
+				for (i in this.path) {
+					if (this.path[i].x == x && this.path[i].y == y) {
+						this.context.fillStyle = 'rgba(100,0,0,0.1)';
+					}
+				}
+
+				if (slope) {
+					for (var i in slope) {
+						if (slope[i].x == x && slope[i].y == y) {
+							if (slope[i].p == 'success') {
+								//this.context.fillStyle = 'rgba(0,255,0,1)';
+							} else if (slope[i].p == 'fail') {
 								this.context.fillStyle = 'rgba(0,0,0,1)';
-							} else if (debug[i].p == 'impossible') {
+							} else if (slope[i].p == 'impossible') {
 								this.context.fillStyle = 'rgba(255,255,255,1)';
 							}
 						}
@@ -51,6 +59,7 @@ function Viewer()
 				if (rover) {
 					if (rover.x == x && rover.y == y) {
 						this.context.fillStyle = 'rgba(255,0,0,1)';
+						this.path.push({'x': x, 'y': y});
 					}
 				}
 

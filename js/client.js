@@ -43,11 +43,10 @@ $(function() {
 		var key = e.keyCode;
 		// Gestion des flèches
 		switch(key) {
-			case 37: curiosity.move(-1,0); break;
-			case 38: curiosity.move(0,-1); break;
-			case 39: curiosity.move(1,0); break;
-			case 40: curiosity.move(0,1); break;
-			// Arrêt si aucune correspondance
+			case 37: curiosity.doStep(-1,0); break;
+			case 38: curiosity.doStep(0,-1); break;
+			case 39: curiosity.doStep(1,0); break;
+			case 40: curiosity.doStep(0,1); break;
 			default: return;
 		}
 		e.preventDefault();
