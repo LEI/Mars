@@ -38,11 +38,11 @@ function Viewer()
 					for (var i in debug) {
 						if (debug[i].x == x && debug[i].y == y) {
 							if (debug[i].p == 'success') {
-								this.context.fillStyle = 'rgba(0,255,0,0.75)';
+								this.context.fillStyle = 'rgba(0,255,0,1)';
 							} else if (debug[i].p == 'fail') {
-								this.context.fillStyle = 'rgba(255,0,0,0.75)';
+								this.context.fillStyle = 'rgba(0,0,0,1)';
 							} else if (debug[i].p == 'impossible') {
-								this.context.fillStyle = 'rgba(0,0,0,0.75)';
+								this.context.fillStyle = 'rgba(255,255,255,1)';
 							}
 						}
 					}
@@ -50,7 +50,7 @@ function Viewer()
 
 				if (rover) {
 					if (rover.x == x && rover.y == y) {
-						this.context.fillStyle = 'rgba(255,255,255,1)';
+						this.context.fillStyle = 'rgba(255,0,0,1)';
 					}
 				}
 

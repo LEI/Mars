@@ -1,9 +1,9 @@
 $(function() {
 
 	// Initialisation
-	var size = 9, //Math.floor( $(window).height() / 2 ),
-		square = 50,
-		softness = 2,
+	var size = 50, //Math.floor( $(window).height() / 2 ),
+		square = 10,
+		softness = 3,
 		Z = 50, // amplitude
 		mars = new Map(),
 		viewer = new Viewer(),

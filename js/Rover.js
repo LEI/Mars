@@ -22,12 +22,11 @@ function Rover(viewer)
 		this.refreshPos();
 	}
 
+	// x,y -> direction
 	Rover.prototype.move = function(x,y) {
 
 		x += this.x;
 		y += this.y;
-		// Tableau des cases autour de la position du rover
-		//console.log(this.getNearSquares(1));
 
 		switch (this.checkSlope(x,y)) {
 			case 'success':
@@ -48,7 +47,7 @@ function Rover(viewer)
 		}
 	};
 
-	Rover.prototype.checkSlope = function(x,y,bool) {
+	Rover.prototype.checkSlope = function(x,y) {
 		var p, maxSlope = 1.5,
 			currentZ = this.getSquare().z,
 			nextZ = this.getSquare(x,y).z;
@@ -59,8 +58,6 @@ function Rover(viewer)
 			// 404 Map not found
 			return '404';
 		}
-
-		if (bool) { return p; }
 
 		// Test de la pente
 		if (p > -maxSlope && p < maxSlope) {
@@ -85,14 +82,14 @@ function Rover(viewer)
 		y -= this.y;
 		this.move(x,y);
 
-		/*while (x!=0) {
+		while (x!=0) {
 			x > 0 ? x-- : x++;
 			this.move(x,0);
 		}
 		while (y!=0) {
 			y > 0 ? y-- : y++;
 			this.move(0,y);
-		}*/
+		}
 
 	};
 
@@ -127,7 +124,7 @@ function Rover(viewer)
 		for (var i=this.x-distance; i<=this.x+distance; i++) {
 			for (var j=this.y-distance; j<=this.y+distance; j++) {
 				var square = this.getSquare(i,j);
-				if (square) { nearSquares.push( {'x': i, 'y': j, 'p': this.checkSlope(i,j), 'pente': this.getSlope(i,j,1), 'z': square.z } ); }
+				if (square) { nearSquares.push( {'x': i, 'y': j, 'p': this.checkSlope(i,j), 'z': square.z } ); }
 			}
 		}
 
