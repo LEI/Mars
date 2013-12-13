@@ -25,35 +25,46 @@ function Rover(viewer)
 	Rover.prototype.move = function(x,y) {
 
 		// Tableau des cases autour de la position du rover
-		console.log(this.getNearSquares(1));
+		//console.log(this.getNearSquares(1));
 
-		var p, maxSlope = 1.5,
-			currentZ = this.getSquare().z,
-			nextZ = this.getNextSquare(x,y).z;
-
-		if (nextZ) {
-			p = this.getSlope(currentZ,nextZ);
-		} else {
-			console.log("404 Map not found");
-		}
-
-		// Test de la pente
-		if (p > -maxSlope && p < maxSlope) {
+		if (this.checkSlope(x,y)) {
 			this.x += x;
 			this.y += y;
 			this.refreshPos();
+		} else {
+			console.log('Z');
+		}
+	};
+
+	Rover.prototype.checkSlope = function(x,y) {
+		var p, maxSlope = 1.5,
+			currentZ = this.getSquare().z,
+			nextZ = this.getNextSquare(x,y).z;
+		if (nextZ) {
+			p = this.getSlope(currentZ,nextZ);
+		} else {
+			// 404 Map not found
+			return false;
+		}
+		// Test de la pente
+		if (p > -maxSlope && p < maxSlope) {
+			//this.x += x;
+			//this.y += y;
+			//this.refreshPos();
+			return true;
 		} else if (p < -maxSlope) {
-			console.log("GAME OVER (pente : " + p + ")");
-			this.initPos(1,1);
+			//console.log("GAME OVER (pente : " + p + ")");
+			//this.initPos(1,1);
+			return false;
 		} else if (p > maxSlope) {
-			console.log("Infranchissable (pente : " + p + ")");
-			// ne bouge pas
+			//console.log("Infranchissable (pente : " + p + ")");
+			return false;
 		}
 	};
 
 	// Retourne la pente pour une distance de 1 ?
-	Rover.prototype.getSlope = function(a,b) {
-		return (b - a) / 5; // 5 mètres
+	Rover.prototype.getSlope = function(z1,z2) {
+		return (z2 - z1) / 5; // 5 mètres
 	};
 
 	Rover.prototype.goTo = function(x,y) {
@@ -106,8 +117,10 @@ function Rover(viewer)
 		var nearSquares = [];
 		for (var i=this.x-distance; i<=this.x+distance; i++) {
 			for (var j=this.y-distance; j<=this.y+distance; j++) {
-				var square = this.getSquare(i,j);
-				if (square) { nearSquares.push( {'x': i, 'y': j, 'ground': square } ); }
+				if (this.checkSlope(this.x-i, this.y-j)) {
+					var square = this.getSquare(i,j);
+					if (square) { nearSquares.push( {'x': i, 'y': j, 'ground': square } ); }
+				}
 			}
 		}
 
@@ -115,6 +128,6 @@ function Rover(viewer)
 	};
 
 	Rover.prototype.refreshPos = function() {
-		this.viewer.drawCanvas(this.json, this);
+		this.viewer.drawCanvas(this.json, this, this.getNearSquares(1));
 	};
 }

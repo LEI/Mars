@@ -21,7 +21,7 @@ function Viewer()
 		this.addLink(json);
 	};
 
-	Viewer.prototype.drawCanvas = function(json, rover) {
+	Viewer.prototype.drawCanvas = function(json, rover, debug) {
 		for (var x=0; x<json.size; x++) {
 			for (var y=0; y<json.size; y++) {
 
@@ -33,11 +33,21 @@ function Viewer()
 				l = ((json.map[x][y].z+50));
 
 				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
+
+				if (debug) {
+					for (var i in debug) {
+						if (debug[i].x == x && debug[i].y == y) {
+							this.context.fillStyle = 'rgba(0,255,0,0.6)';
+						}
+					}
+				}
+
 				if (rover) {
 					if (rover.x == x && rover.y == y) {
 						this.context.fillStyle = 'rgba(0,0,255,1)';
 					}
 				}
+
 				this.context.fillRect(
 					x * this.square,
 					y * this.square,
