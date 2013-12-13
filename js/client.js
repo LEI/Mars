@@ -4,10 +4,10 @@ $(function() {
 	var size = 50, //Math.floor( $(window).height() / 2 ),
 		square = 10,
 		softness = 3,
-		Z = 2, // amplitude
+		Z = 50, // amplitude
 		mars = new Map(),
-		curiosity = new Rover(),
-		viewer = new Viewer();
+		viewer = new Viewer(),
+		curiosity = new Rover(viewer);
 
 	// Injection des valeurs par défaut dans le formulaire
 	$('#map_size').attr('value',size);
@@ -23,7 +23,8 @@ $(function() {
 		mars.init(size, softness, Z);
 		viewer.render(mars.json, square);
 
-		curiosity.init(mars.json, viewer);
+		curiosity.init(mars.json);
+		//curiosity.goTo(10,10);
 
 		e.preventDefault();
 	});

@@ -1,5 +1,6 @@
 function Viewer()
 {
+	// Peut être appellé avec un JSON externe, square facultatif (1)
 	Viewer.prototype.render = function(json, square) {
 		var json = $.parseJSON(json),
 			map = json.map,
@@ -29,12 +30,12 @@ function Viewer()
 				// Saturation en fonction du type
 				s = (json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
-				l = json.map[x][y].z*50;
+				l = ((json.map[x][y].z+50));
 
 				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 				if (rover) {
 					if (rover.x == x && rover.y == y) {
-						this.context.fillStyle = 'rgba(0,0,150,1)';
+						this.context.fillStyle = 'rgba(0,0,255,1)';
 					}
 				}
 				this.context.fillRect(
