@@ -9,6 +9,7 @@
 `Map.create()` `Map.soften()` Optimiser, affiner la hauteur
 
 Diamond square http://srchea.com/blog/2012/02/terrain-generation-the-diamond-square-algorithm-and-three-js/
+http://potch.me/18
 
 ###Rover
 
