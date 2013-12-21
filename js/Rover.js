@@ -1,26 +1,26 @@
-function Rover(viewer)
+	function Rover(viewer)
 {
 	this.viewer = viewer;
 
 	// Initialisation du rover, x et y optionnels
 	Rover.prototype.init = function(json, x, y) {
-		this.E = 10;
-
 		this.json = $.parseJSON(json);
 		this.size = this.json.size;
 		this.map = this.json.map;
 
-		this.initPos(x,y);
+		this.E = 10;
+
+		this.position(x,y);
 	};
 
-	Rover.prototype.initPos = function(x,y) {
+	Rover.prototype.position = function(x,y) {
 		// Si x et y ne sont pas renseignés, initialisation à 1,1
 		if (x == undefined || y == undefined) {
 			x = y = 1;
 		}
 		this.x = x;
 		this.y = y;
-		this.refreshPos();
+		this.refresh();
 	}
 
 	// Déplacement du rover
@@ -34,10 +34,10 @@ function Rover(viewer)
 		switch (this.checkSlope(x,y)) {
 			case 'success':
 				//this.E -= 1;
-				this.initPos(x,y);
+				this.position(x,y);
 			break;
 			case 'fail':
-				this.initPos();
+				this.position();
 				console.log('Game over');
 			break;
 			case 'impossible':
@@ -136,15 +136,14 @@ function Rover(viewer)
 	};
 
 	Rover.prototype.log = function () {
-		var currentSquare = this.getSquare();
-		this.viewer.logRover(
-			"x:" + this.x + " ,y: " + this.y + "<br/>"
+		var currentSquare = this.getSquare(),
+			log = "x:" + this.x + " ,y: " + this.y + "<br/>"
 			+ "z: " + currentSquare.z + "<br/>"
-			+ "type: " + currentSquare.type
-		);
+			+ "type: " + currentSquare.type;
+		$('#log').html(log);
 	}
 
-	Rover.prototype.refreshPos = function() {
+	Rover.prototype.refresh = function() {
 		this.log();
 		this.getNearSquares(1);
 		this.viewer.drawCanvas(this.json, this, this.nearSquares);

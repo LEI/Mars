@@ -22,6 +22,7 @@ function Viewer()
 		this.addLink(json);
 	};
 
+	// getImageData()
 	Viewer.prototype.drawCanvas = function(json, rover, slope) {
 		for (var x=0; x<json.size; x++) {
 			for (var y=0; y<json.size; y++) {
@@ -96,9 +97,5 @@ function Viewer()
 		$a.download = 'map.json';
 		$a.href = blobUrl;
 		$('#map').wrap($a);
-	};
-
-	Viewer.prototype.logRover = function(data) {
-		$('#log').html(data);
 	};
 }

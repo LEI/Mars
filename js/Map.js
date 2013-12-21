@@ -53,6 +53,7 @@ function Map()
 			var avg = [];
 			avg.push(map[i].z);
 
+			// Pas de gestion des bords
 			ifindex(map,i+t+l);
 			ifindex(map,i+t);
 			ifindex(map,i+t+r);
