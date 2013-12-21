@@ -31,7 +31,10 @@
 		x += this.x;
 		y += this.y;
 
-		switch (this.checkSlope(x,y)) {
+		// Test de la pente
+		var slope = this.checkSlope(x,y);
+
+		switch (slope) {
 			case 'success':
 				//this.E -= 1;
 				this.position(x,y);
@@ -47,6 +50,8 @@
 				console.log(this.checkSlope(x,y));
 			break;
 		}
+		// On remonte le résultat pour le Rover
+		return slope;
 	};
 
 	Rover.prototype.checkSlope = function(x,y) {
@@ -106,9 +111,10 @@
 
 	// Déplacement du rover jusqu'à un point précis
 	Rover.prototype.goTo = function(x,y) {
-		var a, b;
+		var a, b, step;
 		while (x != this.x || y != this.y) {
 
+			// Calcul des coordonnées du vecteur
 			X = x - this.x;
 			Y = y - this.y;
 
@@ -128,10 +134,12 @@
 				b = 0;
 			}
 
-			// Gestion pente !
-
+			var step = this.doStep(a,b);
 			//console.log("dostep("+a+","+b+");");
-			this.doStep(a,b);
+
+			if (step != 'success') {
+				break;
+			}
 		}
 	};
 

@@ -24,7 +24,7 @@ $(function() {
 		viewer.render(mars.json, square);
 
 		curiosity.init(mars.json);
-		//curiosity.goTo(10,10);
+		curiosity.goTo(25,25);
 
 		e.preventDefault();
 	});
