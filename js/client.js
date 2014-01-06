@@ -9,11 +9,6 @@ $(function() {
 		viewer = new Viewer(),
 		curiosity = new Rover(viewer);
 
-	// Injection des valeurs par défaut dans le formulaire
-	$('#map_size').attr('value',size);
-	$('#map_square').attr('value',square);
-	$('#map_softness').attr('value',softness);
-
 	// Ecoute du formulaire
 	$('#settings').submit( function(e) {
 		size = $('#map_size').val();
@@ -29,14 +24,18 @@ $(function() {
 		e.preventDefault();
 	});
 
-	// Render au refresh
-	$('#settings').submit();
-
 	// Bouton JSON
 	$('#download').submit( function(e) {
 		viewer.download(mars.url);
 		e.preventDefault();
 	});
+
+	// Injection des valeurs par défaut dans le formulaire
+	$('#map_size').attr('value',size);
+	$('#map_square').attr('value',square);
+	$('#map_softness').attr('value',softness);
+	// Render au chargement de la page
+	$('#settings').submit();
 
 	// Ecoute des touches
 	$(document).keydown(function(e) {

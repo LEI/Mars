@@ -1,6 +1,6 @@
 function Viewer()
 {
-	// Peut être appellé avec un JSON externe, square facultatif (1)
+	// Peut être appellé avec un JSON externe, square facultatif (1 par défaut)
 	Viewer.prototype.render = function(json, square) {
 		var json = $.parseJSON(json),
 			map = json.map,

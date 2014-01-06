@@ -94,7 +94,6 @@ function Map()
 		for (var x=0; x<size; x++) {
 			newArray[x] = [];
 			for (var y=0; y<size; y++) {
-				// push ne fonctionne pas sur [x][y]
 				newArray[x].push(array[i]);
 				i++;
 			}

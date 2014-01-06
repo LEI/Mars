@@ -1,4 +1,4 @@
-	function Rover(viewer)
+function Rover(viewer)
 {
 	this.viewer = viewer;
 
@@ -143,7 +143,7 @@
 		}
 	};
 
-	Rover.prototype.log = function () {
+	Rover.prototype.log = function() {
 		var currentSquare = this.getSquare(),
 			log = "x:" + this.x + " ,y: " + this.y + "<br/>"
 			+ "z: " + currentSquare.z + "<br/>"
