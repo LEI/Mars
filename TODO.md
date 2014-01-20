@@ -16,16 +16,12 @@ http://potch.me/18
 ###Rover
 
 >Générer un Rover qui se déplace sur la carte.
-
 >On commence le jeu avec un "capital énergie", et une position choisie.
-
 >A chaque "tour", le Rover a le choix pour se diriger sur une des 8 cases qui entourent celle où il se trouve.
-
 >La "pente" entre deux cases est un pourcentage qui se calcule ainsi : p = (z2 - z1) / déplacement
-
 >Un Rover ne peut se déplacer sur une pente à plus de 150% : sinon il glisse et tombe.
 
->>Se déplacer d'une case coute E, à savoir 1 point énergie, sauf pour les diagonales, qui coutent 1,4.
+>Se déplacer d'une case coute E, à savoir 1 point énergie, sauf pour les diagonales, qui coutent 1,4.
 
 >En montée, ou en descente, le cout énergétique est E x (1 + p).
 >Monter une pente sableuse demande 0,1 E en plus
