@@ -25,7 +25,7 @@ http://potch.me/18
 
 >Un Rover ne peut se déplacer sur une pente à plus de 150% : sinon il glisse et tombe.
 
->Se déplacer d'une case coute E, à savoir 1 point énergie, sauf pour les diagonales, qui coutent 1,4.
+>>Se déplacer d'une case coute E, à savoir 1 point énergie, sauf pour les diagonales, qui coutent 1,4.
 
 >En montée, ou en descente, le cout énergétique est E x (1 + p).
 >Monter une pente sableuse demande 0,1 E en plus

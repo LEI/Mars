@@ -57,25 +57,39 @@ function Rover(viewer) {
         return slope;
     };
 
-    Rover.prototype.checkSlope = function (x, y) {
+    Rover.prototype.checkSlope = function (x, y, check) {
         var p, maxSlope = 1.5,
-            currentZ = this.getSquare().z,
-            nextZ = this.getSquare(x, y).z;
+            current = this.getSquare(),
+            next = this.getSquare(x, y);
 
         // Si le point suivant existe sur la carte
-        if (nextZ) {
-            p = this.getSlope(currentZ, nextZ);
+        if (next) {
+            p = this.getSlope(current.z, next.z);
         } else {
-            return '404';
+            return false;
+        }
+
+        if (check != undefined) {
+            return p;
         }
 
         // Tests de la pente
         if (p > -maxSlope && p < maxSlope) {
-            return 'success';
+            this.E -= 1 + p;
+
+            if (next.type == 2) { // Si c'est une pente sableuse
+                if (p > 0) { // Si c'est une montée
+                    this.E -= 1;
+                }
+                else { // Sinon c'est une descente
+                    this.E += 1;
+                }
+            }
+            return 'success'; // Success
         } else if (p <= -maxSlope) {
-            return 'fail';
+            return 'fail'; // Fail
         } else if (p >= maxSlope) {
-            return 'impossible';
+            return 'impossible'; // Impossible
         }
     };
 
@@ -153,7 +167,7 @@ function Rover(viewer) {
             log = "x:" + this.x + " ,y: " + this.y + "<br/>"
                 + "z: " + currentSquare.z + "<br/>"
                 + "type: " + currentSquare.type + "<br/>"
-                + "E: " + this.E/10;
+                + "E: " + this.E / 10;
         /*console.log(this.viewer.context.getImageData(
          this.x*this.viewer.square,
          this.y*this.viewer.square,
