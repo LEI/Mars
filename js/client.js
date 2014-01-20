@@ -19,7 +19,7 @@ $(function() {
 		viewer.render(mars.json, square);
 
 		curiosity.init(mars.json);
-		curiosity.goTo(25,25);
+		curiosity.goTo(2,2);
 
 		e.preventDefault();
 	});
@@ -42,10 +42,24 @@ $(function() {
 		var key = e.keyCode;
 		// Gestion des flèches
 		switch(key) {
-			case 37: curiosity.doStep(-1,0); break;
+			/*case 37: curiosity.doStep(-1,0); break;
 			case 38: curiosity.doStep(0,-1); break;
 			case 39: curiosity.doStep(1,0); break;
-			case 40: curiosity.doStep(0,1); break;
+			case 40: curiosity.doStep(0,1); break; */
+
+
+
+              case 97: curiosity.doStep(-1, 1); break; // 1
+              case 98: curiosity.doStep(0, 1); break; // 2
+              case 99: curiosity.doStep(1, 1); break; // 3
+              case 100: curiosity.doStep(-1, 0); break; // 4
+
+              case 102: curiosity.doStep(1, 0); break; // 6
+              case 103: curiosity.doStep(-1, -1); break; // 7
+              case 104: curiosity.doStep(0, -1); break; // 8
+              case 105: curiosity.doStep(1, -1); break; // 9
+
+
 			default: return;
 		}
 		e.preventDefault();
