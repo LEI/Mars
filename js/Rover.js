@@ -148,6 +148,12 @@ function Rover(viewer)
 			log = "x:" + this.x + " ,y: " + this.y + "<br/>"
 			+ "z: " + currentSquare.z + "<br/>"
 			+ "type: " + currentSquare.type;
+		/*console.log(this.viewer.context.getImageData(
+			this.x*this.viewer.square,
+			this.y*this.viewer.square,
+			this.viewer.square,
+			this.viewer.square
+		));*/
 		$('#log').html(log);
 	}
 
