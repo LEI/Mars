@@ -22,14 +22,23 @@
 
 		<header>
 			<h1><a href="http://github.com/LEI/Mars" target="_blank">Mars</a></h1>
-			<form id="settings" method="post">
-				<input type="text" id="map_size" placeholder="Taille" autofocus />
+			<form id="map_settings" method="post">
+				<input type="text" id="map_size" placeholder="Taille" />
 				<input type="text" id="map_square" placeholder="Résolution" />
 				<input type="text" id="map_softness" placeholder="Relief" />
 				<input type="submit" value="Render" />
 			</form>
 			<form id="download" action="map.json" method="post">
-				<input type="submit" value="JSON" />
+				<input type="submit" value="Download" />
+			</form>
+			<form id="upload">
+				<input type="file"/>
+			</form>
+			<h2>Rover</h12>
+			<form id="rover_settings" method="post">
+				<input type="text" id="rover_start" placeholder="Départ" />
+				<input type="text" id="rover_end" placeholder="Arrivée" />
+				<input type="submit" value="Go" />
 			</form>
 		</header>
 

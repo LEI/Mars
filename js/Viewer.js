@@ -37,7 +37,7 @@ function Viewer()
 				for (i in this.path) {
 					if (this.path[i].x == x && this.path[i].y == y) {
 						if (rover.x != x || rover.y != y) {
-							l *= 0.5;
+							l *= 0.7;
 						}
 					}
 				}

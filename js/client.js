@@ -3,14 +3,13 @@ $(function() {
 	// Initialisation
 	var size = 50, //Math.floor( $(window).height() / 2 ),
 		square = 10,
-		softness = 5,
+		softness = 4,
 		Z = 50, // amplitude
 		mars = new Map(),
 		viewer = new Viewer(),
 		curiosity = new Rover(viewer);
 
-	// Ecoute du formulaire
-	$('#settings').submit( function(e) {
+	$('#map_settings').submit( function(e) {
 		size = $('#map_size').val();
 		square = $('#map_square').val();
 		softness = $('#map_softness').val();
@@ -18,15 +17,20 @@ $(function() {
 		mars.init(size, softness, Z);
 		viewer.render(mars.json, square);
 
-		curiosity.init(mars.json);
-		curiosity.goTo(2,2);
-
 		e.preventDefault();
 	});
 
-	// Bouton JSON
-	$('#download').submit( function(e) {
-		viewer.download(mars.url);
+	$('#rover_settings').submit( function(e) {
+		var start = $('#rover_start').val().split(','),
+			end = $('#rover_end').val().split(','),
+			startX = parseInt(start[0],10),
+			startY = parseInt(start[0],10);
+
+		viewer.render(mars.json, square);
+
+		curiosity.init(mars.json, startX, startY);
+		curiosity.goTo(end[0], end[1]);
+
 		e.preventDefault();
 	});
 
@@ -34,8 +38,13 @@ $(function() {
 	$('#map_size').attr('value',size);
 	$('#map_square').attr('value',square);
 	$('#map_softness').attr('value',softness);
+
+	$('#rover_start').attr('value','1,1');
+	$('#rover_end').attr('value','10,10');
+
 	// Render au chargement de la page
-	$('#settings').submit();
+	$('#map_settings').submit();
+	$('#rover_settings').submit();
 
 	// Ecoute des touches
 	$(document).keydown(function(e) {
@@ -58,6 +67,33 @@ $(function() {
 			case 105: curiosity.doStep(1, -1); break; 	// 9
 
 			default: return;
+		}
+		e.preventDefault();
+	});
+
+	// Download JSON
+	$('#download').submit( function(e) {
+		viewer.download(mars.url);
+		e.preventDefault();
+	});
+
+	// Upload JSON
+	$('#upload input').change( function(e) {
+		var files = e.target.files,
+			reader = new FileReader();
+
+		for (var i = 0, f; f = files[i]; i++) {
+
+			// Closure to capture the file information.
+			reader.onload = (function(theFile) {
+			  return function(e) {
+			    mars.json = e.target.result;
+				viewer.render(mars.json, square);
+			  };
+			})(f);
+
+			// Read in the image file as a data URL.
+			reader.readAsText(f, 'application/json');
 		}
 		e.preventDefault();
 	});
