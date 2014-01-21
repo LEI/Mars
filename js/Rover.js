@@ -33,29 +33,11 @@ function Rover(viewer) {
 
 	// Gestion du trajet
 	Rover.prototype.move = function (x, y) {
-		var a, b;
-
-		// Calcul des coordonnées du vecteur
-		X = x - this.x;
-		Y = y - this.y;
-
-		if (X > 0) {
-			a = 1;
-		} else if (X < 0) {
-			a = -1;
-		} else {
-			a = 0;
-		}
-
-		if (Y > 0) {
-			b = 1;
-		} else if (Y < 0) {
-			b = -1;
-		} else {
-			b = 0;
-		}
-
-		var nextX = this.x + a,
+		var X = x - this.x,
+			Y = y - this.y,
+			a = this.getVector(X),
+			b = this.getVector(Y),
+			nextX = this.x + a,
 			nextY = this.y + b,
 			slope = this.testSlope(nextX, nextY);
 
@@ -72,8 +54,17 @@ function Rover(viewer) {
 			}
 
 		}
-		console.log(a+','+b);
-		console.log(slope);
+		console.log(this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.result+' '+slope.p);
+	};
+
+	Rover.prototype.getVector = function (n) {
+		if (n > 0) {
+			return 1;
+		} else if (n < 0) {
+			return -1;
+		} else {
+			return 0;
+		}
 	};
 
 	// Déplacement du rover
