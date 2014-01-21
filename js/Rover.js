@@ -31,18 +31,38 @@ function Rover(viewer) {
         y += this.y;
 
         // Test de la pente
-        var slope = this.checkSlope(x, y);
+        var slope = this.testSlope(x, y);
 
-        switch (slope) {
+        switch (slope.result) {
             case 'success':
-                // Gestion diagonales
-                if (Math.abs(x - this.x) && Math.abs(y - this.y)) {
-                    this.E -= 4;
-                }
-                this.E -= 10;
+
+            	// Se déplacer d'une case coute E, à savoir 1 point énergie
+            	this.E -= 10;
+
+            	// Les diagonales coutent 1,4
+            	if (Math.abs(x - this.x) && Math.abs(y - this.y)) {
+            		this.E -= 4;
+            	}
+
+            	// En montée, ou en descente, le cout énergétique est E x (1 + p)
+            	this.E -= 1 + slope.p;
+
+            	// Si c'est une pente sableuse
+            	if (this.getSquare(x, y).type == 2) {
+            		if (slope.p > 0) {
+            			// Monter une pente sableuse demande 0,1 E en plus
+            			this.E -= 1;
+            		} else if (slope.p < 0) {
+            			// Descendre une pente sableuse demande 0,1 E en moins
+            			this.E += 1;
+            		}
+            	}
+
+            	// Déplacement
                 this.position(x, y);
                 break;
             case 'fail':
+            	// !Reset
                 this.position();
                 console.log('Game over');
                 break;
@@ -50,82 +70,12 @@ function Rover(viewer) {
                 console.log('Too high');
                 break;
             default:
-                console.log(this.checkSlope(x, y));
+                console.log('false :');
+                console.log(this.testSlope(x, y));
                 break;
         }
         // On remonte le résultat pour le Rover
         return slope;
-    };
-
-    Rover.prototype.checkSlope = function (x, y, check) {
-        var p, maxSlope = 1.5,
-            current = this.getSquare(),
-            next = this.getSquare(x, y);
-
-        // Si le point suivant existe sur la carte
-        if (next) {
-            p = this.getSlope(current.z, next.z);
-        } else {
-            return false;
-        }
-
-        if (check != undefined) {
-            return p;
-        }
-
-        // Tests de la pente
-        if (p > -maxSlope && p < maxSlope) {
-            this.E -= 1 + p;
-
-            if (next.type == 2) { // Si c'est une pente sableuse
-                if (p > 0) { // Si c'est une montée
-                    this.E -= 1;
-                }
-                else { // Sinon c'est une descente
-                    this.E += 1;
-                }
-            }
-            return 'success'; // Success
-        } else if (p <= -maxSlope) {
-            return 'fail'; // Fail
-        } else if (p >= maxSlope) {
-            return 'impossible'; // Impossible
-        }
-    };
-
-    Rover.prototype.getSlope = function (z1, z2) {
-        return (z2 - z1) / 5; // 5 mètres
-    };
-
-    Rover.prototype.getSquare = function (x, y) {
-        // Retourne la position actuelle si les paramètres ne sont pas renseignés
-        if (x == undefined || y == undefined) {
-            x = this.x;
-            y = this.y;
-        }
-        return this.isOnMap(x, y);
-    };
-
-    Rover.prototype.isOnMap = function (x, y) {
-        if (x >= 0 && x < this.size && y >= 0 && y < this.size) {
-            return this.map[x][y];
-        }
-        return false;
-    };
-
-    // Récupération des cases autour du rover
-    Rover.prototype.getNearSquares = function (distance) {
-        var nearSquares = [];
-        for (var i = this.x - distance; i <= this.x + distance; i++) {
-            for (var j = this.y - distance; j <= this.y + distance; j++) {
-                var square = this.getSquare(i, j);
-                if (square) {
-                    nearSquares.push({'x': i, 'y': j, 'p': this.checkSlope(i, j), 'z': square.z });
-                }
-            }
-        }
-
-        this.nearSquares = nearSquares;
     };
 
     // Déplacement du rover jusqu'à un point précis
@@ -156,10 +106,101 @@ function Rover(viewer) {
             var step = this.doStep(a, b);
             //console.log("dostep("+a+","+b+");");
 
-            if (step != 'success') {
+            if (step.result != 'success') {
                 break;
             }
         }
+    };
+
+    // Retourne le résultat du test d'une pente
+    Rover.prototype.testSlope = function (x, y) {
+    	var result, maxSlope = 1.5,
+    	    current = this.getSquare(),
+    	    next = this.getSquare(x, y),
+    	    p = this.getSlope(current.z, next.z);
+
+        // Tests de la pente
+        if (p > -maxSlope && p < maxSlope) {
+            result = 'success';
+        } else if (p <= -maxSlope) {
+            result = 'fail';
+        } else if (p >= maxSlope) {
+            result = 'impossible';
+        } else {
+        	result = false;
+        }
+
+        return { 'result': result, 'p': p }
+    };
+
+    // Retourne la valeur de la pente
+	Rover.prototype.getSlope = function (currentZ, nextZ) {
+		// Si le point suivant existe sur la carte
+		if (nextZ) {
+		    p = (nextZ - currentZ) / 5; // 5 mètres;
+		} else {
+		    p = false;
+		}
+
+		return p;
+	};
+
+	// Détermine la valeur de la pente, coordonnées relatives à la position du Rover
+	Rover.prototype.checkSlope = function (x, y) {
+
+		if (Math.abs(x) == 2 || Math.abs(y) == 2) {
+			// Case au delà 0,1E
+			this.E -= 1;
+		}
+
+		return this.testSlope(this.x + x, this.y + y);
+	};
+
+	// Détermine la composition du sol, coordonnées relatives à la position du Rover
+	Rover.prototype.checkType = function (x, y) {
+
+		if (Math.abs(x) == 0 || Math.abs(y) == 0) {
+			// Case du rover 0,1E
+			this.E -= 1;
+		}
+		if (Math.abs(x) == 1 || Math.abs(y) == 1) {
+			// Case adjacente 0,2E
+			this.E -= 2;
+		} else if (Math.abs(x) == 2 || Math.abs(y) == 2) {
+			// Case au delà 0,4E
+			this.E -= 4;
+		}
+
+		return map[this.x + x][this.y + y].type;
+	};
+
+    Rover.prototype.getSquare = function (x, y) {
+        // Retourne la position actuelle si les paramètres ne sont pas renseignés
+        if (x == undefined || y == undefined) {
+            x = this.x;
+            y = this.y;
+        }
+        return this.isOnMap(x, y);
+    };
+
+    // Récupération des cases autour du rover
+    Rover.prototype.getNearSquares = function (distance) {
+        this.nearSquares = [];
+        for (var i = this.x - distance; i <= this.x + distance; i++) {
+            for (var j = this.y - distance; j <= this.y + distance; j++) {
+                var square = this.getSquare(i, j);
+                if (square) {
+                    this.nearSquares.push({'x': i, 'y': j, 'p': this.testSlope(i, j).result, 'z': square.z });
+                }
+            }
+        }
+    };
+
+    Rover.prototype.isOnMap = function (x, y) {
+        if (x >= 0 && x < this.size && y >= 0 && y < this.size) {
+            return this.map[x][y];
+        }
+        return false;
     };
 
     Rover.prototype.log = function () {
