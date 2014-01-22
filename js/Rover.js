@@ -25,10 +25,14 @@ function Rover(viewer) {
 
 	// Déplacement du rover jusqu'à un point précis -> client
 	Rover.prototype.goTo = function (x, y) {
+
+		console.log('START from '+this.x+','+this.y+' to '+x+','+y);
+
 		var that = this;
 		this.tick = setInterval(function(){
 			that.move(x,y);
 		}, 100);
+
 	};
 
 	// Gestion du trajet
@@ -45,30 +49,41 @@ function Rover(viewer) {
 
 			clearInterval(this.tick);
 
+			console.log(this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.result+' '+slope.p+' /!\\');
+
 		} else {
 
 			if (x == this.x && y == this.y) {
+
 				clearInterval(this.tick);
+
+				console.log('GG');
+
 			} else {
+
+				console.log(this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.result+' '+slope.p);
+
 				this.doStep(a, b);
+
 			}
 
 		}
-		console.log(this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.result+' '+slope.p);
 	};
 
 	Rover.prototype.getVector = function (n) {
+		var v;
 		if (n > 0) {
-			return 1;
+			v = 1;
 		} else if (n < 0) {
-			return -1;
+			v = -1;
 		} else {
-			return 0;
+			v = 0;
 		}
+
+		return v;
 	};
 
-	// Déplacement du rover
-	// Indiquer une direction en paramètre : (1,0) pour aller à droite
+	// Déplacement du rover, coordonnées relatives à la position du Rover
 	Rover.prototype.doStep = function (a, b) {
 
 		// Calcul des coordonnées du point à tester
@@ -126,10 +141,13 @@ function Rover(viewer) {
 	Rover.prototype.getSlope = function (x, y) {
 		var current = this.getSquare(),
 			next = this.getSquare(x, y);
+
 		// Si le point suivant existe sur la carte
-		if (next.z) {
+		if (next != false) {
 			p = (next.z - current.z) / 5; // 5 mètres;
 		} else {
+			console.log(next);
+			console.log(next.z);
 			p = false;
 		}
 
@@ -176,6 +194,7 @@ function Rover(viewer) {
 			x = this.x;
 			y = this.y;
 		}
+
 		return this.isOnMap(x, y);
 	};
 
@@ -193,9 +212,10 @@ function Rover(viewer) {
 	};
 
 	Rover.prototype.isOnMap = function (x, y) {
-		if (x >= 0 && x < this.size && y >= 0 && y < this.size) {
+		if (x >= 0 && x < this.size && y >= 0 && y < this.size) { // <= ?
 			return this.map[x][y];
 		}
+		console.log(this.size);
 		return false;
 	};
 

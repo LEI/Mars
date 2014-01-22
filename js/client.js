@@ -24,7 +24,7 @@ $(function() {
 		var start = $('#rover_start').val().split(','),
 			end = $('#rover_end').val().split(','),
 			startX = parseInt(start[0],10),
-			startY = parseInt(start[0],10);
+			startY = parseInt(start[1],10);
 
 		viewer.render(mars.json, square);
 
@@ -48,35 +48,29 @@ $(function() {
 
 	// Ecoute des touches
 	$(document).keydown(function(e) {
-		var key = e.keyCode;
+		var X, Y, direction, key = e.keyCode;
 		switch(key) {
-			case 65: curiosity.doStep(-1, -1); break;	// A 	top left
-			case 90: curiosity.doStep(0, -1); break;	// Z	top
-			case 69: curiosity.doStep(1, -1); break;	// E 	top right
-			case 81: curiosity.doStep(-1, 0); break;	// Q	left
-			case 68: curiosity.doStep(1, 0); break;		// D 	right
-			case 87: curiosity.doStep(-1, 1); break;	// W 	bot left
-			case 88: curiosity.doStep(0, 1); break; 	// X 	bot
-			case 67: curiosity.doStep(1, 1); break;		// C 	bot right
+			case 65: direction = {'x': -1,'y': -1};	break;	// A 	top left
+			case 90: direction = {'x': 0,'y': -1}; break;	// Z	top
+			case 69: direction = {'x': 1,'y': -1}; break;	// E 	top right
+			case 81: direction = {'x': -1,'y': 0}; break;	// Q	left
+			case 68: direction = {'x': 1,'y': 0}; break;	// D 	right
+			case 87: direction = {'x': -1,'y': 1}; break;	// W 	bot left
+			case 88: direction = {'x': 0,'y': 1}; break; 	// X 	bot
+			case 67: direction = {'x': 1,'y': 1}; break;	// C 	bot right
 
-			/*
 			// Flèches
-			case 37: curiosity.doStep(-1,0); break;
-			case 38: curiosity.doStep(0,-1); break;
-			case 39: curiosity.doStep(1,0); break;
-			case 40: curiosity.doStep(0,1); break;
-			case 97: curiosity.doStep(-1, 1); break; 	// 1
-			case 98: curiosity.doStep(0, 1); break; 	// 2
-			case 99: curiosity.doStep(1, 1); break; 	// 3
-			case 100: curiosity.doStep(-1, 0); break; 	// 4
-			case 102: curiosity.doStep(1, 0); break; 	// 6
-			case 103: curiosity.doStep(-1, -1); break; 	// 7
-			case 104: curiosity.doStep(0, -1); break; 	// 8
-			case 105: curiosity.doStep(1, -1); break; 	// 9
-			*/
+			case 37: direction = {'x': -1,'y': 0}; break;
+			case 38: direction = {'x': 0,'y': -1}; break;
+			case 39: direction = {'x': 1,'y': 0}; break;
+			case 40: direction = {'x': 0,'y': 1}; break;
 
 			default: return;
 		}
+		X = direction.x + curiosity.x;
+		Y = direction.y + curiosity.y;
+		curiosity.move(X, Y);
+
 		e.preventDefault();
 	});
 
