@@ -44,27 +44,24 @@ function Rover(viewer) {
 			nextY = this.y + b,
 			slope = this.testSlope(nextX, nextY);
 
-		if (slope.result != 'success') {
-
-			clearInterval(this.tick);
-
-			console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p+' /!\\');
-
-		} else {
-
+		if (slope.result == 'success') {
 			if (x == this.x && y == this.y) {
-
+				// Le Rover est arrivé à destination
 				clearInterval(this.tick);
-
 				console.log('GG');
-
 			} else {
-
-				console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p);
-
-				this.doStep(a, b);
-
+				if (this.isOnMap(x, y)) {
+					// Le Rover avance
+					console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p);
+					this.doStep(a, b);
+				} else {
+					console.log('out of bounds');
+				}
 			}
+		} else {
+			// Le Rover ne peut pas avancer
+			clearInterval(this.tick);
+			console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p+' /!\\');
 		}
 	};
 
@@ -141,11 +138,9 @@ function Rover(viewer) {
 			next = this.getSquare(x, y);
 
 		// Si le point suivant existe sur la carte
-		if (next != false) {
+		if (next) {
 			p = (next.z - current.z) / 5; // 5 mètres;
 		} else {
-			console.log(next);
-			console.log(next.z);
 			p = false;
 		}
 
@@ -217,16 +212,15 @@ function Rover(viewer) {
 		if (x >= 0 && x < this.size && y >= 0 && y < this.size) { // <= ?
 			return this.map[x][y];
 		}
-		//console.log(this.size);
 		return false;
 	};
 
 	Rover.prototype.log = function () {
 		var currentSquare = this.getSquare(),
-			log = this.x + ',' + this.y +
-				' z: ' + currentSquare.z +
-				' type: ' + currentSquare.type +
-				' E: ' + this.E / 10;
+			log = '(' + this.x + ',' + this.y + ') ' +
+				'z: ' + currentSquare.z + ' ' +
+				'type: ' + currentSquare.type + ' ' +
+				'E: ' + this.E / 10;
 		/*console.log(this.viewer.context.getImageData(
 		 this.x*this.viewer.square,
 		 this.y*this.viewer.square,

@@ -2,11 +2,11 @@
 
 ###Terrain
 
-`Map.getGroundType()` `Map.getRandomItem()` Améliorer la répartition des types de matière
+`Ground.js` Améliorer la répartition des types de matière
 
 ###Algorithme
 
-`Map.create()` `Map.soften()` Optimiser, affiner la hauteur
+`Rover.move()` IA
 
 Diamond square
 http://srchea.com/blog/2012/02/terrain-generation-the-diamond-square-algorithm-and-three-js/
