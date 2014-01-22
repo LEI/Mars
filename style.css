@@ -5,24 +5,30 @@ body {
 a {
 	color: #111;
 	text-decoration: none;
-	cursor: pointer;
 }
-h1, h2, input {
+h1, h2 {
 	text-align: center;
+}
+form {
+	display : inline-block;
+}
+header form {
+	display : block;
 }
 header {
 	float: left;
 	padding: 0 15px;
 	background-color: rgba(255,255,255,1);
 }
-div {
-	margin-right: 15px;
-}
 input {
-	display : inline-block;
-	width : 100px;
 	margin: 5px auto;
+	text-align: center;
+}
+.col {
+	display: block;
+	width : 100px;
 }
 .col2 {
+	display: inline-block;
 	width : 40px;
 }

@@ -8,7 +8,10 @@ function Map() {
 
 		for (var i = 0; i < size * size; i++) {
 			// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
-			this.map[i] = { 'z': this.rand(-this.z, this.z), 'type': ground.getType() };
+			this.map[i] = {
+				'z': this.rand(-this.z, this.z),
+				'type': ground.getType()
+			};
 		}
 		this.create();
 	};
@@ -30,7 +33,10 @@ function Map() {
 	// Création du fichier JSON
 	Map.prototype.createJson = function () {
 		// Ajout de la taille de la carte pour exportation
-		var data = { "size": this.size, "map": this.xyArray(this.map, this.size) };
+		var data = {
+			"size": this.size,
+			"map": this.xyArray(this.map, this.size)
+		};
 		this.json = JSON.stringify(data, undefined, '\t');
 		this.url = "data:application/octet-stream;base64," + Base64.encode(this.json);
 	};
