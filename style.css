@@ -15,12 +15,14 @@ header {
 	padding: 0 15px;
 	background-color: rgba(255,255,255,1);
 }
+div {
+	margin-right: 15px;
+}
 input {
-	display : block;
+	display : inline-block;
 	width : 100px;
 	margin: 5px auto;
 }
-div {
-	float: left;
-	margin-right: 15px;
+.col2 {
+	width : 40px;
 }

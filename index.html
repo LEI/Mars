@@ -24,27 +24,41 @@
 			<h1><a href="http://github.com/LEI/Mars" target="_blank">Mars</a></h1>
 			<form id="map_settings" method="post">
 				<input type="text" id="map_size" placeholder="Taille" />
+				<br/>
 				<input type="text" id="map_square" placeholder="Résolution" />
+				<br/>
 				<input type="text" id="map_softness" placeholder="Relief" />
+				<br/>
 				<input type="submit" value="Render" />
 			</form>
+			<form id="map_reset" method="post">
+				<input type="submit" value="Reset" />
+			</form>
+			<h2>Rover</h2>
+			<form id="rover_settings" method="post">
+				<input type="text" id="rover_start_x" placeholder="Xa" class="col2"/>
+				<input type="text" id="rover_start_y" placeholder="Ya" class="col2"/>
+				<br/>
+				<input type="text" id="rover_end_x" placeholder="Xb" class="col2"/>
+				<input type="text" id="rover_end_y" placeholder="Yb" class="col2"/>
+				<br/>
+				<input type="submit" value="Go" />
+			</form>
+		</header>
+
+		<div>
 			<form id="download" action="map.json" method="post">
 				<input type="submit" value="Download" />
 			</form>
 			<form id="upload">
 				<input type="file"/>
 			</form>
-			<h2>Rover</h12>
-			<form id="rover_settings" method="post">
-				<input type="text" id="rover_start" placeholder="Départ" />
-				<input type="text" id="rover_end" placeholder="Arrivée" />
-				<input type="submit" value="Go" />
-			</form>
-		</header>
+		</div>
+
+		<div id="log"></div>
 
 		<div id="canvas"></div>
 
-		<div id="log"></div>
 
 		<!--
 		<canvas id="c" width="17" height="17"></canvas>

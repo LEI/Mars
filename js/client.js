@@ -7,7 +7,9 @@ $(function() {
 		Z = 50, // amplitude
 		mars = new Map(),
 		viewer = new Viewer(),
-		curiosity = new Rover(viewer);
+		curiosity = new Rover(viewer),
+		start = [1,1],
+		end = [10,10];
 
 	$('#map_settings').submit( function(e) {
 		size = $('#map_size').val();
@@ -20,16 +22,22 @@ $(function() {
 		e.preventDefault();
 	});
 
+	$('#map_reset').submit( function(e) {
+		viewer.render(mars.json, square);
+
+		e.preventDefault();
+	});
+
 	$('#rover_settings').submit( function(e) {
-		var start = $('#rover_start').val().split(','),
-			end = $('#rover_end').val().split(','),
-			startX = parseInt(start[0],10),
-			startY = parseInt(start[1],10);
+		var startX = $('#rover_start_x').val(),
+			startY = $('#rover_start_y').val(),
+			endX = $('#rover_end_x').val(),
+			endY = $('#rover_end_y').val();
 
 		viewer.render(mars.json, square);
 
-		curiosity.init(mars.json, startX, startY);
-		curiosity.goTo(end[0], end[1]);
+		curiosity.init(mars.json, parseInt(startX,10), parseInt(startY,10));
+		curiosity.goTo(endX, endY);
 
 		e.preventDefault();
 	});
@@ -39,8 +47,10 @@ $(function() {
 	$('#map_square').attr('value',square);
 	$('#map_softness').attr('value',softness);
 
-	$('#rover_start').attr('value','1,1');
-	$('#rover_end').attr('value','10,10');
+	$('#rover_start_x').attr('value',start[0]);
+	$('#rover_start_y').attr('value',start[1]);
+	$('#rover_end_x').attr('value',end[0]);
+	$('#rover_end_y').attr('value',end[1]);
 
 	// Render au chargement de la page
 	$('#map_settings').submit();

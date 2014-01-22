@@ -32,7 +32,6 @@ function Rover(viewer) {
 		this.tick = setInterval(function(){
 			that.move(x,y);
 		}, 100);
-
 	};
 
 	// Gestion du trajet
@@ -49,7 +48,7 @@ function Rover(viewer) {
 
 			clearInterval(this.tick);
 
-			console.log(this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.result+' '+slope.p+' /!\\');
+			console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p+' /!\\');
 
 		} else {
 
@@ -61,12 +60,11 @@ function Rover(viewer) {
 
 			} else {
 
-				console.log(this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.result+' '+slope.p);
+				console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p);
 
 				this.doStep(a, b);
 
 			}
-
 		}
 	};
 
@@ -96,7 +94,7 @@ function Rover(viewer) {
 		this.E -= 10;
 
 		// Les diagonales coutent 1,4
-		if (Math.abs(a) && Math.abs(b)) {
+		if (Math.abs(a) == 1 && Math.abs(b) == 1) {
 			this.E -= 4;
 		}
 
@@ -161,14 +159,14 @@ function Rover(viewer) {
 			// Case au delà 0,1E
 			this.E -= 1;
 		}
+		var slope = this.testSlope(this.x + a, this.y + b);
 
-		return this.testSlope(this.x + a, this.y + b);
+		return slope;
 	};
 
 	// Détermine la composition du sol, coordonnées relatives à la position du Rover
 	Rover.prototype.checkType = function (a, b) {
 
-		// Coup en énergie
 		var distX = Math.abs(a),
 			distY = Math.abs(b);
 
@@ -183,7 +181,7 @@ function Rover(viewer) {
 			this.E -= 4;
 		}
 
-		var type = map[this.x + a][this.y + b].type;
+		var type = this.getSquare(this.x + a, this.y + b).type;
 
 		return type;
 	};
@@ -205,7 +203,11 @@ function Rover(viewer) {
 			for (var j = this.y - distance; j <= this.y + distance; j++) {
 				var square = this.getSquare(i, j);
 				if (square) {
-					this.nearSquares.push({'x': i, 'y': j, 'p': this.testSlope(i, j).result, 'z': square.z });
+					this.nearSquares.push({
+						'x': i, 'y': j,
+						'z': square.z,
+						'p': this.testSlope(i, j).result
+					});
 				}
 			}
 		}
@@ -215,16 +217,16 @@ function Rover(viewer) {
 		if (x >= 0 && x < this.size && y >= 0 && y < this.size) { // <= ?
 			return this.map[x][y];
 		}
-		console.log(this.size);
+		//console.log(this.size);
 		return false;
 	};
 
 	Rover.prototype.log = function () {
 		var currentSquare = this.getSquare(),
-			log = "x:" + this.x + " ,y: " + this.y + "<br/>"
-				+ "z: " + currentSquare.z + "<br/>"
-				+ "type: " + currentSquare.type + "<br/>"
-				+ "E: " + this.E / 10;
+			log = this.x + ',' + this.y +
+				' z: ' + currentSquare.z +
+				' type: ' + currentSquare.type +
+				' E: ' + this.E / 10;
 		/*console.log(this.viewer.context.getImageData(
 		 this.x*this.viewer.square,
 		 this.y*this.viewer.square,
