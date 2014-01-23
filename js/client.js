@@ -123,4 +123,16 @@ $(function() {
 	mars.size = 17;
 	mars.createJson();
 	console.log(mars.json);*/
+
+
+	$('#ds').click( function(e) {
+		var generator = new DiamondSquare();
+		console.log(generator.generate(16,-50,50,4));
+		// mars.map = mars.mergeArray(ds);
+		// mars.size = 17;
+		// mars.createJson();
+		// console.log(mars.json)
+		// viewer.render(mars.json, square);
+	});
+
 });
