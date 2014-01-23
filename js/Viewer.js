@@ -10,9 +10,7 @@ function Viewer()
 		this.square = square;
 
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
-		$('#canvas').html('<canvas width="' + (size*square) +
-								'" height="' + (size*square) +
-								'" id="map"></canvas>');
+		$('#canvas').html('<canvas width="' + (size*square) + '" height="' + (size*square) + '" id="map"></canvas>');
 		this.canvas = $('#map');
 		this.context = this.canvas.get(0).getContext('2d');
 
@@ -30,10 +28,12 @@ function Viewer()
 				// Teinte en fonction du type
 				var h = 10;//json.map[x][y].type*3,
 				// Saturation en fonction du type
-				s = 50;//(json.map[x][y].type*5)+40,
+				s = 60;//(json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
-				l = ((json.map[x][y].z+50));
+				l = json.map[x][y].z*1.5;
+				l += 50;
 
+				// Parcours du Rover
 				for (i in this.path) {
 					if (this.path[i].x == x && this.path[i].y == y) {
 						if (rover.x != x || rover.y != y) {
@@ -44,6 +44,7 @@ function Viewer()
 
 				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 
+				// Affichage des pentes autour du Rover
 				if (slope) {
 					for (var i in slope) {
 						if (slope[i].x == x && slope[i].y == y) {
@@ -58,6 +59,7 @@ function Viewer()
 					}
 				}
 
+				// Affichage du Rover
 				if (rover) {
 					if (rover.x == x && rover.y == y) {
 						this.context.fillStyle = 'rgba(255,0,0,1)';

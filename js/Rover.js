@@ -3,13 +3,16 @@ function Rover(viewer) {
 
 	// Initialisation du rover, x et y optionnels
 	Rover.prototype.init = function (json, x, y) {
-		this.json = $.parseJSON(json);
-		this.size = this.json.size;
-		this.map = this.json.map;
-
+		this.initMap(json);
 		this.E = 100;
 
 		this.position(x, y);
+	};
+
+	Rover.prototype.initMap = function (json) {
+		this.json = $.parseJSON(json);
+		this.size = this.json.size;
+		this.map = this.json.map;
 	};
 
 	Rover.prototype.position = function (x, y) {
@@ -28,13 +31,14 @@ function Rover(viewer) {
 
 		console.log('START from '+this.x+','+this.y+' to '+x+','+y);
 
-		var that = this;
+		var i = 1, that = this;
 		this.tick = setInterval(function(){
 			that.move(x,y);
+			that.log(i++);
 		}, 100);
 	};
 
-	// Gestion du trajet
+	// Gestion du trajet jusqu'à (x, y)
 	Rover.prototype.move = function (x, y) {
 		var X = x - this.x,
 			Y = y - this.y,
@@ -215,12 +219,19 @@ function Rover(viewer) {
 		return false;
 	};
 
-	Rover.prototype.log = function () {
-		var currentSquare = this.getSquare(),
+	Rover.prototype.log = function (round) {
+		if (round != undefined) {
+			round = ' {' + round + '}'
+		} else {
+			round = '';
+		}
+
+		var energy = this.E / 10,
+			currentSquare = this.getSquare(),
 			log = '(' + this.x + ',' + this.y + ') ' +
 				'z: ' + currentSquare.z + ' ' +
 				'type: ' + currentSquare.type + ' ' +
-				'E: ' + this.E / 10;
+				'E: ' + energy.toFixed(1) + round;
 		/*console.log(this.viewer.context.getImageData(
 		 this.x*this.viewer.square,
 		 this.y*this.viewer.square,

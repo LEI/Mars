@@ -29,32 +29,18 @@ $(function() {
 	});
 
 	$('#rover_settings').submit( function(e) {
-		var startX = $('#rover_start_x').val(),
-			startY = $('#rover_start_y').val(),
+		var startX = parseInt($('#rover_start_x').val(),10),
+			startY = parseInt($('#rover_start_y').val(),10),
 			endX = $('#rover_end_x').val(),
 			endY = $('#rover_end_y').val();
 
 		viewer.render(mars.json, square);
 
-		curiosity.init(mars.json, parseInt(startX,10), parseInt(startY,10));
+		curiosity.init(mars.json, startX, startY);
 		curiosity.goTo(endX, endY);
 
 		e.preventDefault();
 	});
-
-	// Injection des valeurs par défaut dans le formulaire
-	$('#map_size').attr('value',size);
-	$('#map_square').attr('value',square);
-	$('#map_softness').attr('value',softness);
-
-	$('#rover_start_x').attr('value',start[0]);
-	$('#rover_start_y').attr('value',start[1]);
-	$('#rover_end_x').attr('value',end[0]);
-	$('#rover_end_y').attr('value',end[1]);
-
-	// Render au chargement de la page
-	$('#map_settings').submit();
-	$('#rover_settings').submit();
 
 	// Ecoute des touches
 	$(document).keydown(function(e) {
@@ -77,8 +63,10 @@ $(function() {
 
 			default: return;
 		}
+
 		X = direction.x + curiosity.x;
 		Y = direction.y + curiosity.y;
+
 		curiosity.move(X, Y);
 
 		e.preventDefault();
@@ -86,7 +74,9 @@ $(function() {
 
 	// Download JSON
 	$('#download').submit( function(e) {
+		mars.createURL(mars.json);
 		viewer.download(mars.url);
+
 		e.preventDefault();
 	});
 
@@ -100,8 +90,11 @@ $(function() {
 			// Closure to capture the file information.
 			reader.onload = (function(theFile) {
 			  return function(e) {
+
 			    mars.json = e.target.result;
 				viewer.render(mars.json, square);
+				curiosity.initMap(mars.json);
+
 			  };
 			})(f);
 
@@ -109,4 +102,25 @@ $(function() {
 		}
 		e.preventDefault();
 	});
+
+	// Injection des valeurs par défaut dans le formulaire
+	$('#map_size').attr('value',size);
+	$('#map_square').attr('value',square);
+	$('#map_softness').attr('value',softness);
+
+	$('#rover_start_x').attr('value',start[0]);
+	$('#rover_start_y').attr('value',start[1]);
+	$('#rover_end_x').attr('value',end[0]);
+	$('#rover_end_y').attr('value',end[1]);
+
+	// Render au chargement de la page
+	$('#map_settings').submit();
+	$('#rover_settings').submit();
+
+	/*var ds = [[0,1,2,2,0,3,2,1,-1,1,-1,1,-1,0,-3,-2,-5],[2,2,1,1,0,1,2,2,1,0,2,1,-1,-1,-1,-2,-2],[2,4,1,2,0,2,1,0,1,1,0,2,-1,-1,-3,-2,-2],[3,3,1,0,2,2,0,0,1,1,0,1,-2,-2,-1,-2,-1],[1,3,1,1,-1,1,0,0,0,1,-1,-2,-2,-2,-3,-1,-3],[3,2,1,1,1,2,0,2,-1,-1,0,-1,0,-2,-1,-3,-1],[2,3,1,2,1,2,0,1,-1,-1,-1,0,0,-1,-2,-2,-1],[0,1,3,1,3,2,1,0,0,0,0,-2,-2,-2,-2,-2,-1],[-1,0,0,0,-1,1,0,2,-1,1,2,1,1,1,1,0,-2],[2,0,0,0,2,2,0,1,1,0,3,1,3,2,0,0,1],[2,1,0,3,0,1,1,2,0,3,2,1,2,0,0,2,-1],[2,1,2,2,0,0,3,3,1,1,1,0,1,0,2,1,1],[1,2,-1,1,-1,0,1,0,0,1,1,1,0,2,0,1,-2],[0,1,1,-1,2,1,2,0,1,3,2,2,0,0,1,-1,-2],[-1,0,-1,1,0,1,-1,1,2,3,1,2,0,-2,-2,-1,-1],[1,1,-1,1,-1,-1,2,1,1,1,0,2,1,-2,-2,-1,0],[-1,1,-1,0,-1,0,1,1,-1,1,-1,2,-1,0,-2,0,-2]]
+
+	mars.map = mars.mergeArray(ds);
+	mars.size = 17;
+	mars.createJson();
+	console.log(mars.json);*/
 });

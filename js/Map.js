@@ -38,7 +38,11 @@ function Map() {
 			"map": this.xyArray(this.map, this.size)
 		};
 		this.json = JSON.stringify(data, undefined, '\t');
-		this.url = "data:application/octet-stream;base64," + Base64.encode(this.json);
+		this.createURL(this.json);
+	};
+
+	Map.prototype.createURL = function (json) {
+		this.url = "data:application/octet-stream;base64," + Base64.encode(json);
 	};
 
 	Map.prototype.soften = function (map) {
