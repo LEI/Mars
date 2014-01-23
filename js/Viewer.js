@@ -15,6 +15,7 @@ function Viewer()
 		this.context = this.canvas.get(0).getContext('2d');
 
 		this.path = [];
+
 		this.drawCanvas(json);
 
 		this.addLink(json);
@@ -30,8 +31,7 @@ function Viewer()
 				// Saturation en fonction du type
 				s = 60;//(json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
-				l = json.map[x][y].z*1.5;
-				l += 50;
+				l = (json.map[x][y].z+30)*1.5;
 
 				// Parcours du Rover
 				for (i in this.path) {

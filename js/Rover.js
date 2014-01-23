@@ -50,7 +50,7 @@ function Rover(viewer) {
 			slope = this.checkSlope(a, b);
 
 		this.memory.push(this.getNearSquares(1));
-		console.log(this.memory);
+		//console.log(this.memory);
 
 		if (slope.result == 'success') {
 			if (x == this.x && y == this.y) {
@@ -199,8 +199,8 @@ function Rover(viewer) {
 			for (var j = this.y - distance; j <= this.y + distance; j++) {
 				var square = this.getSquare(i, j);
 				// Si la case existe
-				if (square i != this.x && j != this.y) {
-					nearSquare.near.push({
+				if (square && i != this.x && j != this.y) {
+					nearSquares.near.push({
 						'x': i, 'y': j,
 						'z': square.z,
 						'p': this.testSlope(i, j).result

@@ -16,10 +16,20 @@ function Map() {
 		this.create();
 	};
 
-    Map.prototype.executeDS = function(size, amplitude, noise) {
-        var generator = new DiamondSquare();
-        return generator.generate(size,-amplitude,amplitude,noise);
-    }
+	Map.prototype.initDS = function(size, amplitude, noise) {
+		var ds = new DiamondSquare();
+		ds = ds.generate(size, -amplitude, amplitude, noise);
+
+		this.size = size;
+		this.map = ds;
+
+		var data = {
+			"size": this.size,
+			"map": this.map
+		};
+		this.json = JSON.stringify(data);
+		this.createURL(this.json);
+	}
 
 	Map.prototype.create = function () {
 		while (this.softness >= 0) {
