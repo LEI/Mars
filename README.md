@@ -56,3 +56,7 @@ L'élément `size` définit la taille de la carte.
 ***
 
 Clic droit pour ouvrir le JSON dans un nouvel onglet ou clic gauche pour enregistrer le fichier.
+
+##[notes]
+
+- *Jusqu'à une prochaine MAJ de correction, la carte doit avoir une largeur et une hauteur de la forme* **4n+1**.
