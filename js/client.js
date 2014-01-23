@@ -31,7 +31,7 @@ $(function() {
 	});
 
 	$('#map_ds').click( function(e) {
-		mars.initDS(129, 10, 2);
+		mars.initDS(129, 30, 10);
 		viewer.render(mars.json, 5);
 		curiosity.init(mars.json);
 	});
