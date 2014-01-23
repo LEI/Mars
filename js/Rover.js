@@ -54,13 +54,9 @@ function Rover(viewer) {
 				clearInterval(this.tick);
 				console.log('GG');
 			} else {
-				if (this.isOnMap(x, y)) {
-					// Le Rover avance
-					console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p);
-					this.doStep(a, b);
-				} else {
-					console.log('out of bounds');
-				}
+				// Le Rover avance
+				console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p);
+				this.doStep(a, b);
 			}
 		} else {
 			// Le Rover ne peut pas avancer
@@ -89,7 +85,7 @@ function Rover(viewer) {
 		x = a + this.x;
 		y = b + this.y;
 
-		var slope = this.testSlope(x, y);
+		var p = this.testSlope(x, y).p;
 
 		// Se déplacer d'une case coute E, à savoir 1 point énergie
 		this.E -= 10;
@@ -100,14 +96,14 @@ function Rover(viewer) {
 		}
 
 		// En montée, ou en descente, le cout énergétique est E x (1 + p)
-		this.E -= 1 + slope.p;
+		this.E -= 1 + p;
 
 		// Si c'est une pente sableuse
 		if (this.getSquare(x, y).type == 2) {
-			if (slope.p > 0) {
+			if (p > 0) {
 				// Monter une pente sableuse demande 0,1 E en plus
 				this.E -= 1;
-			} else if (slope.p < 0) {
+			} else if (p < 0) {
 				// Descendre une pente sableuse demande 0,1 E en moins
 				this.E += 1;
 			}
@@ -123,17 +119,20 @@ function Rover(viewer) {
 			p = this.getSlope(x, y);
 
 		// Tests de la pente
-		if (p > -maxSlope && p < maxSlope) {
+		if (p === false) {
+			result = 'out of bounds';
+		} else if (p > -maxSlope && p < maxSlope) {
 			result = 'success';
 		} else if (p <= -maxSlope) {
 			result = 'fail';
 		} else if (p >= maxSlope) {
 			result = 'impossible';
-		} else {
-			result = false;
 		}
 
-		return { 'result': result, 'p': p }
+		return {
+			'result': result,
+			'p': p
+		}
 	};
 
 	// Retourne la valeur de la pente
@@ -142,10 +141,10 @@ function Rover(viewer) {
 			next = this.getSquare(x, y);
 
 		// Si le point suivant existe sur la carte
-		if (next) {
-			p = (next.z - current.z) / 5; // 5 mètres;
-		} else {
+		if (next === false) {
 			p = false;
+		} else {
+			p = (next.z - current.z) / 5; // 5 mètres;
 		}
 
 		return p;
@@ -213,7 +212,7 @@ function Rover(viewer) {
 	};
 
 	Rover.prototype.isOnMap = function (x, y) {
-		if (x >= 0 && x < this.size && y >= 0 && y < this.size) { // <= ?
+		if (x >= 0 && x < this.size && y >= 0 && y < this.size) {
 			return this.map[x][y];
 		}
 		return false;

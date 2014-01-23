@@ -9,7 +9,7 @@ $(function() {
 		viewer = new Viewer(),
 		curiosity = new Rover(viewer),
 		start = [1,1],
-		end = [10,10];
+		end = [2,2];
 
 	$('#map_settings').submit( function(e) {
 		size = $('#map_size').val();
