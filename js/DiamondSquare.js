@@ -134,7 +134,7 @@ function DiamondSquare()
             for (var y = 0; y < mapArray[x].length; y++) {
                 newArray[x].push({
                     "z": mapArray[x][y],
-                    "type": false
+                    "type": 1
                 });
             }
         }
