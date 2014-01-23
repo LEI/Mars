@@ -28,6 +28,7 @@ function Rover(viewer) {
 
 	// Déplacement du rover jusqu'à un point précis -> client
 	Rover.prototype.goTo = function (x, y) {
+		this.memory = [];
 
 		console.log('START from '+this.x+','+this.y+' to '+x+','+y);
 
@@ -35,7 +36,7 @@ function Rover(viewer) {
 		this.tick = setInterval(function(){
 			that.move(x,y);
 			that.log(i++);
-		}, 100);
+		}, 500);
 	};
 
 	// Gestion du trajet jusqu'à (x, y)
@@ -46,7 +47,10 @@ function Rover(viewer) {
 			b = this.getVector(Y),
 			nextX = this.x + a,
 			nextY = this.y + b,
-			slope = this.testSlope(nextX, nextY);
+			slope = this.checkSlope(a, b);
+
+		this.memory.push(this.getNearSquares(1));
+		console.log(this.memory);
 
 		if (slope.result == 'success') {
 			if (x == this.x && y == this.y) {
@@ -153,8 +157,8 @@ function Rover(viewer) {
 	// Détermine la valeur de la pente, coordonnées relatives à la position du Rover
 	Rover.prototype.checkSlope = function (a, b) {
 
-		if (Math.abs(a) == 2 || Math.abs(b) == 2) {
-			// Case au delà 0,1E
+		if (Math.abs(a) > 1 || Math.abs(b) > 1) {
+			// Case au delà de 1 coûte 0,1E
 			this.E -= 1;
 		}
 		var slope = this.testSlope(this.x + a, this.y + b);
@@ -184,6 +188,30 @@ function Rover(viewer) {
 		return type;
 	};
 
+	// Récupération des cases autour du rover
+	Rover.prototype.getNearSquares = function (distance) {
+		var nearSquares =  {
+			'x': this.x,
+			'y': this.y,
+			'near': []
+		}
+		for (var i = this.x - distance; i <= this.x + distance; i++) {
+			for (var j = this.y - distance; j <= this.y + distance; j++) {
+				var square = this.getSquare(i, j);
+				// Si la case existe
+				if (square i != this.x && j != this.y) {
+					nearSquare.near.push({
+						'x': i, 'y': j,
+						'z': square.z,
+						'p': this.testSlope(i, j).result
+					});
+				}
+			}
+		}
+
+		return nearSquares;
+	};
+
 	Rover.prototype.getSquare = function (x, y) {
 		// Retourne la position actuelle si les paramètres ne sont pas renseignés
 		if (x == undefined || y == undefined) {
@@ -192,23 +220,6 @@ function Rover(viewer) {
 		}
 
 		return this.isOnMap(x, y);
-	};
-
-	// Récupération des cases autour du rover
-	Rover.prototype.getNearSquares = function (distance) {
-		this.nearSquares = [];
-		for (var i = this.x - distance; i <= this.x + distance; i++) {
-			for (var j = this.y - distance; j <= this.y + distance; j++) {
-				var square = this.getSquare(i, j);
-				if (square) {
-					this.nearSquares.push({
-						'x': i, 'y': j,
-						'z': square.z,
-						'p': this.testSlope(i, j).result
-					});
-				}
-			}
-		}
 	};
 
 	Rover.prototype.isOnMap = function (x, y) {
@@ -242,7 +253,6 @@ function Rover(viewer) {
 
 	Rover.prototype.refresh = function () {
 		this.log();
-		this.getNearSquares(1);
-		this.viewer.drawCanvas(this.json, this, this.nearSquares);
+		this.viewer.drawCanvas(this.json, this, this.getNearSquares(1));
 	};
 }
