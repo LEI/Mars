@@ -57,4 +57,4 @@ Clic droit pour ouvrir le JSON dans un nouvel onglet ou clic gauche pour enregis
 
 ##notes
 
-- *Jusqu'à une prochaine MAJ de correction, la carte doit avoir une largeur et une hauteur de la forme* **n<sup>m</sup>+1**.
+- *Jusqu'à une prochaine MAJ de correction, la carte doit avoir une largeur et une hauteur de la forme* **2<sup>n</sup>+1**.

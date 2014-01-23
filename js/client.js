@@ -1,7 +1,7 @@
 $(function() {
 
 	// Initialisation
-	var size = 129, //Math.floor( $(window).height() / 2 ),
+	var size = 50, //Math.floor( $(window).height() / 2 ),
 		square = 10,
 		softness = 4,
 		Z = 50, // amplitude
@@ -31,7 +31,7 @@ $(function() {
 	});
 
 	$('#map_ds').click( function(e) {
-		mars.initDS(size, 30, 10);
+		mars.initDS(129, 30, 10);
 		viewer.render(mars.json, 5);
 		curiosity.init(mars.json);
 	});
