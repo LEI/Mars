@@ -126,13 +126,16 @@ $(function() {
 
 
 	$('#ds').click( function(e) {
-		var generator = new DiamondSquare();
-		console.log(generator.generate(16,-50,50,4));
-		// mars.map = mars.mergeArray(ds);
-		// mars.size = 17;
-		// mars.createJson();
-		// console.log(mars.json)
-		// viewer.render(mars.json, square);
+		var dsmap = mars.executeDS(129, 10, 2);
+        mars.map = dsmap;
+        mars.size = 129;
+        var data = {
+            "size": mars.size,
+            "map": mars.map
+        };
+        mars.json = JSON.stringify(data, undefined, '\t');
+        mars.createURL(mars.json);
+        viewer.render(mars.json, 5);
 	});
 
 });

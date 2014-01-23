@@ -16,6 +16,11 @@ function Map() {
 		this.create();
 	};
 
+    Map.prototype.executeDS = function(size, amplitude, noise) {
+        var generator = new DiamondSquare();
+        return generator.generate(size,-amplitude,amplitude,noise);
+    }
+
 	Map.prototype.create = function () {
 		while (this.softness >= 0) {
 			if (this.softness == 0) {

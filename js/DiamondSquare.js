@@ -15,16 +15,16 @@ function DiamondSquare()
 
         var size_int = parseInt(size);
         /*if(size_int/2 == Math.round(size_int/2))
-            this.size = size_int+1;
-        else
-            this.size = size_int;*/
+         this.size = size_int+1;
+         else
+         this.size = size_int;*/
         this.size = size_int;
 
         this.delta = delta;
 
-        for (var i=0; i<this.size; i++) {
+        for (var i=0; i<size_int; i++) {
             this.map[i] = [];
-            for (var j=0; j<this.size; j++) {
+            for (var j=0; j<size_int; j++) {
                 this.map[i][j] = "*";
             }
         }
@@ -93,10 +93,10 @@ function DiamondSquare()
         var botLeft = this.map[x][y_spaceIndex];
         var botRight = this.map[x_spaceIndex][y_spaceIndex];
         /*console.log('space = '+space);
-        console.log('topLeft      = '+topLeft+' | topRight          = '+topRight);
-        console.log('botLeft      = '+botLeft+' | botRight      = '+botRight);
-        console.log('x_spaceIndex = '+x_spaceIndex+' | y_spaceIndex = '+y_spaceIndex);
-        console.log('--------------------------------------------');*/
+         console.log('topLeft      = '+topLeft+' | topRight          = '+topRight);
+         console.log('botLeft      = '+botLeft+' | botRight      = '+botRight);
+         console.log('x_spaceIndex = '+x_spaceIndex+' | y_spaceIndex = '+y_spaceIndex);
+         console.log('--------------------------------------------');*/
 
         //console.log('this.map[x_spaceIndex][y_spaceIndex] = ');
         var center = Math.floor((topLeft + topRight + botLeft + botRight)/4) + this.noise();
@@ -111,10 +111,10 @@ function DiamondSquare()
         this.map[x][y_spaceIndexHalf] = this.egalize(Math.floor((center + topLeft + botLeft)/3) + this.noise());
 
         /*console.log('space = '+space);
-        console.log('x                = '+x+' | y                 = '+y);
-        console.log('x_spaceIndex     = '+x_spaceIndex+' | y_spaceIndex     = '+y_spaceIndex);
-        console.log('x_spaceIndexHalf = '+x_spaceIndexHalf+' | y_spaceIndexHalf = '+y_spaceIndexHalf);
-        console.log('--------------------------------------------');*/
+         console.log('x                = '+x+' | y                 = '+y);
+         console.log('x_spaceIndex     = '+x_spaceIndex+' | y_spaceIndex     = '+y_spaceIndex);
+         console.log('x_spaceIndexHalf = '+x_spaceIndexHalf+' | y_spaceIndexHalf = '+y_spaceIndexHalf);
+         console.log('--------------------------------------------');*/
 
         if (space > 2) {
             var nextSpace = Math.floor(space/2);
@@ -125,13 +125,13 @@ function DiamondSquare()
         }
     }
 
-    // Retourne un tableau à deux dimensions
-    DiamondSquare.prototype.formatToJson = function (mapArray, size) {
+    // Retourne le tableau map formaté en JSON ('z' et 'type')
+    DiamondSquare.prototype.formatToJson = function (mapArray) {
         // square length
         var newArray = [];
-        for (var x = 0; x < size; x++) {
+        for (var x = 0; x < mapArray.length; x++) {
             newArray[x] = [];
-            for (var y = 0; y < size; y++) {
+            for (var y = 0; y < mapArray[x].length; y++) {
                 newArray[x].push({
                     "z": mapArray[x][y],
                     "type": false
@@ -139,14 +139,14 @@ function DiamondSquare()
             }
         }
         return newArray;
-    };
+    }
 
     /**
      * function: generate
      */
     DiamondSquare.prototype.generate = function(size, min, max, delta) {
-        //this.init(min, max, size, delta);
         this.init(min, max, size, delta);
+//        this.init(-20, 20, size, delta);
         this.initCorners();
         //console.log(this.map)
         this.DS(0,0,(size-1));
@@ -155,9 +155,7 @@ function DiamondSquare()
         //this.diamondSquare(8,8,8);
         //this.diamondSquare(0,8,8);
         //this.diamondSquare(8,0,8);
-        // console.log(this.map);
-        // return this.formatToJson(this.map, size);
-        return this.map;
+        return this.formatToJson(this.map);
     }
 
 }
