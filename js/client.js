@@ -18,12 +18,14 @@ $(function() {
 
 		mars.init(size, softness, Z);
 		viewer.render(mars.json, square);
+		curiosity.init(mars.json);
 
 		e.preventDefault();
 	});
 
 	$('#map_reset').submit( function(e) {
 		viewer.render(mars.json, square);
+		curiosity.init(mars.json);
 
 		e.preventDefault();
 	});
@@ -31,6 +33,7 @@ $(function() {
 	$('#map_ds').click( function(e) {
 		mars.initDS(size, 30, 10);
 		viewer.render(mars.json, 5);
+		curiosity.init(mars.json);
 	});
 
 	$('#rover_settings').submit( function(e) {
