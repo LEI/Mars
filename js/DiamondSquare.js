@@ -141,8 +141,6 @@ function DiamondSquare()
         return newArray;
     }
 
-    salut
-
     /**
      * function: generate
      */
