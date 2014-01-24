@@ -26,20 +26,22 @@ function Rover(viewer) {
 		this.refresh();
 	}
 
-	// Déplacement du rover jusqu'à un point précis -> client
+	// Déplacement du rover jusqu'à (x, y)
 	Rover.prototype.goTo = function (x, y) {
-		this.memory = [];
 
 		console.log('START from '+this.x+','+this.y+' to '+x+','+y);
 
+		//this.memory = [];
+		//this.memory.push(this.getNearSquares(1));
+		//console.log(this.memory);
 		var i = 1, that = this;
 		this.tick = setInterval(function(){
 			that.move(x,y);
 			that.log(i++);
-		}, 500);
+		}, 100);
 	};
 
-	// Gestion du trajet jusqu'à (x, y)
+	// Gestion du trajet jusqu'à
 	Rover.prototype.move = function (x, y) {
 		var X = x - this.x,
 			Y = y - this.y,
@@ -49,9 +51,6 @@ function Rover(viewer) {
 			nextY = this.y + b,
 			slope = this.checkSlope(a, b);
 
-		this.memory.push(this.getNearSquares(1));
-		//console.log(this.memory);
-
 		if (slope.result == 'success') {
 			if (x == this.x && y == this.y) {
 				// Le Rover est arrivé à destination
@@ -60,7 +59,9 @@ function Rover(viewer) {
 			} else {
 				// Le Rover avance
 				console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p);
+
 				this.doStep(a, b);
+
 			}
 		} else {
 			// Le Rover ne peut pas avancer
@@ -157,6 +158,7 @@ function Rover(viewer) {
 	// Détermine la valeur de la pente, coordonnées relatives à la position du Rover
 	Rover.prototype.checkSlope = function (a, b) {
 
+		// attention : tester la penter par rapport à une case adjacente
 		if (Math.abs(a) > 1 || Math.abs(b) > 1) {
 			// Case au delà de 1 coûte 0,1E
 			this.E -= 1;

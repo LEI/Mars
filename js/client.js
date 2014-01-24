@@ -9,7 +9,7 @@ $(function() {
 		viewer = new Viewer(),
 		curiosity = new Rover(viewer),
 		start = [1,1],
-		end = [2,2];
+		end = [20,20];
 
 	$('#map_settings').submit( function(e) {
 		size = $('#map_size').val();
@@ -31,7 +31,7 @@ $(function() {
 	});
 
 	$('#map_ds').click( function(e) {
-		mars.initDS(129, 100, 10);
+		mars.initDS(129, 10, 3);
 		viewer.render(mars.json, 5);
 		curiosity.init(mars.json);
 	});
@@ -123,6 +123,6 @@ $(function() {
 
 	// Render au chargement de la page
 	$('#map_settings').submit();
-	$('#rover_settings').submit();
+	//$('#rover_settings').submit();
 
 });
