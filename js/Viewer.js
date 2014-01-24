@@ -46,13 +46,14 @@ function Viewer()
 
 				// Affichage des pentes autour du Rover
 				if (slope) {
-					for (var i in slope) {
-						if (slope[i].x == x && slope[i].y == y) {
-							if (slope[i].p == 'success') {
+					for (var i in slope.near) {
+						slopeTest = slope.near[i];
+						if (slopeTest.x == x && slopeTest.y == y) {
+							if (slopeTest.p == 'success') {
 								//this.context.fillStyle = 'rgba(0,255,0,1)';
-							} else if (slope[i].p == 'fail') {
+							} else if (slopeTest.p == 'fail') {
 								this.context.fillStyle = 'rgba(0,0,0,1)';
-							} else if (slope[i].p == 'impossible') {
+							} else if (slopeTest.p == 'impossible') {
 								this.context.fillStyle = 'rgba(255,255,255,1)';
 							}
 						}
