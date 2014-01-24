@@ -31,7 +31,7 @@ function Viewer()
 				// Saturation en fonction du type
 				s = 60;//(json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
-				l = (json.map[x][y].z+20)*1.5;
+				l = (json.map[x][y].z);
 
 				// Parcours du Rover
 				for (i in this.path) {
