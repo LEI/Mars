@@ -21,7 +21,7 @@ Les coordonnées `x` et `y` sont définies par l'index de chaque case dans le ta
 La hauteur `z` (-50, 50) et le `type` de matière (1, 6) sont générés aléatoirement.
 L'élément `size` définit la taille de la carte.
 
-####1 case = 5 mètres ?
+5 mètres séparent chaque point
 
 ```json
 {
@@ -51,10 +51,10 @@ L'élément `size` définit la taille de la carte.
 }
 ```
 
-##Rover
+##Diamond Square
 
-Clic droit pour ouvrir le JSON dans un nouvel onglet ou clic gauche pour enregistrer le fichier.
+Jusqu'à une prochaine MAJ de correction, la carte doit avoir une largeur et une hauteur de la forme* 2<sup>n</sup>+1.
 
-##notes
+***
 
-- *Jusqu'à une prochaine MAJ de correction, la carte doit avoir une largeur et une hauteur de la forme* **2<sup>n</sup>+1**.
+Clic droit sur la map pour ouvrir le JSON dans un nouvel onglet ou clic gauche pour enregistrer le fichier.
