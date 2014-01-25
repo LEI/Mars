@@ -66,6 +66,19 @@ function Viewer()
 						this.context.fillStyle = 'rgba(255,0,0,1)';
 						this.path.push({'x': x, 'y': y});
 					}
+
+					if (this.testSlopes == true) {
+						// Test du terrain
+						var test = [[1,0],[1,1],[0,1]];
+						for (var i in test) {
+							var a = x + test[i][0],
+								b = y + test[i][1],
+								result = rover.testSlope(a, b, x, y).result;
+							if (result == 'fail' || result == 'impossible') {
+								this.context.fillStyle = 'rgba(255,0,0,1)';
+							}
+						}
+					}
 				}
 
 				this.context.fillRect(

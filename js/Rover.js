@@ -119,9 +119,10 @@ function Rover(viewer) {
 	};
 
 	// Retourne le résultat du test d'une pente
-	Rover.prototype.testSlope = function (x, y) {
+	Rover.prototype.testSlope = function (x, y, x2, y2) {
+
 		var result, maxSlope = 1.5,
-			p = this.getSlope(x, y);
+			p = this.getSlope(x, y, x2, y2);
 
 		// Tests de la pente
 		if (p === false) {
@@ -141,8 +142,12 @@ function Rover(viewer) {
 	};
 
 	// Retourne la valeur de la pente
-	Rover.prototype.getSlope = function (x, y) {
-		var current = this.getSquare(),
+	Rover.prototype.getSlope = function (x, y, x2, y2) {
+		if (x2 == undefined || y2 == undefined) {
+			x2 = this.x;
+			y2 = this.y;
+		}
+		var current = this.getSquare(x2, y2),
 			next = this.getSquare(x, y);
 
 		// Si le point suivant existe sur la carte

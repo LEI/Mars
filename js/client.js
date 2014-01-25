@@ -36,6 +36,13 @@ $(function() {
 		curiosity.init(mars.json);
 	});
 
+	$('#map_test').click( function(e) {
+		// Affiche en rouge les pentes > 150%
+		viewer.testSlopes = true;
+		viewer.drawCanvas(mars.json, curiosity);
+		curiosity.init(mars.json);
+	});
+
 	$('#rover_settings').submit( function(e) {
 		var startX = parseInt($('#rover_start_x').val(),10),
 			startY = parseInt($('#rover_start_y').val(),10),
