@@ -18,7 +18,7 @@ function Map() {
 
 	Map.prototype.initDS = function(size, amplitude, noise) {
 		var ds = new DiamondSquare();
-		ds = ds.generate(size, -amplitude, amplitude, noise);
+		ds = ds.generate(size, amplitude, noise);
 
 		this.size = size;
 		this.map = ds;

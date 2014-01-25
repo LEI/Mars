@@ -144,8 +144,8 @@ function DiamondSquare()
     /**
      * function: generate
      */
-    DiamondSquare.prototype.generate = function(size, min, max, delta) {
-        this.init(min, max, size, delta);
+    DiamondSquare.prototype.generate = function(size, amplitude, delta) {
+        this.init(0, amplitude, size, delta);
 //        this.init(-20, 20, size, delta);
         this.initCorners();
         //console.log(this.map)
