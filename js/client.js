@@ -6,6 +6,7 @@ $(function() {
 		softness = 4,
 		Z = 50, // amplitude
 		noiseDS = 5,
+		calcLum = '+50';
 		mars = new Map(),
 		viewer = new Viewer(),
 		curiosity = new Rover(viewer),
@@ -24,11 +25,9 @@ $(function() {
 		e.preventDefault();
 	});
 
-	$('#map_reset').submit( function(e) {
+	$('#map_reset').click( function(e) {
 		viewer.render(mars.json, square);
 		curiosity.init(mars.json);
-
-		e.preventDefault();
 	});
 
 	$('#map_ds').click( function(e) {
@@ -125,6 +124,7 @@ $(function() {
 	$('#map_size').attr('value',size);
 	$('#map_square').attr('value',square);
 	$('#map_softness').attr('value',softness);
+	$('#map_lum').attr('value',calcLum);
 
 	$('#rover_start_x').attr('value',start[0]);
 	$('#rover_start_y').attr('value',start[1]);
