@@ -1,10 +1,11 @@
 $(function() {
 
 	// Initialisation
-	var size = 50, //Math.floor( $(window).height() / 2 ),
+	var size = 65, //Math.floor( $(window).height() / 2 ),
 		square = 10,
 		softness = 4,
 		Z = 50, // amplitude
+		noiseDS = 5,
 		mars = new Map(),
 		viewer = new Viewer(),
 		curiosity = new Rover(viewer),
@@ -31,16 +32,18 @@ $(function() {
 	});
 
 	$('#map_ds').click( function(e) {
-		mars.initDS(129, 10, 3);
-		viewer.render(mars.json, 5);
+		mars.initDS($('#map_size').val(), Z, noiseDS);
+		viewer.render(mars.json, $('#map_square').val());
 		curiosity.init(mars.json);
 	});
 
-	$('#map_test').click( function(e) {
-		// Affiche en rouge les pentes > 150%
-		viewer.testSlopes = true;
-		viewer.drawCanvas(mars.json, curiosity);
-		curiosity.init(mars.json);
+	$('#map_test').change( function(e) {
+		if ($(this).is(':checked')) {
+			// Affiche en rouge les pentes > 150%
+			viewer.testSlopes = true;
+		} else {
+			viewer.testSlopes = false;
+		}
 	});
 
 	$('#rover_settings').submit( function(e) {

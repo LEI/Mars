@@ -143,13 +143,8 @@ function Rover(viewer) {
 
 	// Retourne la valeur de la pente
 	Rover.prototype.getSlope = function (x, y, x2, y2) {
-		if (x2 == undefined || y2 == undefined) {
-			x2 = this.x;
-			y2 = this.y;
-		}
 		var current = this.getSquare(x2, y2),
 			next = this.getSquare(x, y);
-
 		// Si le point suivant existe sur la carte
 		if (next === false) {
 			p = false;
