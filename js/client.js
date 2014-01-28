@@ -6,7 +6,8 @@ $(function() {
 		softness = 4,
 		Z = 50, // amplitude
 		noiseDS = 5,
-		calcLum = '+50';
+		lumPlus = 50,
+		lumCoef = 1,
 		mars = new Map(),
 		viewer = new Viewer(),
 		curiosity = new Rover(viewer),
@@ -124,7 +125,8 @@ $(function() {
 	$('#map_size').attr('value',size);
 	$('#map_square').attr('value',square);
 	$('#map_softness').attr('value',softness);
-	$('#map_lum').attr('value',calcLum);
+	$('#map_lum_plus').attr('value',lumPlus);
+	$('#map_lum_coef').attr('value',lumCoef);
 
 	$('#rover_start_x').attr('value',start[0]);
 	$('#rover_start_y').attr('value',start[1]);

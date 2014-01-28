@@ -23,6 +23,9 @@ function Viewer()
 
 	// getImageData() putImageData()
 	Viewer.prototype.drawCanvas = function(json, rover, slope) {
+		var lumplus = parseInt($('#map_lum_plus').val(),10),
+			lumcoef = parseInt($('#map_lum_coef').val(),10);
+
 		for (var x=0; x<json.size; x++) {
 			for (var y=0; y<json.size; y++) {
 
@@ -33,8 +36,7 @@ function Viewer()
 				// Luminosité en fonction de la hauteur
 				l = json.map[x][y].z;
 
-				var lum = $('#map_lum').val();
-				l = eval(l + lum);
+				l = (l + lumplus) * lumcoef;
 
 				// Parcours du Rover
 				for (i in this.path) {

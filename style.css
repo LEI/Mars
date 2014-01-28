@@ -32,6 +32,10 @@ input {
 	display: inline-block;
 	width : 45px;
 }
+.col3 {
+	display: inline-block;
+	width : 25px;
+}
 canvas {
     border: 1px solid black;
 }
