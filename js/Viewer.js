@@ -1,16 +1,15 @@
-function Viewer()
+function Viewer(square)
 {
+	this.square = square;
+
 	// Peut être appellé avec un JSON externe, square facultatif (1 par défaut)
-	Viewer.prototype.render = function(json, square) {
+	Viewer.prototype.render = function(json) {
 		var json = $.parseJSON(json),
 			map = json.map,
-			size = json.size,
-			square = square || 1; // Taille d'une case
-
-		this.square = square;
+			size = json.size;
 
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
-		$('#canvas').html('<canvas width="' + (size*square) + '" height="' + (size*square) + '" id="map"></canvas>');
+		$('#canvas').html('<canvas width="' + (size*this.square) + '" height="' + (size*this.square) + '" id="map"></canvas>');
 		this.canvas = $('#map');
         this.canvas_val = $('#map_values');
 		this.context = this.canvas.get(0).getContext('2d');
@@ -41,6 +40,8 @@ function Viewer()
 
 	// getImageData() putImageData()
 	Viewer.prototype.drawCanvas = function(json, rover, slope) {
+		var lumplus = parseInt($('#map_lum_plus').val(),10),
+			lumcoef = parseInt($('#map_lum_coef').val(),10);
 
 		for (var x=0; x<json.size; x++) {
 			for (var y=0; y<json.size; y++) {
@@ -50,7 +51,9 @@ function Viewer()
 				// Saturation en fonction du type
 				s = 60;//(json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
-				l = (json.map[x][y].z+20)*2;
+				l = json.map[x][y].z;
+
+				l = (l + lumplus) * lumcoef;
 
 				// Parcours du Rover
 				for (i in this.path) {
@@ -84,6 +87,18 @@ function Viewer()
 					if (rover.x == x && rover.y == y) {
 						this.context.fillStyle = 'rgba(255,0,0,1)';
 						this.path.push({'x': x, 'y': y});
+					}
+
+					if (this.testSlopes == true) {
+						// Test du terrain
+						for (var i = x - 1; i <= x + 1; i++) {
+							for (var j = y - 1; j <= y + 1; j++) {
+								result = rover.testSlope(i, j, x, y).result;
+								if (result == 'fail' || result == 'impossible') {
+									this.context.fillStyle = 'rgba(255,0,0,1)';
+								}
+							}
+						}
 					}
 				}
 

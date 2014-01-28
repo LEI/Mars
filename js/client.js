@@ -1,33 +1,42 @@
 $(function() {
 
 	// Initialisation
-	var size = 50, //Math.floor( $(window).height() / 2 ),
+	var size = 65, //Math.floor( $(window).height() / 2 ),
 		square = 10,
 		softness = 4,
 		Z = 50, // amplitude
+		noiseDS = 5,
+		lumPlus = 50,
+		lumCoef = 1,
 		mars = new Map(),
-		viewer = new Viewer(),
+		viewer = new Viewer(square),
 		curiosity = new Rover(viewer),
 		start = [1,1],
 		end = [20,20];
 
-	$('#map_settings').submit( function(e) {
-		size = $('#map_size').val();
-		square = $('#map_square').val();
-		softness = $('#map_softness').val();
-
-		mars.init(size, softness, Z);
-		viewer.render(mars.json, square);
-		curiosity.init(mars.json);
-
-		e.preventDefault();
+	$('#map_init').click( function(e) {
+		viewer.render(mars.json);
 	});
 
-	$('#map_reset').submit( function(e) {
-		viewer.render(mars.json, square);
-		curiosity.init(mars.json);
+	$('#map_render').click( function(e) {
+		size = $('#map_size').val();
+		softness = $('#map_softness').val();
+		if ($('#map_rand').is(':checked')) {
+			mars.init(size, Z, softness);
+		} else if ($('#map_ds').is(':checked')) {
+			mars.initDS(size, Z, noiseDS);
+		}
 
-		e.preventDefault();
+		$('#map_init').click();
+	});
+
+	$('#map_test').change( function(e) {
+		if ($(this).is(':checked')) {
+			// Affiche en rouge les pentes > 150%
+			viewer.testSlopes = true;
+		} else {
+			viewer.testSlopes = false;
+		}
 	});
 
 	$('#map_ds').click( function(e) {
@@ -37,18 +46,22 @@ $(function() {
 		curiosity.init(mars.json);
 	});
 
-	$('#rover_settings').submit( function(e) {
+	$('#rover_goto').click( function(e) {
 		var startX = parseInt($('#rover_start_x').val(),10),
 			startY = parseInt($('#rover_start_y').val(),10),
 			endX = $('#rover_end_x').val(),
 			endY = $('#rover_end_y').val();
 
-		viewer.render(mars.json, square);
+		viewer.render(mars.json);
 
 		curiosity.init(mars.json, startX, startY);
+<<<<<<< HEAD
 //		curiosity.goTo(endX, endY);
 
 		e.preventDefault();
+=======
+		curiosity.goTo(endX, endY);
+>>>>>>> 4053e258c5bcf3beaaf65dea06b459ddb2e7b8d8
 	});
 
 	// Ecoute des touches
@@ -101,8 +114,7 @@ $(function() {
 			  return function(e) {
 
 			    mars.json = e.target.result;
-				viewer.render(mars.json, $('#map_square').val());
-				curiosity.initMap(mars.json);
+				$('#map_render').click();
 
 			  };
 			})(f);
@@ -116,6 +128,8 @@ $(function() {
 	$('#map_size').attr('value',size);
 	$('#map_square').attr('value',square);
 	$('#map_softness').attr('value',softness);
+	$('#map_lum_plus').attr('value',lumPlus);
+	$('#map_lum_coef').attr('value',lumCoef);
 
 	$('#rover_start_x').attr('value',start[0]);
 	$('#rover_start_y').attr('value',start[1]);
@@ -123,7 +137,7 @@ $(function() {
 	$('#rover_end_y').attr('value',end[1]);
 
 	// Render au chargement de la page
-	$('#map_settings').submit();
+	$('#map_render').click();
 	//$('#rover_settings').submit();
 
 });
