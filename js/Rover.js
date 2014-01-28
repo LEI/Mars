@@ -196,12 +196,12 @@ function Rover(viewer) {
 			'x': this.x,
 			'y': this.y,
 			'near': []
-		}
+		}, z =0;
 		for (var i = this.x - distance; i <= this.x + distance; i++) {
 			for (var j = this.y - distance; j <= this.y + distance; j++) {
 				var square = this.getSquare(i, j);
 				// Si la case existe
-				if (square && i != this.x && j != this.y) {
+				if (square) {
 					nearSquares.near.push({
 						'x': i, 'y': j,
 						'z': square.z,
