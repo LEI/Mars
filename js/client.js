@@ -15,6 +15,7 @@ $(function() {
 		end = [20,20];
 
 	$('#map_init').click( function(e) {
+		viewer.square = $('#map_square').val();
 		viewer.render(mars.json);
 	});
 
@@ -30,16 +31,13 @@ $(function() {
 		$('#map_init').click();
 	});
 
-	$('#map_test').change( function(e) {
-		if ($(this).is(':checked')) {
+	$('#rover_init').click( function(e) {
+		if ($('#map_test').is(':checked')) {
 			// Affiche en rouge les pentes > 150%
 			viewer.testSlopes = true;
 		} else {
 			viewer.testSlopes = false;
 		}
-	});
-
-	$('#rover_init').click( function(e) {
 		viewer.render(mars.json);
 		curiosity.init(mars.json);
 	});
@@ -78,10 +76,10 @@ $(function() {
 			default: return;
 		}
 
-		X = direction.x + curiosity.x;
-		Y = direction.y + curiosity.y;
+		//X = direction.x + curiosity.x;
+		//Y = direction.y + curiosity.y;
 
-		curiosity.move(X, Y);
+		curiosity.doStep(direction.x, direction.y);
 
 		e.preventDefault();
 	});
@@ -106,7 +104,7 @@ $(function() {
 			  return function(e) {
 
 			    mars.json = e.target.result;
-				$('#map_render').click();
+				$('#map_init').click();
 
 			  };
 			})(f);

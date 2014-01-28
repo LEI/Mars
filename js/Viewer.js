@@ -6,7 +6,7 @@ function Viewer(square)
 	Viewer.prototype.render = function(json) {
 		var json = $.parseJSON(json),
 			map = json.map,
-			size = json.size;
+			size = this.getJsonSize(json);
 
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
 		$('#canvas').html('<canvas width="' + (size*this.square) + '" height="' + (size*this.square) + '" id="map"></canvas>');
@@ -21,12 +21,13 @@ function Viewer(square)
 	};
 
 	// getImageData() putImageData()
-	Viewer.prototype.drawCanvas = function(json, rover, slope) {
-		var lumplus = parseInt($('#map_lum_plus').val(),10),
+	Viewer.prototype.drawCanvas = function(json, rover) {
+		var size = this.getJsonSize(json),
+			lumplus = parseInt($('#map_lum_plus').val(),10),
 			lumcoef = parseInt($('#map_lum_coef').val(),10);
 
-		for (var x=0; x<json.size; x++) {
-			for (var y=0; y<json.size; y++) {
+		for (var x=0; x<size; x++) {
+			for (var y=0; y<size; y++) {
 
 				// Teinte en fonction du type
 				var h = 10;//json.map[x][y].type*3,
@@ -41,17 +42,28 @@ function Viewer(square)
 				for (i in this.path) {
 					if (this.path[i].x == x && this.path[i].y == y) {
 						if (rover.x != x || rover.y != y) {
-							l *= 0.7;
+							l *= 0.8;
 						}
 					}
 				}
 
 				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 
-				// Affichage des pentes autour du Rover
-				if (slope) {
-					for (var i in slope.near) {
-						slopeTest = slope.near[i];
+				if (rover) {
+					// Test du terrain
+					if (this.testSlopes == true) {
+						for (var i = x - 1; i <= x + 1; i++) {
+							for (var j = y - 1; j <= y + 1; j++) {
+								result = rover.testSlope(i, j, x, y).result;
+								if (result == 'fail' || result == 'impossible') {
+									this.context.fillStyle = 'rgba(255,0,0,1)';
+								}
+							}
+						}
+					}
+					// Affichage des pentes autour du Rover
+					for (var i in rover.nearSquares.near) {
+						slopeTest = rover.nearSquares.near[i];
 						if (slopeTest.x == x && slopeTest.y == y) {
 							if (slopeTest.p == 'success') {
 								//this.context.fillStyle = 'rgba(0,255,0,1)';
@@ -62,25 +74,10 @@ function Viewer(square)
 							}
 						}
 					}
-				}
 
-				// Affichage du Rover
-				if (rover) {
 					if (rover.x == x && rover.y == y) {
 						this.context.fillStyle = 'rgba(255,0,0,1)';
 						this.path.push({'x': x, 'y': y});
-					}
-
-					if (this.testSlopes == true) {
-						// Test du terrain
-						for (var i = x - 1; i <= x + 1; i++) {
-							for (var j = y - 1; j <= y + 1; j++) {
-								result = rover.testSlope(i, j, x, y).result;
-								if (result == 'fail' || result == 'impossible') {
-									this.context.fillStyle = 'rgba(255,0,0,1)';
-								}
-							}
-						}
 					}
 				}
 
@@ -93,6 +90,16 @@ function Viewer(square)
 			}
 		}
 	}
+
+	Viewer.prototype.getJsonSize = function(json) {
+		var size = json.size;
+
+		if (typeof size == 'object') {
+			size = size.x;
+		}
+
+		return size;
+	};
 
 	// Téléchargement depuis une iframe (bouton JSON)
 	Viewer.prototype.download = function(url) {

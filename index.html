@@ -25,14 +25,13 @@
 
 			<label><input type="text" id="map_size" placeholder="Taille"/> Taille</label>
 			<label><input type="text" id="map_softness" placeholder="Relief"/> Relief</label>
-			<label><input type="text" id="map_square" placeholder="Résolution"/> Case</label>
 			<label><input type="radio" id="map_rand" name="render" checked/> Rand</label>
 			<label><input type="radio" id="map_ds" name="render" /> DS</label>
+			<label><input id="map_render" type="button" value="Render"/></label>
+			<label><input type="text" id="map_square" placeholder="Résolution"/> Case</label>
 			<label>(z+<input type="text" id="map_lum_plus"/>)*<input type="text" id="map_lum_coef"/></label>
 
-			<label><input id="map_render" type="button" value="Render"/>
-			<input id="map_init" type="button" value="Clear"/></label>
-			<label><input id="map_test" type="checkbox" value="Test" /> Test</label>
+			<input id="map_init" type="button" value="Init"/>
 
 			<h2>Rover</h2>
 			<input type="text" id="rover_start_x" placeholder="Xa" class="inline"/>
@@ -42,7 +41,7 @@
 			<input type="text" id="rover_end_y" placeholder="Yb" class="inline"/>
 			<br/>
 			<input type="button" id="rover_goto" value="Go">
-			<input type="button" id="rover_init" value="Reset">
+			<input type="button" id="rover_init" value="Init"> <input id="map_test" type="checkbox" value="Test" />
 			<br/>
 		</header>
 
