@@ -16,25 +16,21 @@ header form {
 	display : block;
 }
 header {
+	width: 125px;
 	float: left;
 	padding: 0 15px;
 	background-color: rgba(255,255,255,1);
-}
-input {
-	margin: 5px auto;
 	text-align: center;
 }
-.col {
+label {
 	display: block;
-	width : 100px;
 }
-.col2 {
-	display: inline-block;
-	width : 45px;
+input {
+	text-align: center;
+	margin: 5px auto;
 }
-.col3 {
-	display: inline-block;
-	width : 25px;
+input[type="text"] {
+	width: 20%;
 }
 canvas {
     border: 1px solid black;

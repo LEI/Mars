@@ -1,5 +1,5 @@
 function Map() {
-	Map.prototype.init = function (size, softness, amplitude) {
+	Map.prototype.init = function (size, amplitude, softness) {
 		var ground = new Ground();
 		this.z = amplitude;
 		this.size = size;
@@ -17,6 +17,7 @@ function Map() {
 	};
 
 	Map.prototype.initDS = function(size, amplitude, noise) {
+		console.log(amplitude);
 		var ds = new DiamondSquare();
 		ds = ds.generate(size, amplitude, noise);
 

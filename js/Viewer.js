@@ -1,16 +1,15 @@
-function Viewer()
+function Viewer(square)
 {
+	this.square = square;
+
 	// Peut être appellé avec un JSON externe, square facultatif (1 par défaut)
-	Viewer.prototype.render = function(json, square) {
+	Viewer.prototype.render = function(json) {
 		var json = $.parseJSON(json),
 			map = json.map,
-			size = json.size,
-			square = square || 1; // Taille d'une case
-
-		this.square = square;
+			size = json.size;
 
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
-		$('#canvas').html('<canvas width="' + (size*square) + '" height="' + (size*square) + '" id="map"></canvas>');
+		$('#canvas').html('<canvas width="' + (size*this.square) + '" height="' + (size*this.square) + '" id="map"></canvas>');
 		this.canvas = $('#map');
 		this.context = this.canvas.get(0).getContext('2d');
 
@@ -74,13 +73,12 @@ function Viewer()
 
 					if (this.testSlopes == true) {
 						// Test du terrain
-						var test = [[1,0],[1,1],[0,1]];
-						for (var i in test) {
-							var a = x + test[i][0],
-								b = y + test[i][1],
-								result = rover.testSlope(a, b, x, y).result;
-							if (result == 'fail' || result == 'impossible') {
-								this.context.fillStyle = 'rgba(255,0,0,1)';
+						for (var i = x - 1; i <= x + 1; i++) {
+							for (var j = y - 1; j <= y + 1; j++) {
+								result = rover.testSlope(i, j, x, y).result;
+								if (result == 'fail' || result == 'impossible') {
+									this.context.fillStyle = 'rgba(255,0,0,1)';
+								}
 							}
 						}
 					}

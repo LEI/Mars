@@ -9,32 +9,25 @@ $(function() {
 		lumPlus = 50,
 		lumCoef = 1,
 		mars = new Map(),
-		viewer = new Viewer(),
+		viewer = new Viewer(square),
 		curiosity = new Rover(viewer),
 		start = [1,1],
 		end = [20,20];
 
-	$('#map_settings').submit( function(e) {
+	$('#map_init').click( function(e) {
+		viewer.render(mars.json);
+	});
+
+	$('#map_render').click( function(e) {
 		size = $('#map_size').val();
-		square = $('#map_square').val();
 		softness = $('#map_softness').val();
+		if ($('#map_rand').is(':checked')) {
+			mars.init(size, Z, softness);
+		} else if ($('#map_ds').is(':checked')) {
+			mars.initDS(size, Z, noiseDS);
+		}
 
-		mars.init(size, softness, Z);
-		viewer.render(mars.json, square);
-		curiosity.init(mars.json);
-
-		e.preventDefault();
-	});
-
-	$('#map_reset').click( function(e) {
-		viewer.render(mars.json, square);
-		curiosity.init(mars.json);
-	});
-
-	$('#map_ds').click( function(e) {
-		mars.initDS($('#map_size').val(), Z, noiseDS);
-		viewer.render(mars.json, $('#map_square').val());
-		curiosity.init(mars.json);
+		$('#map_init').click();
 	});
 
 	$('#map_test').change( function(e) {
@@ -46,18 +39,21 @@ $(function() {
 		}
 	});
 
-	$('#rover_settings').submit( function(e) {
+	$('#rover_init').click( function(e) {
+		viewer.render(mars.json);
+		curiosity.init(mars.json);
+	});
+
+	$('#rover_goto').click( function(e) {
 		var startX = parseInt($('#rover_start_x').val(),10),
 			startY = parseInt($('#rover_start_y').val(),10),
 			endX = $('#rover_end_x').val(),
 			endY = $('#rover_end_y').val();
 
-		viewer.render(mars.json, square);
+		viewer.render(mars.json);
 
 		curiosity.init(mars.json, startX, startY);
 		curiosity.goTo(endX, endY);
-
-		e.preventDefault();
 	});
 
 	// Ecoute des touches
@@ -110,8 +106,7 @@ $(function() {
 			  return function(e) {
 
 			    mars.json = e.target.result;
-				viewer.render(mars.json, $('#map_square').val());
-				curiosity.initMap(mars.json);
+				$('#map_render').click();
 
 			  };
 			})(f);
@@ -134,7 +129,7 @@ $(function() {
 	$('#rover_end_y').attr('value',end[1]);
 
 	// Render au chargement de la page
-	$('#map_settings').submit();
+	$('#map_render').click();
 	//$('#rover_settings').submit();
 
 });
