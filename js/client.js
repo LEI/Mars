@@ -31,8 +31,9 @@ $(function() {
 	});
 
 	$('#map_ds').click( function(e) {
-		mars.initDS(129, 10, 3);
+		mars.initDS(65, 20, 3);
 		viewer.render(mars.json, 5);
+        viewer.mapValues(mars.json);
 		curiosity.init(mars.json);
 	});
 
@@ -45,7 +46,7 @@ $(function() {
 		viewer.render(mars.json, square);
 
 		curiosity.init(mars.json, startX, startY);
-		curiosity.goTo(endX, endY);
+//		curiosity.goTo(endX, endY);
 
 		e.preventDefault();
 	});

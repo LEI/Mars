@@ -12,6 +12,7 @@ function Viewer()
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
 		$('#canvas').html('<canvas width="' + (size*square) + '" height="' + (size*square) + '" id="map"></canvas>');
 		this.canvas = $('#map');
+        this.canvas_val = $('#map_values');
 		this.context = this.canvas.get(0).getContext('2d');
 
 		this.path = [];
@@ -21,8 +22,26 @@ function Viewer()
 		this.addLink(json);
 	};
 
+    Viewer.prototype.mapValues = function(map) {
+        // Tableau de valeurs de la map
+        this.canvas_val.append('<table>');
+
+        for (var y=0; y<map.length; y++) {
+
+            this.canvas_val.append('<tr>');
+            /*for (var x=0; x<map.length; x++) {
+                this.canvas_val.append('<td>'+map[x][y].z+'</td>');
+            }*/
+            this.canvas_val.append('</tr>');
+
+        }
+
+        this.canvas_val.append('</table>');
+    }
+
 	// getImageData() putImageData()
 	Viewer.prototype.drawCanvas = function(json, rover, slope) {
+
 		for (var x=0; x<json.size; x++) {
 			for (var y=0; y<json.size; y++) {
 

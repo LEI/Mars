@@ -99,22 +99,20 @@ function DiamondSquare()
          console.log('--------------------------------------------');*/
 
         //console.log('this.map[x_spaceIndex][y_spaceIndex] = ');
-        var center = Math.floor((topLeft + topRight + botLeft + botRight)/4) + this.noise();
+        var center = Math.floor((topLeft + topRight + botLeft + botRight)/4);
         this.map[x_spaceIndexHalf][y_spaceIndexHalf] = this.egalize(center);
         //console.log('center = '+center)
 
 
         // diamond
+        /*this.map[x_spaceIndexHalf][y] =  this.egalize(Math.floor((center + topLeft + topRight)/3));
+        this.map[x_spaceIndex][y_spaceIndexHalf] = this.egalize(Math.floor((center + topRight + botRight )/3));
+        this.map[x_spaceIndexHalf][y_spaceIndex] = this.egalize(Math.floor((center + botRight + botLeft)/3));
+        this.map[x][y_spaceIndexHalf] = this.egalize(Math.floor((center + topLeft + botLeft)/3));*/
         this.map[x_spaceIndexHalf][y] =  this.egalize(Math.floor((center + topLeft + topRight)/3) + this.noise());
         this.map[x_spaceIndex][y_spaceIndexHalf] = this.egalize(Math.floor((center + topRight + botRight )/3) + this.noise());
         this.map[x_spaceIndexHalf][y_spaceIndex] = this.egalize(Math.floor((center + botRight + botLeft)/3) + this.noise());
         this.map[x][y_spaceIndexHalf] = this.egalize(Math.floor((center + topLeft + botLeft)/3) + this.noise());
-
-        /*console.log('space = '+space);
-         console.log('x                = '+x+' | y                 = '+y);
-         console.log('x_spaceIndex     = '+x_spaceIndex+' | y_spaceIndex     = '+y_spaceIndex);
-         console.log('x_spaceIndexHalf = '+x_spaceIndexHalf+' | y_spaceIndexHalf = '+y_spaceIndexHalf);
-         console.log('--------------------------------------------');*/
 
         if (space > 2) {
             var nextSpace = Math.floor(space/2);
