@@ -4,8 +4,8 @@ $(function() {
 	var size = 65, //Math.floor( $(window).height() / 2 ),
 		square = 10,
 		softness = 4,
-		Z = 50, // amplitude
-		noiseDS = 5,
+		amplitude = 50,
+		noise = 5,
 		lumPlus = 50,
 		lumCoef = 1,
 		mars = new Map(),
@@ -21,11 +21,14 @@ $(function() {
 
 	$('#map_render').click( function(e) {
 		size = $('#map_size').val();
+		amplitude = $('#map_amplitude').val();
 		softness = $('#map_softness').val();
+		noise = $('#map_noise').val();
+
 		if ($('#map_rand').is(':checked')) {
-			mars.init(size, Z, softness);
+			mars.init(size, amplitude, softness);
 		} else if ($('#map_ds').is(':checked')) {
-			mars.initDS(size, Z, noiseDS);
+			mars.initDS(size, amplitude, noise);
 		}
 
 		$('#map_init').click();
@@ -116,8 +119,11 @@ $(function() {
 
 	// Injection des valeurs par défaut dans le formulaire
 	$('#map_size').attr('value',size);
-	$('#map_square').attr('value',square);
+	$('#map_amplitude').attr('value',amplitude);
 	$('#map_softness').attr('value',softness);
+	$('#map_noise').attr('value',noise);
+
+	$('#map_square').attr('value',square);
 	$('#map_lum_plus').attr('value',lumPlus);
 	$('#map_lum_coef').attr('value',lumCoef);
 

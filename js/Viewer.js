@@ -4,9 +4,9 @@ function Viewer(square)
 
 	// Peut être appellé avec un JSON externe, square facultatif (1 par défaut)
 	Viewer.prototype.render = function(json) {
-		var json = $.parseJSON(json),
-			map = json.map,
-			size = this.getJsonSize(json);
+		this.json = $.parseJSON(json);
+		var map = this.json.map,
+			size = this.getJsonSize(this.json);
 
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
 		$('#canvas').html('<canvas width="' + (size*this.square) + '" height="' + (size*this.square) + '" id="map"></canvas>');
@@ -15,9 +15,9 @@ function Viewer(square)
 
 		this.path = [];
 
-		this.drawCanvas(json);
+		this.drawCanvas(this.json);
 
-		this.addLink(json);
+		this.addLink(this.json);
 	};
 
 	// getImageData() putImageData()

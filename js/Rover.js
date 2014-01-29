@@ -51,8 +51,6 @@ function Rover(viewer) {
 			nextY = this.y + b,
 			slope = this.testSlope(a, b);
 
-		console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
-
 		if (slope.result == 'success') {
 			if (x == this.x && y == this.y) {
 				// Le Rover est arrivé à destination
@@ -63,6 +61,7 @@ function Rover(viewer) {
 				this.doStep(a, b);
 			}
 		} else {
+
 			// Le Rover ne peut pas avancer
 			var tmp;
 			//do {
@@ -70,32 +69,32 @@ function Rover(viewer) {
 					tmp = a;
 					a = 0;
 					if (this.testSlope(a,b).result != 'success') {
-						b = 0;
-						a = tmp;
+						//b = 0;
+						//a = tmp;
 					}
 				} else {
 					if (a == 0) {
 						a = -1;
 						if (this.testSlope(a,b).result != 'success') {
-							a = 1;
+							//a = 1;
 						}
 					} else if (b == 0) {
 						b = -1;
 						if (this.testSlope(a,b).result != 'success') {
-							b = 1;
+							//b = 1;
 						}
 					}
 				}
 			//} while (this.testSlope(a,b) != 'success');
-
 			if (this.testSlope(a,b).result == 'success') {
 				this.doStep(a, b);
 			} else {
-				console.log()
+				console.log('TRY AGAIN ' + this.testSlope(a,b).result);
 				clearInterval(this.tick);
 			}
-			//clearInterval(this.tick);
 		}
+
+		console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
 
 	};
 
@@ -296,6 +295,6 @@ function Rover(viewer) {
 	Rover.prototype.refresh = function () {
 		this.log();
 		this.getNearSquares(1);
-		this.viewer.drawCanvas(this.json, this);
+		this.viewer.drawCanvas(viewer.json, this);
 	};
 }
