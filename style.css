@@ -35,3 +35,10 @@ input[type="text"] {
 canvas {
     border: 1px solid black;
 }
+#log table {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+#log table td {
+	border: 1px solid black;
+}

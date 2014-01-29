@@ -1,7 +1,7 @@
 $(function() {
 
 	// Initialisation
-	var size = 65, //Math.floor( $(window).height() / 2 ),
+	var size = 33,//65, //Math.floor( $(window).height() / 2 ),
 		square = 10,
 		softness = 4,
 		Z = 50, // amplitude
@@ -47,22 +47,16 @@ $(function() {
 	});
 
 	$('#rover_goto').click( function(e) {
-		var startX = parseInt($('#rover_start_x').val(),10),
-			startY = parseInt($('#rover_start_y').val(),10),
-			endX = $('#rover_end_x').val(),
-			endY = $('#rover_end_y').val();
+        var startX = parseInt($('#rover_start_x').val(),10),
+        startY = parseInt($('#rover_start_y').val(),10),
+        endX = $('#rover_end_x').val(),
+        endY = $('#rover_end_y').val();
 
-		viewer.render(mars.json);
+        viewer.render(mars.json);
 
-		curiosity.init(mars.json, startX, startY);
-<<<<<<< HEAD
-//		curiosity.goTo(endX, endY);
-
-		e.preventDefault();
-=======
-		curiosity.goTo(endX, endY);
->>>>>>> 4053e258c5bcf3beaaf65dea06b459ddb2e7b8d8
-	});
+        curiosity.init(mars.json, startX, startY);
+        curiosity.goTo(endX, endY);
+    });
 
 	// Ecoute des touches
 	$(document).keydown(function(e) {

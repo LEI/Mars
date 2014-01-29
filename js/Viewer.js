@@ -11,27 +11,29 @@ function Viewer(square)
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
 		$('#canvas').html('<canvas width="' + (size*this.square) + '" height="' + (size*this.square) + '" id="map"></canvas>');
 		this.canvas = $('#map');
-        this.canvas_val = $('#map_values');
+        this.canvas_val = $('#log');
 		this.context = this.canvas.get(0).getContext('2d');
 
 		this.path = [];
 
 		this.drawCanvas(json);
+		this.mapValues(map);
 
 		this.addLink(json);
 	};
 
     Viewer.prototype.mapValues = function(map) {
         // Tableau de valeurs de la map
+        canvas_val_row = $('#log table tr');
+        $("#log table").remove();
         this.canvas_val.append('<table>');
 
         for (var y=0; y<map.length; y++) {
 
-            this.canvas_val.append('<tr>');
-            /*for (var x=0; x<map.length; x++) {
-                this.canvas_val.append('<td>'+map[x][y].z+'</td>');
-            }*/
-            this.canvas_val.append('</tr>');
+            this.canvas_val.append('<tr></tr>');
+            for (var x=0; x<map.length; x++) {
+                canvas_val_row.append('<td>'+map[x][y].z+'</td>');
+            }
 
         }
 
