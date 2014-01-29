@@ -11,7 +11,7 @@ function Rover(viewer) {
 
 	Rover.prototype.initMap = function (json) {
 		this.json = $.parseJSON(json);
-		this.size = this.json.size;
+		this.size = this.viewer.getJsonSize(this.json);
 		this.map = this.json.map;
 	};
 
@@ -49,7 +49,7 @@ function Rover(viewer) {
 			b = this.getVector(Y),
 			nextX = this.x + a,
 			nextY = this.y + b,
-			slope = this.checkSlope(a, b);
+			slope = this.testSlope(a, b);
 
 		if (slope.result == 'success') {
 			if (x == this.x && y == this.y) {
@@ -58,16 +58,44 @@ function Rover(viewer) {
 				console.log('GG');
 			} else {
 				// Le Rover avance
-				console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p);
-
 				this.doStep(a, b);
-
 			}
 		} else {
+
 			// Le Rover ne peut pas avancer
-			clearInterval(this.tick);
-			console.log(slope.result+': '+this.x+','+this.y+' -> '+nextX+','+nextY+' ('+a+','+b+') '+slope.p+' /!\\');
+			var tmp;
+			//do {
+				if (a != 0 && b != 0) {
+					tmp = a;
+					a = 0;
+					if (this.testSlope(a,b).result != 'success') {
+						//b = 0;
+						//a = tmp;
+					}
+				} else {
+					if (a == 0) {
+						a = -1;
+						if (this.testSlope(a,b).result != 'success') {
+							//a = 1;
+						}
+					} else if (b == 0) {
+						b = -1;
+						if (this.testSlope(a,b).result != 'success') {
+							//b = 1;
+						}
+					}
+				}
+			//} while (this.testSlope(a,b) != 'success');
+			if (this.testSlope(a,b).result == 'success') {
+				this.doStep(a, b);
+			} else {
+				console.log('TRY AGAIN ' + this.testSlope(a,b).result);
+				clearInterval(this.tick);
+			}
 		}
+
+		console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
+
 	};
 
 	Rover.prototype.getVector = function (n) {
@@ -90,32 +118,41 @@ function Rover(viewer) {
 		x = a + this.x;
 		y = b + this.y;
 
-		var p = this.testSlope(x, y).p;
+		var slope = this.testSlope(x, y),
+			p = slope.p;
 
-		// Se déplacer d'une case coute E, à savoir 1 point énergie
-		this.E -= 10;
+		if (slope.result == 'success') {
 
-		// Les diagonales coutent 1,4
-		if (Math.abs(a) == 1 && Math.abs(b) == 1) {
-			this.E -= 4;
-		}
+			// Se déplacer d'une case coute E, à savoir 1 point énergie
+			this.E -= 10;
 
-		// En montée, ou en descente, le cout énergétique est E x (1 + p)
-		this.E -= 1 + p;
-
-		// Si c'est une pente sableuse
-		if (this.getSquare(x, y).type == 2) {
-			if (p > 0) {
-				// Monter une pente sableuse demande 0,1 E en plus
-				this.E -= 1;
-			} else if (p < 0) {
-				// Descendre une pente sableuse demande 0,1 E en moins
-				this.E += 1;
+			// Les diagonales coutent 1,4
+			if (Math.abs(a) == 1 && Math.abs(b) == 1) {
+				this.E -= 4;
 			}
-		}
 
-		// Déplacement
-		this.position(x, y);
+			// En montée, ou en descente, le cout énergétique est E x (1 + p)
+			this.E -= 1 + p;
+
+			// Si c'est une pente sableuse
+			if (this.getSquare(x, y).type == 2) {
+				if (p > 0) {
+					// Monter une pente sableuse demande 0,1 E en plus
+					this.E -= 1;
+				} else if (p < 0) {
+					// Descendre une pente sableuse demande 0,1 E en moins
+					this.E += 1;
+				}
+			}
+
+			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+p+')');
+			// Déplacement
+			this.position(x, y);
+
+		} else {
+			console.log('Mouvement demandé ' + slope.result);
+			clearInterval(this.tick);
+		}
 	};
 
 	// Retourne le résultat du test d'une pente
@@ -125,7 +162,7 @@ function Rover(viewer) {
 			p = this.getSlope(x, y, x2, y2);
 
 		// Tests de la pente
-		if (p === false) {
+		if (p === false && p != 0) {
 			result = 'out of bounds';
 		} else if (p > -maxSlope && p < maxSlope) {
 			result = 'success';
@@ -211,6 +248,8 @@ function Rover(viewer) {
 			}
 		}
 
+		this.nearSquares = nearSquares;
+
 		return nearSquares;
 	};
 
@@ -255,6 +294,7 @@ function Rover(viewer) {
 
 	Rover.prototype.refresh = function () {
 		this.log();
-		this.viewer.drawCanvas(this.json, this, this.getNearSquares(1));
+		this.getNearSquares(1);
+		this.viewer.drawCanvas(viewer.json, this);
 	};
 }

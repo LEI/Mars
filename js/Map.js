@@ -17,7 +17,6 @@ function Map() {
 	};
 
 	Map.prototype.initDS = function(size, amplitude, noise) {
-		console.log(amplitude);
 		var ds = new DiamondSquare();
 		ds = ds.generate(size, amplitude, noise);
 
@@ -107,10 +106,10 @@ function Map() {
 	Map.prototype.mergeArray = function (array) {
 		var newArray = [];
 		for (var x = 0; x < array.length; x++) {
-			/*for (var y = 0; y < array.length; y++) {
+			for (var y = 0; y < array.length; y++) {
 				newArray.push(array[x][y]);
-			}*/
-			Array.prototype.push.apply(newArray, array[x]);
+			}
+			//Array.prototype.push.apply(newArray, array[x]);
 		}
 
 		return newArray;
