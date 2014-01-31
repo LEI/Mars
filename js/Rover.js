@@ -17,7 +17,7 @@ function Rover(viewer) {
 
 	Rover.prototype.position = function (x, y) {
 		// Si x et y ne sont pas renseignés, initialisation à 1,1
-		if (x == undefined || y == undefined) {
+		if (x == null || y == null) {
 			x = y = 1;
 		}
 		this.x = x;
@@ -49,7 +49,7 @@ function Rover(viewer) {
 			b = this.getVector(Y),
 			nextX = this.x + a,
 			nextY = this.y + b,
-			slope = this.testSlope(a, b);
+			slope = this.testSlope(nextX, nextY);
 
 		if (slope.result == 'success') {
 			if (x == this.x && y == this.y) {
@@ -61,42 +61,50 @@ function Rover(viewer) {
 				this.doStep(a, b);
 			}
 		} else {
-
 			// Le Rover ne peut pas avancer
-			var tmp;
-			//do {
-				if (a != 0 && b != 0) {
-					tmp = a;
-					a = 0;
-					if (this.testSlope(a,b).result != 'success') {
-						//b = 0;
-						//a = tmp;
-					}
-				} else {
-					if (a == 0) {
-						a = -1;
-						if (this.testSlope(a,b).result != 'success') {
-							//a = 1;
-						}
-					} else if (b == 0) {
-						b = -1;
-						if (this.testSlope(a,b).result != 'success') {
-							//b = 1;
-						}
-					}
-				}
-			//} while (this.testSlope(a,b) != 'success');
-			if (this.testSlope(a,b).result == 'success') {
+			var direction = this.takeDecision(a,b);
+
+			if (direction != false) {
+				a = direction[0];
+				b = direction[1];
 				this.doStep(a, b);
 			} else {
-				console.log('TRY AGAIN ' + this.testSlope(a,b).result);
+				// Non géré
+				console.log('TRY AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
 				clearInterval(this.tick);
 			}
 		}
 
-		console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
+	//	console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
 
 	};
+
+	// Retourne les coordonnées relatives au Rover d'une case pratiquable à droite ou à gauche
+	Rover.prototype.takeDecision = function (a, b) {
+		if (a != 0 && b != 0) {
+			switch('success') {
+				case this.checkSlope(a,0).result: b = 0; break;
+				case this.checkSlope(0,b).result: a = 0; break;
+				default: return false;
+			}
+		} else {
+			if (a == 0) {
+				switch('success') {
+					case this.checkSlope(1,b).result: a = 1; break;
+					case this.checkSlope(-1,b).result: a = -1; break;
+					default: return false;
+				}
+			} else if (b == 0) {
+				switch('success') {
+					case this.checkSlope(a,1).result: b = 1; break;
+					case this.checkSlope(a,-1).result: b = -1; break;
+					default: return false;
+				}
+			}
+		}
+
+		return [a,b];
+	}
 
 	Rover.prototype.getVector = function (n) {
 		var v;
@@ -145,7 +153,8 @@ function Rover(viewer) {
 				}
 			}
 
-			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+p+')');
+			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.p+' '+slope.result+') '+a+','+b);
+
 			// Déplacement
 			this.position(x, y);
 
@@ -162,7 +171,7 @@ function Rover(viewer) {
 			p = this.getSlope(x, y, x2, y2);
 
 		// Tests de la pente
-		if (p === false && p != 0) {
+		if (p === false) {
 			result = 'out of bounds';
 		} else if (p > -maxSlope && p < maxSlope) {
 			result = 'success';
@@ -186,7 +195,7 @@ function Rover(viewer) {
 		if (next === false) {
 			p = false;
 		} else {
-			p = (next.z - current.z) / 5; // 5 mètres;
+			p = (next.z - current.z) / 5; // 5 mètres
 		}
 
 		return p;
@@ -255,7 +264,7 @@ function Rover(viewer) {
 
 	Rover.prototype.getSquare = function (x, y) {
 		// Retourne la position actuelle si les paramètres ne sont pas renseignés
-		if (x == undefined || y == undefined) {
+		if (x == null || y == null) {
 			x = this.x;
 			y = this.y;
 		}
