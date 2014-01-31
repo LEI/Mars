@@ -190,7 +190,7 @@ function Rover(viewer) {
 				}
 			}
 
-			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.p+' '+slope.result+') '+a+','+b);
+			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.result+' '+slope.p+') '+a+','+b);
 
 			// Déplacement
 			this.position(x, y);
