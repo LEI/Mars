@@ -3,7 +3,7 @@ $(function() {
 	// Initialisation
 	var size = 33,//65, //Math.floor( $(window).height() / 2 ),
 		square = 10,
-		softness = 4,
+		softness = 2,
 		amplitude = 50,
 		noise = 5,
 		lumPlus = 50,
@@ -46,16 +46,21 @@ $(function() {
 	});
 
 	$('#rover_goto').click( function(e) {
-        var startX = parseInt($('#rover_start_x').val(),10),
-        startY = parseInt($('#rover_start_y').val(),10),
-        endX = $('#rover_end_x').val(),
-        endY = $('#rover_end_y').val();
+		var startX = parseInt($('#rover_start_x').val(),10),
+		startY = parseInt($('#rover_start_y').val(),10),
+		endX = $('#rover_end_x').val(),
+		endY = $('#rover_end_y').val();
 
         viewer.render(mars.json);
 
         curiosity.init(mars.json, startX, startY);
         curiosity.goTo(endX, endY);
-    });
+	});
+
+	$('#rover_stop').click( function(e) {
+		console.log('Arrêt d\'urgence')
+		clearInterval(curiosity.tick);
+	});
 
 	// Ecoute des touches
 	$(document).keydown(function(e) {
@@ -134,6 +139,6 @@ $(function() {
 
 	// Render au chargement de la page
 	$('#map_render').click();
-	//$('#rover_settings').submit();
+	$('#rover_goto').click();
 
 });

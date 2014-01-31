@@ -62,16 +62,27 @@ function Rover(viewer) {
 			}
 		} else {
 			// Le Rover ne peut pas avancer
-			var direction = this.takeDecision(a,b);
-
+			var c, d, direction = this.takeDecision(a,b);
+			console.log('BRAIN');
 			if (direction != false) {
-				a = direction[0];
-				b = direction[1];
-				this.doStep(a, b);
+				c = direction[0];
+				d = direction[1];
+				this.doStep(c,d);
 			} else {
-				// Non géré
-				console.log('TRY AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
-				clearInterval(this.tick);
+				direction = this.takeSecondDecision(a,b);
+				console.log('BRAIN^2');
+				if (direction != false) {
+					c = direction[0];
+					d = direction[1];
+					this.doStep(c,d);
+				} else {
+					if (c != null && d != null) {
+						a = c;
+						b = d;
+					}
+					console.log('TRY AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
+					clearInterval(this.tick);
+				}
 			}
 		}
 
@@ -79,25 +90,51 @@ function Rover(viewer) {
 
 	};
 
-	// Retourne les coordonnées relatives au Rover d'une case pratiquable à droite ou à gauche
+	// Retourne les coordonnées relatives au Rover d'une case pratiquable
 	Rover.prototype.takeDecision = function (a, b) {
 		if (a != 0 && b != 0) {
 			switch('success') {
-				case this.checkSlope(a,0).result: b = 0; break;
-				case this.checkSlope(0,b).result: a = 0; break;
+				case this.checkSlope(a,0): b = 0; break;
+				case this.checkSlope(0,b): a = 0; break;
 				default: return false;
 			}
 		} else {
 			if (a == 0) {
 				switch('success') {
-					case this.checkSlope(1,b).result: a = 1; break;
-					case this.checkSlope(-1,b).result: a = -1; break;
+					case this.checkSlope(1,b): a = 1; break;
+					case this.checkSlope(-1,b): a = -1; break;
 					default: return false;
 				}
 			} else if (b == 0) {
 				switch('success') {
-					case this.checkSlope(a,1).result: b = 1; break;
-					case this.checkSlope(a,-1).result: b = -1; break;
+					case this.checkSlope(a,1): b = 1; break;
+					case this.checkSlope(a,-1): b = -1; break;
+					default: return false;
+				}
+			}
+		}
+
+		return [a,b];
+	}
+
+	Rover.prototype.takeSecondDecision = function (a, b) {
+		if (a != 0 && b != 0) {
+			switch('success') {
+				case this.checkSlope(a,-b): b = -b; break;
+				case this.checkSlope(-a,b): a = -a; break;
+				default: return false;
+			}
+		} else {
+			if (a == 0) {
+				switch('success') {
+					case this.checkSlope(1,0): a = 1; b = 0; break;
+					case this.checkSlope(-1,0): a = -1; b = 0; break;
+					default: return false;
+				}
+			} else if (b == 0) {
+				switch('success') {
+					case this.checkSlope(0,1): a = 0; b = 1; break;
+					case this.checkSlope(0,-1): a = 0; b = -1; break;
 					default: return false;
 				}
 			}
@@ -172,7 +209,7 @@ function Rover(viewer) {
 
 		// Tests de la pente
 		if (p === false) {
-			result = 'out of bounds';
+			result = false;
 		} else if (p > -maxSlope && p < maxSlope) {
 			result = 'success';
 		} else if (p <= -maxSlope) {
@@ -211,7 +248,7 @@ function Rover(viewer) {
 		}
 		var slope = this.testSlope(this.x + a, this.y + b);
 
-		return slope;
+		return slope.result;
 	};
 
 	// Détermine la composition du sol, coordonnées relatives à la position du Rover
