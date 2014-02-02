@@ -35,6 +35,7 @@ function Rover(viewer) {
 		//this.memory.push(this.getNearSquares(1));
 		//console.log(this.memory);
 		var i = 1, that = this;
+		this.autoStop = 0;
 		this.tick = setInterval(function(){
 			that.move(x,y);
 			that.log(i++);
@@ -62,36 +63,57 @@ function Rover(viewer) {
 			}
 		} else {
 			// Le Rover ne peut pas avancer
-			var c, d, direction = this.takeDecision(a,b);
-			console.log('BRAIN');
+			var direction = this.getDirection(a,b);
 			if (direction != false) {
-				c = direction[0];
-				d = direction[1];
-				this.doStep(c,d);
-			} else {
-				direction = this.takeSecondDecision(a,b);
-				console.log('BRAIN^2');
-				if (direction != false) {
-					c = direction[0];
-					d = direction[1];
-					this.doStep(c,d);
-				} else {
-					if (c != null && d != null) {
-						a = c;
-						b = d;
+				a = direction[0];
+				b = direction[1];
+				if (this.prevSquare != undefined && this.x+a == this.prevSquare.x && this.x+b == this.prevSquare.y) {
+					if (this.autoStop++ > 5) {
+						// boucle
+						console.log('oops AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
+						console.log(this.prevSquare);
+						clearInterval(this.tick);
+
 					}
-					console.log('TRY AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
-					clearInterval(this.tick);
+				} else {
+					this.doStep(a,b);
 				}
+			} else {
+				console.log('TRY AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
+				clearInterval(this.tick);
 			}
 		}
+
+		this.prevSquare = this.getSquare(this.x-a, this.y-b);
 
 	//	console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
 
 	};
 
 	// Retourne les coordonnées relatives au Rover d'une case pratiquable
-	Rover.prototype.takeDecision = function (a, b) {
+	Rover.prototype.getDirection = function (a, b) {
+		var c, d, direction = this.checkSlopes(a,b);
+		if (direction != false) {
+		console.log('BRAIN');
+			c = direction[0];
+			d = direction[1];
+
+			return [c,d];
+		} else {
+			direction = this.checkFarSlopes(a,b);
+			if (direction != false) {
+			console.log('BRAIN^2');
+				c = direction[0];
+				d = direction[1];
+
+				return [c,d];
+			}
+		}
+
+		return false;
+	}
+
+	Rover.prototype.checkSlopes = function (a, b) {
 		if (a != 0 && b != 0) {
 			switch('success') {
 				case this.checkSlope(a,0): b = 0; break;
@@ -117,7 +139,7 @@ function Rover(viewer) {
 		return [a,b];
 	}
 
-	Rover.prototype.takeSecondDecision = function (a, b) {
+	Rover.prototype.checkFarSlopes = function (a, b) {
 		if (a != 0 && b != 0) {
 			switch('success') {
 				case this.checkSlope(a,-b): b = -b; break;
@@ -306,7 +328,15 @@ function Rover(viewer) {
 			y = this.y;
 		}
 
-		return this.isOnMap(x, y);
+		var square = this.isOnMap(x, y);
+		if (typeof square == 'object') {
+			square['x'] = x;
+			square['y'] = y;
+
+			return square;
+		}
+
+		return false;
 	};
 
 	Rover.prototype.isOnMap = function (x, y) {
