@@ -25,7 +25,7 @@ function DiamondSquare()
         for (var i=0; i<size_int; i++) {
             this.map[i] = [];
             for (var j=0; j<size_int; j++) {
-                this.map[i][j] = "*";
+                this.map[i][j] = 10;
             }
         }
     }
@@ -101,18 +101,44 @@ function DiamondSquare()
         //console.log('this.map[x_spaceIndex][y_spaceIndex] = ');
         var center = Math.floor((topLeft + topRight + botLeft + botRight)/4);
         this.map[x_spaceIndexHalf][y_spaceIndexHalf] = this.egalize(center);
+        /*var center = 30;
+        this.map[x_spaceIndexHalf][y_spaceIndexHalf] = center;*/
         //console.log('center = '+center)
 
 
         // diamond
-        /*this.map[x_spaceIndexHalf][y] =  this.egalize(Math.floor((center + topLeft + topRight)/3));
-        this.map[x_spaceIndex][y_spaceIndexHalf] = this.egalize(Math.floor((center + topRight + botRight )/3));
-        this.map[x_spaceIndexHalf][y_spaceIndex] = this.egalize(Math.floor((center + botRight + botLeft)/3));
-        this.map[x][y_spaceIndexHalf] = this.egalize(Math.floor((center + topLeft + botLeft)/3));*/
-        this.map[x_spaceIndexHalf][y] =  this.egalize(Math.floor((center + topLeft + topRight)/3) + this.noise());
-        this.map[x_spaceIndex][y_spaceIndexHalf] = this.egalize(Math.floor((center + topRight + botRight )/3) + this.noise());
-        this.map[x_spaceIndexHalf][y_spaceIndex] = this.egalize(Math.floor((center + botRight + botLeft)/3) + this.noise());
-        this.map[x][y_spaceIndexHalf] = this.egalize(Math.floor((center + topLeft + botLeft)/3) + this.noise());
+        var centerTop = centerRight = centerBot = centerLeft = 0;
+        var divisorTop = divisorRight = divisorBot = divisorLeft = 3;
+        console.log(this.map[x_spaceIndexHalf][y-(y_spaceIndexHalf-y)]);
+        
+        if((y-(y_spaceIndexHalf-y)) >= 0) {
+            centerTop    = this.map[x_spaceIndexHalf][y-(y_spaceIndexHalf-y)];
+            divisorTop   = 4;
+        }
+        if((x+(x_spaceIndexHalf+x)) < this.size) {
+            centerRight  = this.map[x+(x_spaceIndexHalf+x)][y_spaceIndexHalf];
+            divisorRight = 4;
+        }
+        if((y+(y_spaceIndexHalf+y)) < this.size) {
+            centerBot    = this.map[x_spaceIndexHalf][y+(y_spaceIndexHalf+y)];
+            divisorBot   = 4;
+        }
+        if((x-(x_spaceIndexHalf-x)) >= 0) {
+            centerLeft   = this.map[x-(x_spaceIndexHalf-x)][y_spaceIndexHalf];
+            divisorLeft  = 4;
+        }
+            // console.log('cT: '+centerTop+' / cR: '+centerRight+' / cB: '+centerBot+' / cL: '+centerLeft+' ');
+            // console.log('dT: '+divisorTop+' / dR: '+divisorRight+' / dB: '+divisorBot+' / dL: '+divisorLeft+' ');
+            // console.log('--------------------');
+
+        this.map[x_spaceIndexHalf][y]            = this.egalize(Math.floor((center + topLeft + topRight + centerTop)/divisorTop) + this.noise());
+        this.map[x_spaceIndex][y_spaceIndexHalf] = this.egalize(Math.floor((center + topRight + botRight + centerRight)/divisorRight) + this.noise());
+        this.map[x_spaceIndexHalf][y_spaceIndex] = this.egalize(Math.floor((center + botRight + botLeft + centerBot)/divisorBot) + this.noise());
+        this.map[x][y_spaceIndexHalf]            = this.egalize(Math.floor((center + topLeft + botLeft + centerLeft)/divisorLeft) + this.noise());
+        // this.map[x_spaceIndexHalf][y] =  this.egalize(Math.floor((center + topLeft + topRight)/3) + this.noise());
+        // this.map[x_spaceIndex][y_spaceIndexHalf] = this.egalize(Math.floor((center + topRight + botRight)/3) + this.noise());
+        // this.map[x_spaceIndexHalf][y_spaceIndex] = this.egalize(Math.floor((center + botRight + botLeft)/3) + this.noise());
+        // this.map[x][y_spaceIndexHalf] = this.egalize(Math.floor((center + topLeft + botLeft)/3) + this.noise());
 
         if (space > 2) {
             var nextSpace = Math.floor(space/2);
