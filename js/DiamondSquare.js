@@ -100,7 +100,7 @@ function DiamondSquare()
         // diamond
         var centerTop = centerRight = centerBot = centerLeft = 0;
         var divisorTop = divisorRight = divisorBot = divisorLeft = 3;
-        console.log(this.map[x][y]);
+        //console.log(this.map[x][y]);
         
         if(x+(space/2) < this.size) {
             centerRight  = this.map[x+(space/2)][y_spaceIndexHalf];
@@ -141,7 +141,7 @@ function DiamondSquare()
     }
 
     // Retourne le tableau map formaté en JSON ('z' et 'type')
-    DiamondSquare.prototype.formatToJson = function (mapArray) {
+    DiamondSquare.prototype.formatToJson = function (mapArray, size) {
         // square length
         var newArray = [];
         for (var x = 0; x < mapArray.length; x++) {
@@ -153,24 +153,49 @@ function DiamondSquare()
                 });
             }
         }
+
+        newArray.length = size;
+        for (var i in newArray) {
+            newArray[i].length = size;
+        }
         return newArray;
+    }
+
+    // Arrondit au 2^n+1 supérieur
+    DiamondSquare.prototype.roundSize = function (nb) {
+        var roundedSizes = [];
+        var value = nb;
+
+        for(i = 1; i < nb; i++) {
+            if(i >= 2)
+                var prevIndex = roundedSizes[i-2];
+            roundedSizes[i-1] = Math.pow(2, i);
+            
+            if(nb <= roundedSizes[i-1]) {
+                if(nb > prevIndex)
+                    value = roundedSizes[i-1];
+            }
+        }
+
+        return value+1;
     }
 
     /**
      * function: generate
      */
     DiamondSquare.prototype.generate = function(size, amplitude, delta) {
-        this.init(-amplitude, amplitude, size, delta);
+        size_rounded = this.roundSize(size);
+        this.init(-amplitude, amplitude, size_rounded, delta);
 //        this.init(-20, 20, size, delta);
         this.initCorners();
         //console.log(this.map)
-        this.DS(0,0,(size-1));
+        this.DS(0,0,(size_rounded-1));
         //this.diamondSquare(0,0,8);
         //this.diamondSquare(0,0,8);
         //this.diamondSquare(8,8,8);
         //this.diamondSquare(0,8,8);
         //this.diamondSquare(8,0,8);
-        return this.formatToJson(this.map);
+        return this.formatToJson(this.map, size);
     }
 
 }

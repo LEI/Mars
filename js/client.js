@@ -139,6 +139,6 @@ $(function() {
 
 	// Render au chargement de la page
 	$('#map_render').click();
-	$('#rover_goto').click();
+	//$('#rover_goto').click();
 
 });
