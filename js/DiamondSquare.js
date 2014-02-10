@@ -25,7 +25,7 @@ function DiamondSquare()
         for (var i=0; i<size_int; i++) {
             this.map[i] = [];
             for (var j=0; j<size_int; j++) {
-                this.map[i][j] = 10;
+                this.map[i][j] = '*';
             }
         }
     }
@@ -92,18 +92,9 @@ function DiamondSquare()
         var topRight = this.map[x_spaceIndex][y];
         var botLeft = this.map[x][y_spaceIndex];
         var botRight = this.map[x_spaceIndex][y_spaceIndex];
-        /*console.log('space = '+space);
-         console.log('topLeft      = '+topLeft+' | topRight          = '+topRight);
-         console.log('botLeft      = '+botLeft+' | botRight      = '+botRight);
-         console.log('x_spaceIndex = '+x_spaceIndex+' | y_spaceIndex = '+y_spaceIndex);
-         console.log('--------------------------------------------');*/
 
-        //console.log('this.map[x_spaceIndex][y_spaceIndex] = ');
         var center = Math.floor((topLeft + topRight + botLeft + botRight)/4);
         this.map[x_spaceIndexHalf][y_spaceIndexHalf] = this.egalize(center);
-        /*var center = 30;
-        this.map[x_spaceIndexHalf][y_spaceIndexHalf] = center;*/
-        //console.log('center = '+center)
 
 
         // diamond
@@ -111,21 +102,21 @@ function DiamondSquare()
         var divisorTop = divisorRight = divisorBot = divisorLeft = 3;
         console.log(this.map[x_spaceIndexHalf][y-(y_spaceIndexHalf-y)]);
         
-        if((y-(y_spaceIndexHalf-y)) >= 0) {
-            centerTop    = this.map[x_spaceIndexHalf][y-(y_spaceIndexHalf-y)];
-            divisorTop   = 4;
-        }
-        if((x+(x_spaceIndexHalf+x)) < this.size) {
-            centerRight  = this.map[x+(x_spaceIndexHalf+x)][y_spaceIndexHalf];
+        if(x+(space/2) < this.size) {
+            centerRight  = this.map[x+(space/2)][y_spaceIndexHalf];
             divisorRight = 4;
         }
-        if((y+(y_spaceIndexHalf+y)) < this.size) {
-            centerBot    = this.map[x_spaceIndexHalf][y+(y_spaceIndexHalf+y)];
-            divisorBot   = 4;
+        if(y-(space/2) > 0) {
+            centerTop    = this.map[x_spaceIndexHalf][y-(space/2)];
+            divisorTop   = 4;
         }
-        if((x-(x_spaceIndexHalf-x)) >= 0) {
-            centerLeft   = this.map[x-(x_spaceIndexHalf-x)][y_spaceIndexHalf];
+        if(x-(space/2) > 0) {
+            centerLeft   = this.map[x-(space/2)][y_spaceIndexHalf];
             divisorLeft  = 4;
+        }
+        if(y+(space/2) < this.size) {
+            centerBot    = this.map[x_spaceIndexHalf][y+(space/2)];
+            divisorBot   = 4;
         }
             // console.log('cT: '+centerTop+' / cR: '+centerRight+' / cB: '+centerBot+' / cL: '+centerLeft+' ');
             // console.log('dT: '+divisorTop+' / dR: '+divisorRight+' / dB: '+divisorBot+' / dL: '+divisorLeft+' ');
