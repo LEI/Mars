@@ -4,8 +4,10 @@ function Rover(viewer) {
 	// Initialisation du rover, x et y optionnels
 	Rover.prototype.init = function (json, x, y) {
 		this.initMap(json);
-		this.E = 100;
+		this.maxEnergy = 100;
+		this.energy = this.maxEnergy;
 
+		this.visited = [];
 		this.position(x, y);
 	};
 
@@ -23,6 +25,8 @@ function Rover(viewer) {
 		this.x = x;
 		this.y = y;
 
+		this.visited.push(this.getSquare());
+
 		this.refresh();
 	}
 
@@ -37,6 +41,7 @@ function Rover(viewer) {
 		var i = 1, that = this;
 		this.autoStop = 0;
 		this.tick = setInterval(function(){
+			that.E = 0;
 			that.move(x,y);
 			that.log(i++);
 		}, 100);
@@ -50,70 +55,87 @@ function Rover(viewer) {
 			b = this.getVector(Y),
 			nextX = this.x + a,
 			nextY = this.y + b,
-			slope = this.testSlope(nextX, nextY);
+			slope = this.testSlope(nextX, nextY),
+			direction;
 
-		if (slope.result == 'success') {
-			if (x == this.x && y == this.y) {
-				// Le Rover est arrivé à destination
-				clearInterval(this.tick);
-				console.log('GG');
-			} else {
-				// Le Rover avance
-				this.doStep(a, b);
-			}
-		} else {
+		if (slope.result != 'success') {
 			// Le Rover ne peut pas avancer
-			var direction = this.getDirection(a,b);
-			if (direction != false) {
-				a = direction[0];
-				b = direction[1];
-				if (this.prevSquare != undefined && this.x+a == this.prevSquare.x && this.x+b == this.prevSquare.y) {
-					if (this.autoStop++ > 5) {
-						// boucle
-						console.log('oops AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
-						console.log(this.prevSquare);
-						clearInterval(this.tick);
-
-					}
-				} else {
-					this.doStep(a,b);
-				}
-			} else {
-				console.log('TRY AGAIN '+this.x+','+this.y+' -> '+(this.x+a)+','+(this.x+b));
-				clearInterval(this.tick);
-			}
+			direction = this.getDirection(a,b,X,Y);
+			a = direction[0];
+			b = direction[1];
 		}
 
-		this.prevSquare = this.getSquare(this.x-a, this.y-b);
-
+		if (x == this.x && y == this.y) {
+			// Le Rover est arrivé à destination
+			clearInterval(this.tick);
+			console.log('GG');
+		} else {
+			this.doStep(a, b);
+		}
 	//	console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
 
 	};
 
 	// Retourne les coordonnées relatives au Rover d'une case pratiquable
-	Rover.prototype.getDirection = function (a, b) {
-		var c, d, direction = this.checkSlopes(a,b);
-		if (direction != false) {
-		console.log('BRAIN');
-			c = direction[0];
-			d = direction[1];
+	Rover.prototype.getDirection = function (a, b, X, Y) {
+		var maxSlope, maxBenefit, benefit, items = [],
+			near, nearSquares = this.getNearSquares(1).near;
 
-			return [c,d];
-		} else {
-			direction = this.checkFarSlopes(a,b);
-			if (direction != false) {
-			console.log('BRAIN^2');
-				c = direction[0];
-				d = direction[1];
+		for (i = 0, len = nearSquares.length; i < len; i++) {
+			near = nearSquares[i];
+			benefit = 0;
+			if (near.result == 'success') {
 
-				return [c,d];
+				if ((near.x-this.x) * X > 0) {
+					benefit += 8;
+				}
+				if ((near.y-this.y) * Y > 0) {
+					benefit += 8;
+				}
+				if ((near.x-this.x) * X < 0) {
+					benefit -= 8;
+				}
+				if ((near.y-this.y) * Y < 0) {
+					benefit -= 8;
+				}
+
+				for (var v = 0; v < this.visited.length; v++) {
+					if (this.visited[v].x == near.x && this.visited[v].y == near.y) {
+						benefit -= 4;
+					}
+				}
+
+				benefit -= near.p;
+
+				// Glace ?
+				var type = this.getSquare(near.x, near.y).type;
+				if (type == 5) {
+					benefit += 4;
+				} else if (type == 2 && p < 0) {
+					benefit += 2;
+				} else if (type == 2 && p > 0) {
+					benefit -= 2;
+				}
+
+				if (!maxBenefit || benefit > maxBenefit.b) {
+					maxBenefit = {
+						'x': near.x-this.x,
+						'y': near.y-this.y,
+						'b': benefit
+					};
+				}
+				items.push({
+					'x': near.x-this.x,
+					'y': near.y-this.y,
+					'b': benefit
+				});
 			}
 		}
 
-		return false;
-	}
+		return [maxBenefit.x, maxBenefit.y];
+	};
 
-	Rover.prototype.checkSlopes = function (a, b) {
+	/*Rover.prototype.checkSlopes = function (a, b, X, Y) {
 		if (a != 0 && b != 0) {
 			switch('success') {
 				case this.checkSlope(a,0): b = 0; break;
@@ -139,7 +161,7 @@ function Rover(viewer) {
 		return [a,b];
 	}
 
-	Rover.prototype.checkFarSlopes = function (a, b) {
+	Rover.prototype.checkSecSlopes = function (a, b) {
 		if (a != 0 && b != 0) {
 			switch('success') {
 				case this.checkSlope(a,-b): b = -b; break;
@@ -149,7 +171,7 @@ function Rover(viewer) {
 		} else {
 			if (a == 0) {
 				switch('success') {
-					case this.checkSlope(1,0): a = 1; b = 0; break;
+					case this.checkSlope(1,0):a = 1; b = 0; break;
 					case this.checkSlope(-1,0): a = -1; b = 0; break;
 					default: return false;
 				}
@@ -163,7 +185,7 @@ function Rover(viewer) {
 		}
 
 		return [a,b];
-	}
+	}*/
 
 	Rover.prototype.getVector = function (n) {
 		var v;
@@ -214,11 +236,19 @@ function Rover(viewer) {
 
 			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.result+' '+slope.p+') '+a+','+b);
 
+			if (this.energy + this.E > 0) {
+				this.energy += this.E;
+			} else {
+				console.log('wait 5');
+				// Le rover recharge 10% en 5 tours
+				this.energy += this.maxEnergy / 10;
+			}
 			// Déplacement
 			this.position(x, y);
 
 		} else {
 			console.log('Mouvement demandé ' + slope.result);
+			console.log(this.x+','+this.y+' -> '+a+','+b);
 			clearInterval(this.tick);
 		}
 	};
@@ -263,7 +293,7 @@ function Rover(viewer) {
 	// Détermine la valeur de la pente, coordonnées relatives à la position du Rover
 	Rover.prototype.checkSlope = function (a, b) {
 
-		// attention : tester la penter par rapport à une case adjacente
+		// attention : tester la pente par rapport à une case adjacente
 		if (Math.abs(a) > 1 || Math.abs(b) > 1) {
 			// Case au delà de 1 coûte 0,1E
 			this.E -= 1;
@@ -307,11 +337,14 @@ function Rover(viewer) {
 				var square = this.getSquare(i, j);
 				// Si la case existe
 				if (square) {
-					nearSquares.near.push({
-						'x': i, 'y': j,
-						'z': square.z,
-						'p': this.testSlope(i, j).result
-					});
+					if (!(i - this.x == 0 && j - this.y == 0)) {
+						nearSquares.near.push({
+							'x': i, 'y': j,
+							'z': square.z,
+							'p': this.testSlope(i, j).p,
+							'result': this.testSlope(i, j).result
+						});
+					}
 				}
 			}
 		}
@@ -353,7 +386,7 @@ function Rover(viewer) {
 			round = '';
 		}
 
-		var energy = this.E / 10,
+		var energy = this.energy / 10,
 			currentSquare = this.getSquare(),
 			log = '(' + this.x + ',' + this.y + ') ' +
 				'z: ' + currentSquare.z + ' ' +

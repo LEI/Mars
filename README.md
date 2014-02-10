@@ -2,7 +2,7 @@
 
 ##Carte
 
-La carte est **carrée**, chaque case est positionnée sur **3 axes** et composée d'une **matière**. Ces informations sont enregistrées dans un fichier **JSON** (JavaScript Object Notation).
+La carte est **carrée**, chaque case est positionnée sur **3 axes** et composée d'une **matière**. Les données sont enregistrées dans un fichier **JSON** (JavaScript Object Notation).
 
 ###Matières
 
@@ -18,7 +18,7 @@ La carte est **carrée**, chaque case est positionnée sur **3 axes** et compos�
 ###JSON
 
 Les coordonnées `x` et `y` sont définies par l'index de chaque case dans le tableau.
-La hauteur `z` (-50, 50) et le `type` de matière (1, 6) sont générés aléatoirement.
+La hauteur `z` (entier) et le `type` de matière (1, 6) sont générés aléatoirement.
 L'élément `size` définit la taille de la carte.
 
 5 mètres séparent chaque point

@@ -85,11 +85,11 @@ function Viewer(square)
 					for (var i in rover.nearSquares.near) {
 						slopeTest = rover.nearSquares.near[i];
 						if (slopeTest.x == x && slopeTest.y == y) {
-							if (slopeTest.p == 'success') {
+							if (slopeTest.result == 'success') {
 								//this.context.fillStyle = 'rgba(0,255,0,1)';
-							} else if (slopeTest.p == 'fail') {
+							} else if (slopeTest.result == 'fail') {
 								this.context.fillStyle = 'rgba(0,0,0,1)';
-							} else if (slopeTest.p == 'impossible') {
+							} else if (slopeTest.result == 'impossible') {
 								this.context.fillStyle = 'rgba(255,255,255,1)';
 							}
 						}
@@ -100,7 +100,7 @@ function Viewer(square)
 						this.path.push({'x': x, 'y': y});
 					}
 				}
-				
+
 				this.context.fillRect(
 					x * this.square,
 					y * this.square,
