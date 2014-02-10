@@ -100,17 +100,17 @@ function DiamondSquare()
         // diamond
         var centerTop = centerRight = centerBot = centerLeft = 0;
         var divisorTop = divisorRight = divisorBot = divisorLeft = 3;
-        console.log(this.map[x_spaceIndexHalf][y-(y_spaceIndexHalf-y)]);
+        console.log(this.map[x][y]);
         
         if(x+(space/2) < this.size) {
             centerRight  = this.map[x+(space/2)][y_spaceIndexHalf];
             divisorRight = 4;
         }
-        if(y-(space/2) > 0) {
+        if(y-(space/2) >= 0) {
             centerTop    = this.map[x_spaceIndexHalf][y-(space/2)];
             divisorTop   = 4;
         }
-        if(x-(space/2) > 0) {
+        if(x-(space/2) >= 0) {
             centerLeft   = this.map[x-(space/2)][y_spaceIndexHalf];
             divisorLeft  = 4;
         }
