@@ -9,8 +9,9 @@ function Map() {
 		this.softness = softness;
 		this.map = [];
 
-		var randmin = 0, randmax = 100,
-		z_half = Math.floor(this.z/(softness*3));
+		// Altitude (z)
+		var randmin = 0, randmax = 100, // espacement des points-clés
+		z_smooth = Math.floor(this.z/(softness*3));
 		var space = Math.floor(this.rand(randmin,randmax));
 		cnt = space;
 		for (i = 0; i < size * size; i++) {
@@ -19,7 +20,7 @@ function Map() {
 				space = Math.floor(this.rand(randmin,randmax));
 				cnt = space;
 			} else {
-				value = Math.floor(this.rand(-z_half, z_half));
+				value = Math.floor(this.rand(-z_smooth, z_smooth));
 				cnt--;
 			}
 
