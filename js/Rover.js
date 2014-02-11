@@ -39,9 +39,7 @@ function Rover(viewer) {
 		//this.memory.push(this.getNearSquares(1));
 		//console.log(this.memory);
 		var i = 1, that = this;
-		this.autoStop = 0;
 		this.tick = setInterval(function(){
-			that.E = 0;
 			that.move(x,y);
 			that.log(i++);
 		}, 100);
@@ -101,7 +99,7 @@ function Rover(viewer) {
 
 				for (var v = 0; v < this.visited.length; v++) {
 					if (this.visited[v].x == near.x && this.visited[v].y == near.y) {
-						benefit -= 4;
+						benefit -= 8;
 					}
 				}
 
@@ -202,10 +200,11 @@ function Rover(viewer) {
 
 	// Déplacement du rover, coordonnées relatives à la position du Rover
 	Rover.prototype.doStep = function (a, b) {
-
 		// Calcul des coordonnées du point à tester
 		x = a + this.x;
 		y = b + this.y;
+
+		this.E = 0;
 
 		var slope = this.testSlope(x, y),
 			p = slope.p;
@@ -234,12 +233,13 @@ function Rover(viewer) {
 				}
 			}
 
-			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.result+' '+slope.p+') '+a+','+b);
-
 			if (this.energy + this.E > 0) {
 				this.energy += this.E;
+
+				console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.result+' '+slope.p+') '+a+','+b);
+
 			} else {
-				console.log('wait 5');
+				console.log('wait');
 				// Le rover recharge 10% en 5 tours
 				this.energy += this.maxEnergy / 10;
 			}
@@ -256,7 +256,7 @@ function Rover(viewer) {
 	// Retourne le résultat du test d'une pente
 	Rover.prototype.testSlope = function (x, y, x2, y2) {
 
-		var result, maxSlope = 1.5,
+		var result, maxSlope = 0.5,
 			p = this.getSlope(x, y, x2, y2);
 
 		// Tests de la pente

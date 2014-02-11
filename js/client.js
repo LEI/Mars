@@ -1,10 +1,10 @@
 $(function() {
 
 	// Initialisation
-	var size = 70,
+	var size = 30,
 		square = 10,
-		softness = 2,
 		amplitude = 50,
+		softness = 5,
 		noise = 5,
 		lumPlus = 50,
 		lumCoef = 1,
@@ -26,22 +26,11 @@ $(function() {
 		noise = $('#map_noise').val();
 
 		mars.init(size, amplitude, softness, noise);
-		/*if ($('#map_rand').is(':checked')) {
-			mars.init(size, amplitude, softness);
-		} else if ($('#map_ds').is(':checked')) {
-			mars.initDS(size, amplitude, noise);
-		}*/
 
 		$('#map_init').click();
 	});
 
 	$('#rover_init').click( function(e) {
-		if ($('#map_test').is(':checked')) {
-			// Affiche en rouge les pentes > 150%
-			viewer.testSlopes = true;
-		} else {
-			viewer.testSlopes = false;
-		}
 		viewer.render(mars.json);
 		curiosity.init(mars.json);
 	});
@@ -67,6 +56,9 @@ $(function() {
 	$(document).keydown(function(e) {
 		var X, Y, direction, key = e.keyCode;
 		switch(key) {
+			//	A	Z	E
+			//	Q		D
+			//	W	X	C
 			case 65: direction = {'x': -1,'y': -1};	break;	// A 	top left
 			case 90: direction = {'x': 0,'y': -1}; break;	// Z	top
 			case 69: direction = {'x': 1,'y': -1}; break;	// E 	top right
@@ -84,10 +76,6 @@ $(function() {
 
 			default: return;
 		}
-
-		//X = direction.x + curiosity.x;
-		//Y = direction.y + curiosity.y;
-
 		curiosity.doStep(direction.x, direction.y);
 
 		e.preventDefault();
