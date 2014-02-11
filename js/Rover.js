@@ -124,11 +124,11 @@ function Rover(viewer) {
 						'b': benefit
 					};
 				}
-				items.push({
+				/*items.push({
 					'x': near.x-this.x,
 					'y': near.y-this.y,
 					'b': benefit
-				});
+				});*/
 			}
 		}
 

@@ -101,7 +101,7 @@ function DiamondSquare()
         var centerTop = centerRight = centerBot = centerLeft = 0;
         var divisorTop = divisorRight = divisorBot = divisorLeft = 3;
         //console.log(this.map[x][y]);
-        
+
         if(x+(space/2) < this.size) {
             centerRight  = this.map[x+(space/2)][y_spaceIndexHalf];
             divisorRight = 4;
@@ -170,7 +170,7 @@ function DiamondSquare()
             if(i >= 2)
                 var prevIndex = roundedSizes[i-2];
             roundedSizes[i-1] = Math.pow(2, i);
-            
+
             if(nb <= roundedSizes[i-1]) {
                 if(nb > prevIndex)
                     value = roundedSizes[i-1];
