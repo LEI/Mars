@@ -12,7 +12,7 @@ $(function() {
 		viewer = new Viewer(square),
 		curiosity = new Rover(viewer),
 		start = [1,1],
-		end = [20,20];
+		end = [2,2];
 
 	$('#map_init').click( function(e) {
 		viewer.square = $('#map_square').val();

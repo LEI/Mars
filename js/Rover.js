@@ -404,6 +404,7 @@ function Rover(viewer) {
 	Rover.prototype.refresh = function () {
 		this.log();
 		this.getNearSquares(1);
-		this.viewer.drawCanvas(viewer.json, this);
+		//this.viewer.drawCanvas(viewer.json, this);
+		this.viewer.drawRover(this);
 	};
 }
