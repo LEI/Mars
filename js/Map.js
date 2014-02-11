@@ -1,13 +1,14 @@
 function Map() {
 	Map.prototype.init = function (size, amplitude, softness, noise) {
 		var ground = new Ground(),
-			ds = new DiamondSquare();
+			ds = new DiamondSquare(),
+			i,j,z;
 		this.z = amplitude;
 		this.size = size;
 		this.softness = softness;
 		this.map = [];
 
-		for (var i = 0; i < size * size; i++) {
+		for (i = 0; i < size * size; i++) {
 			// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
 			this.map[i] = {
 				'z': this.rand(-this.z, this.z),
@@ -15,35 +16,25 @@ function Map() {
 			};
 		}
 
-		var dsMap = ds.generate(size, amplitude, noise),
+		var mergedMap = [],
+			dsMap = ds.generate(size, amplitude, noise),
 			randMap = this.create();
 		randMap = this.xyArray(randMap, this.size)
 
-
-		for (var i = 0; i < size; i++) {
-			for (var j = 0; j < size; i-j++) {
-				this.map[i][j] = {
-					'z': (randMap[i][j].z + dsMap[i][j].z) / 2,
+		for (i = 0; i < randMap.length; i++) {
+			mergedMap[i] = [];
+			for (j = 0; j < randMap[i].length; j++) {
+				z = (randMap[i][j].z + dsMap[i][j].z) / 2;
+				mergedMap[i][j] = {
+					'z': Math.floor(z),
 					'type': ground.getType()
 				}
 			}
 		}
+		this.map = mergedMap;
 
 		this.createJson();
 	};
-
-	Map.prototype.initDS = function(size, amplitude, noise) {
-
-		this.size = size;
-		this.map = ds;
-
-		var data = {
-			"size": this.size,
-			"map": this.map
-		};
-		this.json = JSON.stringify(data);
-		this.createURL(this.json);
-	}
 
 	Map.prototype.create = function () {
 		while (this.softness >= 0) {
@@ -67,7 +58,7 @@ function Map() {
 			"size": this.size,
 			"map": this.map
 		};
-		this.json = JSON.stringify(data, undefined, '\t');
+		this.json = JSON.stringify(data);//, undefined, '\t');
 		this.createURL(this.json);
 	};
 
