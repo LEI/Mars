@@ -1,8 +1,8 @@
 $(function() {
 
 	// Initialisation
-	var size = 33,//65, //Math.floor( $(window).height() / 2 ),
-		square = 10,
+	var size = 70,
+		square = 5,
 		softness = 2,
 		amplitude = 50,
 		noise = 5,
