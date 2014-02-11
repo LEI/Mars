@@ -11,7 +11,6 @@ function Viewer(square)
 		// Création du canvas en fonction de la taille totale et de la taille de chaque case
 		$('#canvas').html('<canvas width="' + (this.size*this.square) + '" height="' + (this.size*this.square) + '" id="map"></canvas>');
 		this.canvas = $('#map');
-        this.canvas_val = $('#log');
 		this.context = this.canvas.get(0).getContext('2d');
 
 		this.path = [];
@@ -26,8 +25,8 @@ function Viewer(square)
 			lumplus = parseInt($('#map_lum_plus').val(),10),
 			lumcoef = parseInt($('#map_lum_coef').val(),10);
 
-		for (var x=0; x<size; x++) {
-			for (var y=0; y<size; y++) {
+		for (var x = 0; x < size; x++) {
+			for (var y = 0; y < size; y++) {
 
 				// Teinte en fonction du type
 				var h = 10;//json.map[x][y].type*3,
@@ -40,47 +39,6 @@ function Viewer(square)
 
 				this.context.fillStyle = 'hsl(' + h + ',' + s + '%,' + l + '%)';
 
-				/*if (rover) {
-					// Parcours du Rover
-					for (i in this.path) {
-						if (this.path[i].x == x && this.path[i].y == y) {
-							if (rover.x != x || rover.y != y) {
-								l *= 0.7;
-							}
-						}
-					}
-
-					// Test du terrain
-					if (this.testSlopes == true) {
-						for (var i = x - 1; i <= x + 1; i++) {
-							for (var j = y - 1; j <= y + 1; j++) {
-								result = rover.testSlope(i, j, x, y).result;
-								if (result == 'fail' || result == 'impossible') {
-									this.context.fillStyle = 'rgba(255,0,0,1)';
-								}
-							}
-						}
-					}
-					// Affichage des pentes autour du Rover
-					for (var i in rover.nearSquares.near) {
-						slopeTest = rover.nearSquares.near[i];
-						if (slopeTest.x == x && slopeTest.y == y) {
-							if (slopeTest.result == 'success') {
-								//this.context.fillStyle = 'rgba(0,255,0,1)';
-							} else if (slopeTest.result == 'fail') {
-								this.context.fillStyle = 'rgba(0,0,0,1)';
-							} else if (slopeTest.result == 'impossible') {
-								this.context.fillStyle = 'rgba(255,255,255,1)';
-							}
-						}
-					}
-
-					if (rover.x == x && rover.y == y) {
-						this.context.fillStyle = 'rgba(255,0,0,1)';
-						this.path.push({'x': x, 'y': y});
-					}
-				}*/
-
 				this.context.fillRect(
 					x * this.square,
 					y * this.square,
@@ -89,89 +47,89 @@ function Viewer(square)
 				);
 			}
 		}
-		this.imageData = this.context.getImageData(
-			0,
-			this.size,
-			this.size,
-			this.size
+
+		// Enregistrement de l'image de la carte
+		this.imageData = this.context.getImageData(0, 0, this.size * this.square, this.size * this.square);
+		this.originalData = this.context.createImageData(this.imageData);
+		for (var i = 0; i < this.imageData.data.length; i++) {
+			this.originalData.data[i] = this.imageData.data[i];
+		}
+	};
+
+	Viewer.prototype.drawSquare = function(x, y, fn) {
+		// Récupération de l'image
+		var newData = this.context.getImageData(
+			x * this.square,
+			y * this.square,
+			this.square,
+			this.square
+		),
+		newPx = newData.data,
+		oldData = this.originalData,
+		oldPx = oldData.data
+		len = newPx.length,
+		res = [];
+
+		// Remplacement des données des pixels
+		for (var i = 0; i < len; i += 4) {
+			res = fn.call(oldPx[i], oldPx[i+1], oldPx[i+2], oldPx[i+3]);
+			newPx[i] = res[0]; 		// r
+			newPx[i+1] = res[1]; 	// g
+			newPx[i+2] = res[2]; 	// b
+			newPx[i+3] = res[3]; 	// a
+		}
+
+		// Mise à jour du canvas
+		this.context.putImageData(
+			newData,
+			x * this.square,
+			y * this.square
 		);
 	};
 
-	// getImageData() putImageData()
 	Viewer.prototype.drawRover = function(rover) {
-
-		var oldData = this.imageData,
-			oldPx = oldData.data,
-			newData = this.context.getImageData(
+		var newData = this.context.getImageData(
 			rover.x * this.square,
 			rover.y * this.square,
 			this.square,
 			this.square
-		),
-			newPx = newData.data,
-			res = [],
-			len = newPx.length
+		)
+		// Reset de l'image de la carte
+		this.context.putImageData(this.originalData, 0, 0);
 
-		for (var i = 0; i < len; i += 4) {
-			newPx[i] = 255; // r
-			newPx[i+1] = 0; // g
-			newPx[i+2] = 0; // b
-			newPx[i+3] = 255; // a
-		}
-		this.context.putImageData(
-			newData,
-			rover.x * this.square,
-			rover.y * this.square
-		);
-		console.log(newData.data)
-	};
-
-	Viewer.prototype.drowoaoaoa = function(rover) {
-		var size = this.getJsonSize(json),
-			lumplus = parseInt($('#map_lum_plus').val(),10),
-			lumcoef = parseInt($('#map_lum_coef').val(),10);
-
-		for (var x=0; x<size; x++) {
-			for (var y=0; y<size; y++) {
-
-				// Test du terrain
-				if (this.testSlopes == true) {
-					for (var i = x - 1; i <= x + 1; i++) {
-						for (var j = y - 1; j <= y + 1; j++) {
-							result = rover.testSlope(i, j, x, y).result;
-							if (result == 'fail' || result == 'impossible') {
-								this.context.fillStyle = 'rgba(255,0,0,1)';
-							}
-						}
-					}
-				}
-				// Affichage des pentes autour du Rover
-				for (var i in rover.nearSquares.near) {
-					slopeTest = rover.nearSquares.near[i];
-					if (slopeTest.x == x && slopeTest.y == y) {
-						if (slopeTest.result == 'success') {
-							//this.context.fillStyle = 'rgba(0,255,0,1)';
-						} else if (slopeTest.result == 'fail') {
-							this.context.fillStyle = 'rgba(0,0,0,1)';
-						} else if (slopeTest.result == 'impossible') {
-							this.context.fillStyle = 'rgba(255,255,255,1)';
-						}
-					}
-				}
-
-				if (rover.x == x && rover.y == y) {
-					this.context.fillStyle = 'rgba(255,0,0,1)';
-					this.path.push({'x': x, 'y': y});
-				}
-
-				this.context.fillRect(
-					x * this.square,
-					y * this.square,
-					this.square,
-					this.square
-				);
+		var i, test;
+		for (i in rover.nearSquares.near) {
+			test = rover.nearSquares.near[i];
+			if (test.result == 'success') {
+				//[0,255,0,255];
+			} else if (test.result == 'fail') {
+				this.drawSquare(test.x, test.y, function(r, g, b, a) {
+					return [0, 0, 0, 255];
+				});
+			} else if (test.result == 'impossible') {
+				this.drawSquare(test.x, test.y, function(r, g, b, a) {
+					return [255, 255, 255, 255];
+				});
 			}
 		}
+
+		// Parcours du Rover
+		/*this.path.push({'x': rover.x, 'y': rover.y});
+		for (var j = 0, len = this.path.length; j < len; j++) {
+			this.drawSquare(this.path[j].x, this.path[j].y, function(r, g, b, a) {
+				//console.log(r,g,b,a)
+				r = 0;
+				g = 0;
+				b = 0;
+				a = 100;
+				return [Math.floor(r), Math.floor(g), Math.floor(b), a];
+			});
+		}*/
+
+		this.drawSquare(rover.x, rover.y, function(r, g, b, a) {
+			return [255, 0, 0, 255];
+		});
+
 	};
 
 	Viewer.prototype.getJsonSize = function(json) {
