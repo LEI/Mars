@@ -107,6 +107,7 @@ function Rover(viewer) {
 
 				// Glace ?
 				var type = this.getSquare(near.x, near.y).type;
+
 				if (type == 5) {
 					benefit += 4;
 				} else if (type == 2 && p < 0) {
@@ -392,12 +393,6 @@ function Rover(viewer) {
 				'z: ' + currentSquare.z + ' ' +
 				'type: ' + currentSquare.type + ' ' +
 				'E: ' + energy.toFixed(1) + round;
-		/*console.log(this.viewer.context.getImageData(
-		 this.x*this.viewer.square,
-		 this.y*this.viewer.square,
-		 this.viewer.square,
-		 this.viewer.square
-		 ));*/
 		$('#log').html(log);
 	}
 
