@@ -1,6 +1,7 @@
 function Map() {
-	Map.prototype.init = function (size, amplitude, softness) {
-		var ground = new Ground();
+	Map.prototype.init = function (size, amplitude, softness, noise) {
+		var ground = new Ground(),
+			ds = new DiamondSquare();
 		this.z = amplitude;
 		this.size = size;
 		this.softness = softness;
@@ -13,12 +14,25 @@ function Map() {
 				'type': ground.getType()
 			};
 		}
-		this.create();
+
+		var dsMap = ds.generate(size, amplitude, noise),
+			randMap = this.create();
+		randMap = this.xyArray(randMap, this.size)
+
+
+		for (var i = 0; i < size; i++) {
+			for (var j = 0; j < size; i-j++) {
+				this.map[i][j] = {
+					'z': (randMap[i][j].z + dsMap[i][j].z) / 2,
+					'type': ground.getType()
+				}
+			}
+		}
+
+		this.createJson();
 	};
 
 	Map.prototype.initDS = function(size, amplitude, noise) {
-		var ds = new DiamondSquare();
-		ds = ds.generate(size, amplitude, noise);
 
 		this.size = size;
 		this.map = ds;
@@ -35,7 +49,8 @@ function Map() {
 		while (this.softness >= 0) {
 			if (this.softness == 0) {
 
-				this.createJson();
+				//this.createJson();
+				return this.map;
 
 			} else {
 				// Lissage
@@ -50,7 +65,7 @@ function Map() {
 		// Ajout de la taille de la carte pour exportation
 		var data = {
 			"size": this.size,
-			"map": this.xyArray(this.map, this.size)
+			"map": this.map
 		};
 		this.json = JSON.stringify(data, undefined, '\t');
 		this.createURL(this.json);

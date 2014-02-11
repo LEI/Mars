@@ -17,7 +17,6 @@ function Viewer(square)
 		this.path = [];
 
 		this.drawCanvas(this.json);
-		//this.mapValues(map);
 
 		this.addLink(this.json);
 	};

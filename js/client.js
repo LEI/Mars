@@ -25,11 +25,12 @@ $(function() {
 		softness = $('#map_softness').val();
 		noise = $('#map_noise').val();
 
-		if ($('#map_rand').is(':checked')) {
+		mars.init(size, amplitude, softness, noise);
+		/*if ($('#map_rand').is(':checked')) {
 			mars.init(size, amplitude, softness);
 		} else if ($('#map_ds').is(':checked')) {
 			mars.initDS(size, amplitude, noise);
-		}
+		}*/
 
 		$('#map_init').click();
 	});
