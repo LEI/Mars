@@ -23,6 +23,23 @@ function Viewer(square)
 
 	// getImageData() putImageData()
 	Viewer.prototype.drawCanvas = function(json, rover) {
+		var groundValues = [[
+								10,   // roche
+								30,   // sable
+								50,   // minerai
+								0,    // fer
+								170,  // glace
+								115
+							], // autre
+		    				[
+								60,
+								65,
+								15,
+								0,
+								30,
+								50
+							]];
+
 		var size = this.getJsonSize(json),
 			lumplus = parseInt($('#map_lum_plus').val(),10),
 			lumcoef = parseInt($('#map_lum_coef').val(),10);
@@ -31,9 +48,9 @@ function Viewer(square)
 			for (var y=0; y<size; y++) {
 
 				// Teinte en fonction du type
-				var h = 10;//json.map[x][y].type*3,
+				var h = groundValues[0][json.map[x][y].type],
 				// Saturation en fonction du type
-				s = 60;//(json.map[x][y].type*5)+40,
+				s = groundValues[1][json.map[x][y].type];//(json.map[x][y].type*5)+40,
 				// Luminosité en fonction de la hauteur
 				l = json.map[x][y].z;
 

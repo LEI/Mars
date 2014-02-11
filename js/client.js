@@ -1,11 +1,11 @@
 $(function() {
 
 	// Initialisation
-	var size = 70,
-		square = 5,
+	var size = 100,
+		square = 3,
 		softness = 2,
-		amplitude = 50,
-		noise = 5,
+		amplitude = 75,
+		noise = 0,
 		lumPlus = 50,
 		lumCoef = 1,
 		mars = new Map(),
@@ -26,11 +26,6 @@ $(function() {
 		noise = $('#map_noise').val();
 
 		mars.init(size, amplitude, softness, noise);
-		/*if ($('#map_rand').is(':checked')) {
-			mars.init(size, amplitude, softness);
-		} else if ($('#map_ds').is(':checked')) {
-			mars.initDS(size, amplitude, noise);
-		}*/
 
 		$('#map_init').click();
 	});
@@ -140,6 +135,6 @@ $(function() {
 
 	// Render au chargement de la page
 	$('#map_render').click();
-	$('#rover_goto').click();
+	//$('#rover_goto').click();
 
 });
