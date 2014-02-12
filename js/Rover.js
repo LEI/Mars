@@ -51,17 +51,10 @@ function Rover(viewer) {
 			Y = y - this.y,
 			a = this.getVector(X),
 			b = this.getVector(Y),
-			nextX = this.x + a,
-			nextY = this.y + b,
-			slope = this.testSlope(nextX, nextY),
-			direction;
-
-		if (slope.result != 'success') {
-			// Le Rover ne peut pas avancer
 			direction = this.getDirection(a,b,X,Y);
-			a = direction[0];
-			b = direction[1];
-		}
+
+		a = direction[0];
+		b = direction[1];
 
 		if (x == this.x && y == this.y) {
 			// Le Rover est arrivé à destination
@@ -70,7 +63,6 @@ function Rover(viewer) {
 		} else {
 			this.doStep(a, b);
 		}
-	//	console.log(slope.result+': '+a+','+b+' ('+slope.p+')');
 
 	};
 
@@ -99,7 +91,7 @@ function Rover(viewer) {
 
 				for (var v = 0; v < this.visited.length; v++) {
 					if (this.visited[v].x == near.x && this.visited[v].y == near.y) {
-						benefit -= 8;
+						benefit -= 24;
 					}
 				}
 
@@ -123,11 +115,11 @@ function Rover(viewer) {
 						'b': benefit
 					};
 				}
-				/*items.push({
+				items.push({
 					'x': near.x-this.x,
 					'y': near.y-this.y,
 					'b': benefit
-				});*/
+				});
 			}
 		}
 
@@ -235,17 +227,19 @@ function Rover(viewer) {
 			}
 
 			if (this.energy + this.E > 0) {
+
 				this.energy += this.E;
 
 				console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.result+' '+slope.p+') '+a+','+b);
+				// Déplacement
+				this.position(x, y);
 
 			} else {
+
 				console.log('wait');
 				// Le rover recharge 10% en 5 tours
 				this.energy += this.maxEnergy / 10;
 			}
-			// Déplacement
-			this.position(x, y);
 
 		} else {
 			console.log('Mouvement demandé ' + slope.result);

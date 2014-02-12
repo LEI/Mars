@@ -4,7 +4,7 @@ $(function() {
 	var size = 30,
 		square = 10,
 		amplitude = 50,
-		softness = 5,
+		softness = 2,
 		noise = 5,
 		lumPlus = 50,
 		lumCoef = 1,
