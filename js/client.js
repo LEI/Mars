@@ -1,8 +1,8 @@
 $(function() {
 
 	// Initialisation
-	var size = 30,
-		square = 10,
+	var size = 100,
+		square = 2,
 		amplitude = 50,
 		softness = 2,
 		noise = 5,

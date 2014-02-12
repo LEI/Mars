@@ -1,18 +1,33 @@
 function Map() {
+	this.ground = new Ground()
+
 	Map.prototype.init = function (size, amplitude, softness, noise) {
-		var ground = new Ground(),
-			ds = new DiamondSquare(),
+		var	ds = new DiamondSquare(),
 			i,j,z;
 		this.z = amplitude;
 		this.size = size;
 		this.softness = softness;
 		this.map = [];
 
+		// Altitude (z)
+		var randmin = 0, randmax = 100, // espacement des points-clés
+		z_smooth = Math.floor(this.z/(softness*3));
+		var space = Math.floor(this.rand(randmin,randmax));
+		cnt = space;
 		for (i = 0; i < size * size; i++) {
+			if(cnt == 0) {
+				value = Math.floor(this.rand(-this.z, this.z));
+				space = Math.floor(this.rand(randmin,randmax));
+				cnt = space;
+			} else {
+				value = Math.floor(this.rand(-z_smooth, z_smooth));
+				cnt--;
+			}
+
 			// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
 			this.map[i] = {
-				'z': this.rand(-this.z, this.z),
-				'type': ground.getType()
+				'z': value,
+				'type': this.ground.getType()
 			};
 		}
 
@@ -27,7 +42,7 @@ function Map() {
 				z = (randMap[i][j].z + dsMap[i][j].z) / 2;
 				mergedMap[i][j] = {
 					'z': Math.floor(z),
-					'type': ground.getType()
+					'type': this.ground.getType()
 				}
 			}
 		}
@@ -99,13 +114,16 @@ function Map() {
 			for (var j = 0; j < avg.length; j++) {
 				total += avg[j];
 			}
-			var z = total / avg.length;
+			
+			var z = Math.floor(total / avg.length);
 
 			// Mise à jour de la hauteur
 			tmp[i] = { 'z': z, 'type': map[i].type };
 		}
 
 		this.map = tmp;
+
+		//console.log(this.checkArea(2,2,5));
 	};
 
 	// Retourne un tableau à une dimension

@@ -7,16 +7,18 @@ function Ground()
 		'Fer',
 		'Glace',
 		'Autre'];
-
 	this.groundWeight = [
-		0.4,
+		0.5,
+		0.3,
 		0.2,
 		0.2,
-		0.1,
 		0.1,
 		0.0];
 
 	Ground.prototype.getType = function() {
+		this.probability();
+		return 0;
+		// console.log(this.getRandomItem);
 
 		// Gestion de la répartition du terrain (en fonction des coordonnées ?)
 
@@ -26,12 +28,16 @@ function Ground()
 		for (var i=0; i<this.groundType.length; i++) {
 			if (random_item == this.groundType[i]) {
 				// Retour de l'index du terrain
-				return i+1;
+				return i;
 			}
 		}
 	};
 
-	Ground.prototype.getRandomItem = function(list, weight) {
+	Ground.prototype.probability = function() {
+		
+	}
+
+	Ground.prototype.getRandomItem = function(list, weight, output_index) {
 		var total_weight = weight.reduce(function (prev, cur, i, arr) {
 			return prev + cur;
 		});
@@ -43,7 +49,10 @@ function Ground()
 			weight_sum = +weight_sum.toFixed(2);
 
 			if (random_num <= weight_sum) {
-				return list[i];
+				if(output_index == undefined)
+					return list[i];
+				else
+					return i;
 			}
 		}
 	};
