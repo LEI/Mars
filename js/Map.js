@@ -44,7 +44,7 @@ function Map() {
 	Map.prototype.createJson = function () {
 		// Ajout de la taille de la carte pour exportation
 		var data = {
-			"size": this.size,
+			"size": {"x":this.size,"y":this.size},
 			"map": this.map
 		};
 		this.json = JSON.stringify(data);//, undefined, '\t');

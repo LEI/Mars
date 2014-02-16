@@ -329,10 +329,11 @@ function Rover(viewer) {
 		var energy = this.energy / 10,
 			currentSquare = this.getSquare(),
 			log = '<h3>' + this.x + ',' + this.y + '</h3> ' +
-				'<i class="icon-map-marker"></i> ' + currentSquare.z + ' ' + g.groundType[currentSquare.type] + '<br/>' +
-				'<i class="icon-signal"></i> ' + energy.toFixed(1) + '<br/>' +
+				'<i class="icon-signal"></i> ' + currentSquare.z + '<br/>' +
+				'<i class="icon-map-marker"></i> ' + g.groundType[currentSquare.type] + '<br/>' +
 				'<i class="icon-flag"></i> ' + round + ' tours';
 		$('#log').html(log);
+		$('#rover_energy').val(energy.toFixed(1));
 	}
 
 	Rover.prototype.refresh = function () {
