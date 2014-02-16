@@ -31,40 +31,29 @@ function Map() {
 			};
 		}
 
-		var mergedMap = [],
-			dsMap = ds.generate(size, amplitude, noise),
+		var diamondSquareMap = ds.generate(size, amplitude, noise),
 			randMap = this.create();
-		randMap = this.xyArray(randMap, this.size)
 
-		for (i = 0; i < randMap.length; i++) {
-			mergedMap[i] = [];
-			for (j = 0; j < randMap[i].length; j++) {
-				z = (randMap[i][j].z + dsMap[i][j].z) / 2;
-				mergedMap[i][j] = {
-					'z': Math.floor(z),
-					'type': this.ground.getType()
-				}
-			}
-		}
-		this.map = mergedMap;
+		this.map = this.mergeMap(randMap, diamondSquareMap);
 
 		this.createJson();
 	};
 
-	Map.prototype.create = function () {
-		while (this.softness >= 0) {
-			if (this.softness == 0) {
-
-				//this.createJson();
-				return this.map;
-
-			} else {
-				// Lissage
-				this.soften(this.map);
+	Map.prototype.mergeMap = function (map1, map2) {
+		var newMap = [];
+		for (i = 0; i < map1.length; i++) {
+			newMap[i] = [];
+			for (j = 0; j < map1[i].length; j++) {
+				z = (map1[i][j].z + map2[i][j].z) / 2;
+				newMap[i][j] = {
+					'z': Math.floor(z),
+					'type': map1[i][j].type
+				}
 			}
-			this.softness--;
 		}
-	};
+
+		return newMap;
+	}
 
 	// Création du fichier JSON
 	Map.prototype.createJson = function () {
@@ -75,6 +64,20 @@ function Map() {
 		};
 		this.json = JSON.stringify(data);//, undefined, '\t');
 		this.createURL(this.json);
+	};
+
+	Map.prototype.create = function () {
+		while (this.softness >= 0) {
+			if (this.softness == 0) {
+				this.map = this.xyArray(this.map, this.size);
+
+				return this.map;
+			} else {
+				// Lissage
+				this.soften(this.map);
+			}
+			this.softness--;
+		}
 	};
 
 	Map.prototype.createURL = function (json) {
@@ -114,7 +117,7 @@ function Map() {
 			for (var j = 0; j < avg.length; j++) {
 				total += avg[j];
 			}
-			
+
 			var z = Math.floor(total / avg.length);
 
 			// Mise à jour de la hauteur

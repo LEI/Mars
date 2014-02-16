@@ -4,7 +4,7 @@ function Rover(viewer) {
 	// Initialisation du rover, x et y optionnels
 	Rover.prototype.init = function (json, x, y) {
 		this.initMap(json);
-		this.maxEnergy = 100;
+		this.maxEnergy = $('#rover_energy').val() * 10;
 		this.energy = this.maxEnergy;
 
 		this.visited = [];
@@ -38,10 +38,14 @@ function Rover(viewer) {
 		//this.memory = [];
 		//this.memory.push(this.getNearSquares(1));
 		//console.log(this.memory);
-		var i = 1, that = this;
+		var that = this;
+		this.i = 1;
+
+		clearInterval(this.tick);
 		this.tick = setInterval(function(){
+			console.log(that.energy);
 			that.move(x,y);
-			that.log(i++);
+			that.log(that.i++);
 		}, 100);
 	};
 
@@ -126,58 +130,6 @@ function Rover(viewer) {
 		return [maxBenefit.x, maxBenefit.y];
 	};
 
-	/*Rover.prototype.checkSlopes = function (a, b, X, Y) {
-		if (a != 0 && b != 0) {
-			switch('success') {
-				case this.checkSlope(a,0): b = 0; break;
-				case this.checkSlope(0,b): a = 0; break;
-				default: return false;
-			}
-		} else {
-			if (a == 0) {
-				switch('success') {
-					case this.checkSlope(1,b): a = 1; break;
-					case this.checkSlope(-1,b): a = -1; break;
-					default: return false;
-				}
-			} else if (b == 0) {
-				switch('success') {
-					case this.checkSlope(a,1): b = 1; break;
-					case this.checkSlope(a,-1): b = -1; break;
-					default: return false;
-				}
-			}
-		}
-
-		return [a,b];
-	}
-
-	Rover.prototype.checkSecSlopes = function (a, b) {
-		if (a != 0 && b != 0) {
-			switch('success') {
-				case this.checkSlope(a,-b): b = -b; break;
-				case this.checkSlope(-a,b): a = -a; break;
-				default: return false;
-			}
-		} else {
-			if (a == 0) {
-				switch('success') {
-					case this.checkSlope(1,0):a = 1; b = 0; break;
-					case this.checkSlope(-1,0): a = -1; b = 0; break;
-					default: return false;
-				}
-			} else if (b == 0) {
-				switch('success') {
-					case this.checkSlope(0,1): a = 0; b = 1; break;
-					case this.checkSlope(0,-1): a = 0; b = -1; break;
-					default: return false;
-				}
-			}
-		}
-
-		return [a,b];
-	}*/
-
 	Rover.prototype.getVector = function (n) {
 		var v;
 		if (n > 0) {
@@ -230,16 +182,15 @@ function Rover(viewer) {
 
 				this.energy += this.E;
 
-				console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.result+' '+slope.p+') '+a+','+b);
-				// Déplacement
-				this.position(x, y);
-
 			} else {
-
-				console.log('wait');
 				// Le rover recharge 10% en 5 tours
+				this.i += 5;
 				this.energy += this.maxEnergy / 10;
 			}
+
+			console.log(this.x+','+this.y+' -> '+x+','+y+' ('+slope.result+' '+slope.p+') '+a+','+b);
+			// Déplacement
+			this.position(x, y);
 
 		} else {
 			console.log('Mouvement demandé ' + slope.result);
@@ -375,18 +326,17 @@ function Rover(viewer) {
 	};
 
 	Rover.prototype.log = function (round) {
-		if (round != undefined) {
-			round = ' {' + round + '}'
-		} else {
+		if (round == undefined) {
 			round = '';
 		}
 
+		var g = new Ground();
 		var energy = this.energy / 10,
 			currentSquare = this.getSquare(),
-			log = '(' + this.x + ',' + this.y + ') ' +
-				'z: ' + currentSquare.z + ' ' +
-				'type: ' + currentSquare.type + ' ' +
-				'E: ' + energy.toFixed(1) + round;
+			log = '<h3>' + this.x + ',' + this.y + '</h3> ' +
+				'<i class="icon-map-marker"></i> ' + currentSquare.z + ' ' + g.groundType[currentSquare.type] + '<br/>' +
+				'<i class="icon-signal"></i> ' + energy.toFixed(1) + '<br/>' +
+				'<i class="icon-flag"></i> ' + round + ' tours';
 		$('#log').html(log);
 	}
 

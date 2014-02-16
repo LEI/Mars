@@ -16,11 +16,6 @@ function Ground()
 		0.0];
 
 	Ground.prototype.getType = function() {
-		this.probability();
-		return 0;
-		// console.log(this.getRandomItem);
-
-		// Gestion de la répartition du terrain (en fonction des coordonnées ?)
 
 		// Récupère un élément dans le tableau en fonction des probabilités
 		var random_item = this.getRandomItem(this.groundType, this.groundWeight);
@@ -32,10 +27,6 @@ function Ground()
 			}
 		}
 	};
-
-	Ground.prototype.probability = function() {
-		
-	}
 
 	Ground.prototype.getRandomItem = function(list, weight, output_index) {
 		var total_weight = weight.reduce(function (prev, cur, i, arr) {

@@ -2,24 +2,25 @@ $(function() {
 
 	// Initialisation
 	var size = 100,
-		square = 2,
+		square = 5,
 		amplitude = 50,
-		softness = 2,
+		softness = 1,
 		noise = 5,
 		lumPlus = 50,
 		lumCoef = 1,
 		mars = new Map(),
 		viewer = new Viewer(square),
 		curiosity = new Rover(viewer),
+		energy = 10,
 		start = [1,1],
 		end = [20,20];
 
-	$('#map_init').click( function(e) {
-		viewer.square = $('#map_square').val();
-		viewer.render(mars.json);
+	$('#import').click( function(e) {
+		$('#upload').click();
+		$('#map_render').click();
 	});
 
-	$('#map_render').click( function(e) {
+	$('#generate').click( function(e) {
 		size = $('#map_size').val();
 		amplitude = $('#map_amplitude').val();
 		softness = $('#map_softness').val();
@@ -27,12 +28,54 @@ $(function() {
 
 		mars.init(size, amplitude, softness, noise);
 
-		$('#map_init').click();
+		$('#init').click();
+		$('#step1').hide();
+	});
+
+	$('#init').click( function(e) {
+		clearInterval(curiosity.tick);
+		$('#log').html('');
+		curiosity = new Rover(viewer);
+		viewer.square = $('#map_square').val();
+		viewer.render(mars.json);
+	});
+
+
+	// Download JSON
+	$('#download').click( function(e) {
+		mars.createURL(mars.json);
+		viewer.download(mars.url);
+
+		e.preventDefault();
+	});
+
+	// Upload JSON
+	$('#upload').change( function(e) {
+		var files = e.target.files,
+			reader = new FileReader();
+
+		for (var i = 0, f; f = files[i]; i++) {
+
+			// Closure to capture the file information.
+			reader.onload = (function(theFile) {
+			  return function(e) {
+
+			  	$('#step1').hide();
+			    mars.json = e.target.result;
+				$('#init').click();
+
+			  };
+			})(f);
+
+			reader.readAsText(f, 'application/json');
+		}
+		e.preventDefault();
 	});
 
 	$('#rover_init').click( function(e) {
 		viewer.render(mars.json);
 		curiosity.init(mars.json);
+		curiosity.maxEnergy = $('#rover_energy').val();
 	});
 
 	$('#rover_goto').click( function(e) {
@@ -44,6 +87,7 @@ $(function() {
         viewer.render(mars.json);
 
         curiosity.init(mars.json, startX, startY);
+		curiosity.maxEnergy = $('#rover_energy').val();
         curiosity.goTo(endX, endY);
 	});
 
@@ -59,6 +103,7 @@ $(function() {
 			//	A	Z	E
 			//	Q		D
 			//	W	X	C
+			/*
 			case 65: direction = {'x': -1,'y': -1};	break;	// A 	top left
 			case 90: direction = {'x': 0,'y': -1}; break;	// Z	top
 			case 69: direction = {'x': 1,'y': -1}; break;	// E 	top right
@@ -67,7 +112,7 @@ $(function() {
 			case 87: direction = {'x': -1,'y': 1}; break;	// W 	bot left
 			case 88: direction = {'x': 0,'y': 1}; break; 	// X 	bot
 			case 67: direction = {'x': 1,'y': 1}; break;	// C 	bot right
-
+			*/
 			// Flèches
 			case 37: direction = {'x': -1,'y': 0}; break;
 			case 38: direction = {'x': 0,'y': -1}; break;
@@ -76,39 +121,19 @@ $(function() {
 
 			default: return;
 		}
+
 		curiosity.doStep(direction.x, direction.y);
-
 		e.preventDefault();
 	});
 
-	// Download JSON
-	$('#download').submit( function(e) {
-		mars.createURL(mars.json);
-		viewer.download(mars.url);
-
-		e.preventDefault();
-	});
-
-	// Upload JSON
-	$('#upload input').change( function(e) {
-		var files = e.target.files,
-			reader = new FileReader();
-
-		for (var i = 0, f; f = files[i]; i++) {
-
-			// Closure to capture the file information.
-			reader.onload = (function(theFile) {
-			  return function(e) {
-
-			    mars.json = e.target.result;
-				$('#map_init').click();
-
-			  };
-			})(f);
-
-			reader.readAsText(f, 'application/json');
+	$('#btn_settings').on('click', function () {
+		var $icon = $(this).find('i');
+		if ($icon.hasClass('icon-plus')) {
+			$icon.removeClass('icon-plus').addClass('icon-minus');
+		} else {
+			$icon.removeClass('icon-minus').addClass('icon-plus');
 		}
-		e.preventDefault();
+		$('#settings').slideToggle();
 	});
 
 	// Injection des valeurs par défaut dans le formulaire
@@ -121,13 +146,14 @@ $(function() {
 	$('#map_lum_plus').attr('value',lumPlus);
 	$('#map_lum_coef').attr('value',lumCoef);
 
+	$('#rover_energy').attr('value',energy);
 	$('#rover_start_x').attr('value',start[0]);
 	$('#rover_start_y').attr('value',start[1]);
 	$('#rover_end_x').attr('value',end[0]);
 	$('#rover_end_y').attr('value',end[1]);
 
 	// Render au chargement de la page
-	$('#map_render').click();
+	$('#generate').click();
 	$('#rover_goto').click();
 
 });
