@@ -127,7 +127,7 @@ function Viewer(square)
 		}*/
 
 		this.drawSquare(rover.x, rover.y, function(r, g, b, a) {
-			return [255, 0, 0, 255];
+			return [0, 0, 255, 255];
 		});
 
 	};

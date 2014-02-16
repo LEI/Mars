@@ -35,15 +35,10 @@ function Rover(viewer) {
 
 		console.log('START from '+this.x+','+this.y+' to '+x+','+y);
 
-		//this.memory = [];
-		//this.memory.push(this.getNearSquares(1));
-		//console.log(this.memory);
 		var that = this;
 		this.i = 1;
-
 		clearInterval(this.tick);
 		this.tick = setInterval(function(){
-			console.log(that.energy);
 			that.move(x,y);
 			that.log(that.i++);
 		}, 100);

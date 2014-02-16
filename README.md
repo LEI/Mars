@@ -51,10 +51,6 @@ L'élément `size` définit la taille de la carte.
 }
 ```
 
-##Diamond Square
-
-Jusqu'à une prochaine MAJ de correction, la carte doit avoir une largeur et une hauteur de la forme 2<sup>n</sup>+1.
-
 ***
 
 Clic droit sur la map pour ouvrir le JSON dans un nouvel onglet ou clic gauche pour enregistrer le fichier.

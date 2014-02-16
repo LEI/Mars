@@ -15,11 +15,6 @@ $(function() {
 		start = [1,1],
 		end = [20,20];
 
-	$('#import').click( function(e) {
-		$('#upload').click();
-		$('#map_render').click();
-	});
-
 	$('#generate').click( function(e) {
 		size = $('#map_size').val();
 		amplitude = $('#map_amplitude').val();
@@ -50,13 +45,16 @@ $(function() {
 	});
 
 	// Upload JSON
+	$('#import').click( function(e) {
+		$('#upload').click();
+		$('#map_render').click();
+	});
 	$('#upload').change( function(e) {
 		var files = e.target.files,
 			reader = new FileReader();
 
 		for (var i = 0, f; f = files[i]; i++) {
 
-			// Closure to capture the file information.
 			reader.onload = (function(theFile) {
 			  return function(e) {
 
@@ -75,19 +73,17 @@ $(function() {
 	$('#rover_init').click( function(e) {
 		viewer.render(mars.json);
 		curiosity.init(mars.json);
-		curiosity.maxEnergy = $('#rover_energy').val();
 	});
 
 	$('#rover_goto').click( function(e) {
 		var startX = parseInt($('#rover_start_x').val(),10),
 		startY = parseInt($('#rover_start_y').val(),10),
-		endX = $('#rover_end_x').val(),
-		endY = $('#rover_end_y').val();
+		endX = parseInt($('#rover_end_x').val(),10),
+		endY = parseInt($('#rover_end_y').val(),10);
 
         viewer.render(mars.json);
 
         curiosity.init(mars.json, startX, startY);
-		curiosity.maxEnergy = $('#rover_energy').val();
         curiosity.goTo(endX, endY);
 	});
 

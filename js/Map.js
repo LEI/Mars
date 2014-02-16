@@ -7,14 +7,21 @@ function Map() {
 		this.z = amplitude;
 		this.size = size;
 		this.softness = softness;
-		this.map = [];
+		this.map = this.stuff();
+		var diamondSquareMap = ds.generate(size, amplitude, noise),
+		randMap = this.create();
 
-		// Altitude (z)
-		var randmin = 0, randmax = 100, // espacement des points-clés
-		z_smooth = Math.floor(this.z/(softness*3));
+		this.map = this.mergeMap(randMap, diamondSquareMap);
+
+		this.createJson();
+	};
+
+	Map.prototype.stuff = function () {
+		var map = [], randmin = 0, randmax = 100, // espacement des points-clés
+		z_smooth = Math.floor(this.z/(this.softness*3));
 		var space = Math.floor(this.rand(randmin,randmax));
 		cnt = space;
-		for (i = 0; i < size * size; i++) {
+		for (i = 0; i < this.size * this.size; i++) {
 			if(cnt == 0) {
 				value = Math.floor(this.rand(-this.z, this.z));
 				space = Math.floor(this.rand(randmin,randmax));
@@ -25,34 +32,12 @@ function Map() {
 			}
 
 			// Hauteur entre -50 et 50 (converti en 0-100 pour la luminosité dans renderCanvas)
-			this.map[i] = {
+			map[i] = {
 				'z': value,
 				'type': this.ground.getType()
 			};
 		}
-
-		var diamondSquareMap = ds.generate(size, amplitude, noise),
-			randMap = this.create();
-
-		this.map = this.mergeMap(randMap, diamondSquareMap);
-
-		this.createJson();
-	};
-
-	Map.prototype.mergeMap = function (map1, map2) {
-		var newMap = [];
-		for (i = 0; i < map1.length; i++) {
-			newMap[i] = [];
-			for (j = 0; j < map1[i].length; j++) {
-				z = (map1[i][j].z + map2[i][j].z) / 2;
-				newMap[i][j] = {
-					'z': Math.floor(z),
-					'type': map1[i][j].type
-				}
-			}
-		}
-
-		return newMap;
+		return map;
 	}
 
 	// Création du fichier JSON
@@ -128,6 +113,22 @@ function Map() {
 
 		//console.log(this.checkArea(2,2,5));
 	};
+
+	Map.prototype.mergeMap = function (map1, map2) {
+		var newMap = [];
+		for (i = 0; i < map1.length; i++) {
+			newMap[i] = [];
+			for (j = 0; j < map1[i].length; j++) {
+				z = (map1[i][j].z + map2[i][j].z) / 2;
+				newMap[i][j] = {
+					'z': Math.floor(z),
+					'type': map1[i][j].type
+				}
+			}
+		}
+
+		return newMap;
+	}
 
 	// Retourne un tableau à une dimension
 	Map.prototype.mergeArray = function (array) {

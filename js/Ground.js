@@ -6,17 +6,19 @@ function Ground()
 		'Minerai',
 		'Fer',
 		'Glace',
-		'Autre'];
+		'Autre'
+	];
+
 	this.groundWeight = [
 		0.5,
 		0.3,
 		0.2,
 		0.2,
 		0.1,
-		0.0];
+		0.0
+	];
 
 	Ground.prototype.getType = function() {
-
 		// Récupère un élément dans le tableau en fonction des probabilités
 		var random_item = this.getRandomItem(this.groundType, this.groundWeight);
 

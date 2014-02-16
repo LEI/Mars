@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="css/style.css">
 
 		<script src="js/jquery.js"></script>
-		<script src="js/bootstrap.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 
 		<script src="js/Base64.js"></script>
 		<script src="js/Viewer.js"></script>
@@ -47,7 +47,6 @@
 			</div>
 		</header>
 
-
 		<section id="settings">
 			<div class="input-group">
 				<div class="input-prepend">
@@ -74,33 +73,33 @@
 			</div>
 		</section>
 
-
 		<div id="canvas"></div>
 
 		<section id="rover">
+
 			<div class="input-append">
 				<input type="text" id="rover_energy" class="span1" placeholder="E"/>
-				<span class="add-on">Energy</span>
+				<span class="add-on">E</span>
 			</div>
 
 			<div class="input-group">
 				<div class="input-append">
 					<input type="text" id="rover_start_x" class="span1" placeholder="Xa"/>
-					<span class="add-on">x1</span>
+					<span class="add-on">x<sup>1</sup></span>
 				</div>
 				<div class="input-append">
 					<input type="text" id="rover_start_y" class="span1" placeholder="Ya"/>
-					<span class="add-on">y1</span>
+					<span class="add-on">y<sup>1</sup></span>
 				</div>
 			</div>
 			<div class="input-group">
 				<div class="input-append">
 					<input type="text" id="rover_end_x" class="span1" placeholder="Xb"/>
-					<span class="add-on">x2</span>
+					<span class="add-on">x<sup>2</sup></span>
 				</div>
 				<div class="input-append">
 					<input type="text" id="rover_end_y" class="span1" placeholder="Yb"/>
-					<span class="add-on">y2</span>
+					<span class="add-on">y<sup>2</sup></span>
 				</div>
 			</div>
 
@@ -110,11 +109,9 @@
 				<button id="rover_goto" class="btn" type="button"><i class="icon-play"></i></button>
 			</div>
 
-			<!--<input type="button" id="rover_stop" value="Stop">-->
-
 			<div id="log"></div>
-		</section>
 
+		</section>
 
 	</body>
 </html>
