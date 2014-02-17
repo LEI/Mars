@@ -37,6 +37,7 @@ function Rover(viewer) {
 
 		var that = this;
 		this.i = 1;
+		this.energy = this.maxEnergy;
 		clearInterval(this.tick);
 		this.tick = setInterval(function(){
 			that.move(x,y);
@@ -333,7 +334,7 @@ function Rover(viewer) {
 				'<i class="icon-map-marker"></i> ' + g.groundType[currentSquare.type] + '<br/>' +
 				'<i class="icon-flag"></i> ' + round + ' tours';
 		$('#log').html(log);
-		$('#rover_energy').val(energy.toFixed(1));
+		$('#energy').html(energy.toFixed(1));
 	}
 
 	Rover.prototype.refresh = function () {

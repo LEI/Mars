@@ -11,7 +11,7 @@ $(function() {
 		mars = new Map(),
 		viewer = new Viewer(square),
 		curiosity = new Rover(viewer),
-		energy = 10,
+		energy = 100,
 		start = [1,1],
 		end = [20,20];
 
