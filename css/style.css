@@ -6,11 +6,15 @@
 	margin-top: 10px;
 	margin-left: 10px;
 }
-header .input-prepend {
-	margin-bottom: 0;
+#settings .btn-primary {
+	text-shadow: none;
 }
 header {
+	margin-bottom: 10px;
 	margin-left: 10px;
+}
+header .input-prepend {
+	margin-bottom: 0;
 }
 #rover {
 	float: left;
@@ -18,5 +22,6 @@ header {
 }
 #canvas {
 	float: left;
-	margin: 10px;
+	margin-right: 10px;
+	margin-left: 10px;
 }
