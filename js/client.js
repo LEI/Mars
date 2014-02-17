@@ -129,7 +129,7 @@ $(function() {
 		} else {
 			$icon.removeClass('icon-minus').addClass('icon-plus');
 		}
-		$('#settings').slideToggle();
+		$('#more').slideToggle();
 	});
 
 	// Injection des valeurs par défaut dans le formulaire

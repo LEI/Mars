@@ -1,20 +1,25 @@
-#upload {
-	display: none;
+body {
+	margin-left: 10px;
+}
+h1 {
+	margin-right: 10px;
+	display: inline-block;
+}
+header .btn {
+	margin-bottom: 10px;
 }
 #settings {
+	margin-bottom: 10px;
+}
+#settings .input-prepend {
+	margin-bottom: 0;
+}
+#more {
 	display: none;
 	margin-top: 10px;
-	margin-left: 10px;
 }
-#settings .btn-primary {
+#more .btn-primary {
 	text-shadow: none;
-}
-header {
-	margin-bottom: 10px;
-	margin-left: 10px;
-}
-header .input-prepend {
-	margin-bottom: 0;
 }
 #rover {
 	float: left;
@@ -23,5 +28,7 @@ header .input-prepend {
 #canvas {
 	float: left;
 	margin-right: 10px;
-	margin-left: 10px;
+}
+#upload {
+	display: none;
 }
